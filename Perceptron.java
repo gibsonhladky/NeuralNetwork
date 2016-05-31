@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Perceptron 
+public class Perceptron
 {	
 	public static final double LEARNING_RATE = 0.1;
 	public static final Random randGen = new Random();
