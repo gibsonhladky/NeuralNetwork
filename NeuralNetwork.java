@@ -17,7 +17,25 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork()
 	{
+		inputLayer = new ArrayList<Perceptron>();
 		hiddenLayers = new ArrayList<ArrayList<Perceptron>>();
+		outputLayer = new ArrayList<Perceptron>();
+	}
+	
+	public void setInputSize(int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			inputLayer.add(new Perceptron(i, null));
+		}
+	}
+	
+	public void setOutputSize(int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			outputLayer.add(new Perceptron(i, hiddenLayers.get(hiddenLayers.size() - 1)));
+		}
 	}
 	
 	/*
