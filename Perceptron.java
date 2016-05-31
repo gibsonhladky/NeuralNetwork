@@ -26,6 +26,10 @@ public class Perceptron
 		
 		this.index = index;
 		bias = randGen.nextDouble();
+		if(randGen.nextBoolean())
+		{
+			bias *= -1;
+		}
 		
 		if(inputs != null)
 		{
@@ -34,20 +38,33 @@ public class Perceptron
 			inputWeights = new ArrayList<Double>(size);
 			for(int i = 0; i < size; i++)
 			{
-				inputWeights.add(randGen.nextDouble());
+				double weight = randGen.nextDouble();
+				if(randGen.nextBoolean())
+				{
+					weight *= -1;
+				}
+				inputWeights.add(weight);
 			}
 		}
 		else
 		{
 			inputLayer = true;
+			inputWeights = new ArrayList<Double>();
 		}
 		this.outputs = null;
 	}
+	
+	public void activate(double[] inputs)
+	{
+		activationValue = logisticalFunction(bias + inputs[index]);
+	}
 
+	/*
+	 * Calculates a new activation value based on inputs and weights.
+	 * Does nothing for input layer perceptrons
+	 */
 	public void activate()
 	{
-		// TODO - calculate a new activation value
-		// for perceptrons in input layer, do nothing
 		if(inputLayer)
 		{
 			return;
@@ -56,6 +73,9 @@ public class Perceptron
 		activationValue = logisticalFunction(bias + sumOfWeightedInputs());
 	}
 	
+	/*
+	 * Returns the sum of all inputs times their weight
+	 */
 	private double sumOfWeightedInputs()
 	{
 		if(inputLayer)
@@ -70,46 +90,48 @@ public class Perceptron
 		return sum;
 	}
 	
+	/*
+	 * Calculates the delta value for the output layer perceptron given the expected output value.
+	 */
 	public void calculateDeltas(double[] expectedOutputs)
 	{
-		// TODO - calculate deltas for perceptrons in the output layer
-		delta = expectedOutputs[index] - activationValue;
+		delta = -2 * (expectedOutputs[index] - activationValue)*(activationValue)*(1 - activationValue);
 	}
 	
+	/*
+	 * Calculates the delta value for a non-output layer perceptron
+	 */
 	public void calculateDeltas()
 	{
-		// TODO - calculate deltas for non-output layer perceptrons
-		
 		if(outputs == null)
 		{
-			throw new IllegalStateException("Output layer calling non-output layer function.");
+			throw new IllegalStateException("Output layer calling non-output layer function (calculateDeltas).");
 		}
 		
 		double outputDeltaSum = 0;
+		
 		for(int i = 0; i < outputs.size(); i++)
 		{
 			Perceptron outputi = outputs.get(i);
 			outputDeltaSum += outputi.delta * outputi.inputWeights.get(index);
 		}
-		delta = outputDeltaSum * LEARNING_RATE * activationValue * (1 - activationValue);
+		delta = outputDeltaSum * activationValue * (1 - activationValue);
 	}
 	
+	/*
+	 * Update the weights the perceptron with the current delta values.
+	 */
 	public void updateWeights()
 	{
-		// TODO - use deltas to update weights 
-		// for all non-input layer perceptrons
-		if(inputLayer)
-		{
-			bias = bias - LEARNING_RATE * delta * activationValue;
-			return;
-		}
+		bias = bias - LEARNING_RATE * delta * activationValue;
 		
 		for(int i = 0; i < inputWeights.size(); i++)
 		{
 			double weight = inputWeights.get(i);
-			weight = weight - LEARNING_RATE * delta * activationValue;
+			inputWeights.set(i, weight - LEARNING_RATE * delta * activationValue);
 		}
 	}
+	
 	
 	private static double logisticalFunction(double x)
 	{

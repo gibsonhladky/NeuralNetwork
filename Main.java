@@ -69,7 +69,9 @@ public class Main extends PApplet
 		{
 			results += i + ": " + outputs[i] + "\n";
 			if(outputs[i] > outputs[prediction])
+			{
 				prediction = i;
+			}
 		}
 		results += " \nPREDICTION: " + prediction;
 	}

@@ -10,7 +10,13 @@ public class NeuralNetwork
 	public ArrayList<ArrayList<Perceptron>> layers;	
 	
 	/*
-	 * Initializes the neural network with no layers of perceptrons.
+	 * An acceptance value to be reached during training
+	 */
+	private static final double THRESHOLD = 0.05;
+	
+	/*
+	 * Initializes the neural network with no layers of perceptrons
+	 * and a threshold.
 	 */
 	public NeuralNetwork()
 	{
@@ -23,38 +29,38 @@ public class NeuralNetwork
 	 */
 	public void addLayer(int size)
 	{
-		// TODO - add a new layer of size Perceptrons to this neural network
-		// make sure to set the inputs of the previous layer
-		// and the outputs of the previous layer
 		ArrayList<Perceptron> newLayer = new ArrayList<Perceptron>(size);
-
-		ArrayList<Perceptron> inputs = null;
+		
+		// Determine the input layer to the new layer
+		ArrayList<Perceptron> oldOutputLayer = null;
 		if(layers.size() > 0)
 		{
-			inputs = layers.get(layers.size() - 1);
+			oldOutputLayer = layers.get(layers.size() - 1);
 		}
 		
+		// Populate the layer with perceptrons
 		for(int i = 0; i < size; i++)
 		{
-			Perceptron newPerceptron = new Perceptron(i, inputs);
+			Perceptron newPerceptron = new Perceptron(i, oldOutputLayer);
 			newLayer.add(newPerceptron);
-		}
-		
-		if(layers.size() > 1)
-		{
-			ArrayList<Perceptron> previousLayer = layers.get(layers.size() - 1);
-			setOutputs(previousLayer, newLayer);
 		}
 		
 		layers.add(newLayer);
 		
+		if(layers.size() > 1)
+		{
+			setOutputs(oldOutputLayer, newLayer);
+		}
 	}
 	
-	private void setOutputs(ArrayList<Perceptron> inner, ArrayList<Perceptron> outer)
+	/*
+	 * Sets the outputs of the first layer to the second layer.
+	 */
+	private void setOutputs(ArrayList<Perceptron> oldOutputLayer, ArrayList<Perceptron> newOutputLayer)
 	{
-		for(Perceptron p : inner)
+		for(Perceptron p : oldOutputLayer)
 		{
-			p.outputs = outer;
+			p.outputs = newOutputLayer;
 		}
 	}
 	
@@ -64,18 +70,50 @@ public class NeuralNetwork
 	 */
 	public void train(double[] inputs, double[] outputs)
 	{
-		for(int i = 0; i < 5; i++)
+		activateInputs(inputs);
+		propagateInputsToAnswers();
+		
+		while(!correctlyIdentifies(outputs))
 		{
-			activateInputs(inputs);
-			propagateInputsToAnswers();
 			calculateOutputDeltas(outputs);
 			propagateDeltasBack();
 			updateWeightsWithDeltas();
+			activateInputs(inputs);
+			propagateInputsToAnswers();
 		}
 	}
 	
 	/*
-	 * 
+	 * Returns true iff the neural network correctly identifies the
+	 * training sample
+	 */
+	private boolean correctlyIdentifies(double[] expectedOutputs)
+	{
+		double[] actualOutputs = extractOutputs();
+		int expectedIndex = getMaxIndex(expectedOutputs);
+		int actualIndex = getMaxIndex(actualOutputs);
+		
+		return expectedIndex == actualIndex;
+	}
+	
+	/*
+	 * Returns the index of the largest element in an array
+	 */
+	private int getMaxIndex(double[] list)
+	{
+		int max = 0;
+		for(int i = 0; i < list.length; i++)
+		{
+			if(list[i] > list[max])
+			{
+				max = i;
+			}
+		}
+		return max;
+	}
+	
+	/*
+	 * Feeds the given inputs into the first layer of the neural network.
 	 */
 	private void activateInputs(double[] inputs)
 	{
@@ -83,20 +121,25 @@ public class NeuralNetwork
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
-		if(inputs.length != layers.get(0).size())
+		
+		ArrayList<Perceptron> inputLayer = layers.get(0);
+		
+		if(inputs.length != inputLayer.size())
 		{
 			throw new IllegalArgumentException("Input list is of different size than input layer.");
 		}
 		
-		ArrayList<Perceptron> inputLayer = layers.get(0);
-		
-		for(int i = 0; i < inputLayer.size(); i++)
+		for(Perceptron p : inputLayer)
 		{
-			inputLayer.get(i).activationValue = inputs[i];
+			p.activate(inputs);
 		}
 		
 	}
 	
+	/*
+	 * Pushes activation values from input layer to output layer of neural network.
+	 * MUST be called after activateInputs.
+	 */
 	private void propagateInputsToAnswers()
 	{
 		if(layers.size() == 0)
@@ -104,19 +147,21 @@ public class NeuralNetwork
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
-		/*
-		 * Activate layers from input to output
-		 */
-		for(ArrayList<Perceptron> layer : layers)
+		// Activate all layers after input, in order, to push results through the network
+		for(int i = 1; i < layers.size(); i++)
 		{
-			for(Perceptron p : layer)
+			for(Perceptron p : layers.get(i))
 			{
 				p.activate();
 			}
 		}
 	}
 	
-	private void calculateOutputDeltas(double[] outputs)
+	/*
+	 * Calculates the difference between actual and expected outputs of the 
+	 * neural network.
+	 */
+	private void calculateOutputDeltas(double[] expectedOutputs)
 	{
 		if(layers.size() == 0)
 		{
@@ -125,18 +170,22 @@ public class NeuralNetwork
 		
 		ArrayList<Perceptron> outputLayer = layers.get(layers.size() - 1);
 		
-		if(outputLayer.size() != outputs.length)
+		if(outputLayer.size() != expectedOutputs.length)
 		{
 			throw new IllegalArgumentException("Output list has different size than output layer.");
 		}
 		
 		for(Perceptron p : outputLayer)
 		{
-			p.calculateDeltas(outputs);
+			p.calculateDeltas(expectedOutputs);
 		}
 		
 	}
 	
+	/*
+	 * Calculates the delta's of each layer based on the output delta's
+	 * of each perceptron.
+	 */
 	private void propagateDeltasBack()
 	{
 		if(layers.size() == 0)
@@ -144,7 +193,9 @@ public class NeuralNetwork
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
-		for(int i = layers.size() - 2; i > 0; i--)
+		// Traverse the network backwards after the output layer
+		// to pull delta values through the network.
+		for(int i = layers.size() - 2; i >= 0; i--)
 		{
 			ArrayList<Perceptron> currentLayer = layers.get(i);
 			for(Perceptron p : currentLayer)
@@ -154,6 +205,10 @@ public class NeuralNetwork
 		}
 	}
 	
+	/*
+	 * Recalculates all weights in the neural network based on the 
+	 * delta values of each perceptron
+	 */
 	private void updateWeightsWithDeltas()
 	{
 		for(ArrayList<Perceptron> layer : layers)
@@ -165,6 +220,9 @@ public class NeuralNetwork
 		}
 	}
 	
+	/*
+	 * Returns the output values generated by the neural network
+	 */
 	private double[] extractOutputs()
 	{
 		if(layers.size() == 0)
@@ -183,11 +241,12 @@ public class NeuralNetwork
 		return outputs;
 	}
 	
+	/*
+	 * Returns the values output by the neural network given the
+	 * inputs provided.
+	 */
 	public double[] predict(double[] inputs)
 	{
-		// TODO - return the activations of the last layer's Perceptrons
-		// as an array of doubles (the highest of which is our best prediction)
-		
 		activateInputs(inputs);
 		propagateInputsToAnswers();
 		
