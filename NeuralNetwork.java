@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class NeuralNetwork 
 {
@@ -7,12 +6,10 @@ public class NeuralNetwork
 	// the input layer is: layers.get(0), 
 	// the output layer is: layers.get(layers.size()-1)
 	// and the hidden layers are in between
-	public ArrayList<ArrayList<Perceptron>> layers;	
 	
-	/*
-	 * An acceptance value to be reached during training
-	 */
-	private static final double THRESHOLD = 0.05;
+	private ArrayList<Perceptron> inputLayer;
+	public ArrayList<ArrayList<Perceptron>> hiddenLayers;
+	private ArrayList<Perceptron> outputLayer;
 	
 	/*
 	 * Initializes the neural network with no layers of perceptrons
@@ -20,7 +17,25 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork()
 	{
-		layers = new ArrayList<ArrayList<Perceptron>>();
+		inputLayer = new ArrayList<Perceptron>();
+		hiddenLayers = new ArrayList<ArrayList<Perceptron>>();
+		outputLayer = new ArrayList<Perceptron>();
+	}
+	
+	public void setInputSize(int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			inputLayer.add(new Perceptron(i, null));
+		}
+	}
+	
+	public void setOutputSize(int size)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			outputLayer.add(new Perceptron(i, hiddenLayers.get(hiddenLayers.size() - 1)));
+		}
 	}
 	
 	/*
@@ -37,9 +52,9 @@ public class NeuralNetwork
 		
 		// Determine the input layer to the new layer
 		ArrayList<Perceptron> oldOutputLayer = null;
-		if(layers.size() > 0)
+		if(hiddenLayers.size() > 0)
 		{
-			oldOutputLayer = layers.get(layers.size() - 1);
+			oldOutputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
 		}
 		
 		// Populate the layer with perceptrons
@@ -49,9 +64,9 @@ public class NeuralNetwork
 			newLayer.add(newPerceptron);
 		}
 		
-		layers.add(newLayer);
+		hiddenLayers.add(newLayer);
 		
-		if(layers.size() > 1)
+		if(hiddenLayers.size() > 1)
 		{
 			setOutputs(oldOutputLayer, newLayer);
 		}
@@ -121,12 +136,12 @@ public class NeuralNetwork
 	 */
 	private void activateInputs(double[] inputs)
 	{
-		if(layers.size() == 0)
+		if(hiddenLayers.size() == 0)
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
-		ArrayList<Perceptron> inputLayer = layers.get(0);
+		ArrayList<Perceptron> inputLayer = hiddenLayers.get(0);
 		
 		if(inputs.length != inputLayer.size())
 		{
@@ -146,15 +161,15 @@ public class NeuralNetwork
 	 */
 	private void propagateInputsToAnswers()
 	{
-		if(layers.size() == 0)
+		if(hiddenLayers.size() == 0)
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
 		// Activate all layers after input, in order, to push results through the network
-		for(int i = 1; i < layers.size(); i++)
+		for(int i = 1; i < hiddenLayers.size(); i++)
 		{
-			for(Perceptron p : layers.get(i))
+			for(Perceptron p : hiddenLayers.get(i))
 			{
 				p.activate();
 			}
@@ -167,12 +182,12 @@ public class NeuralNetwork
 	 */
 	private void calculateOutputDeltas(double[] expectedOutputs)
 	{
-		if(layers.size() == 0)
+		if(hiddenLayers.size() == 0)
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
-		ArrayList<Perceptron> outputLayer = layers.get(layers.size() - 1);
+		ArrayList<Perceptron> outputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
 		
 		if(outputLayer.size() != expectedOutputs.length)
 		{
@@ -192,16 +207,16 @@ public class NeuralNetwork
 	 */
 	private void propagateDeltasBack()
 	{
-		if(layers.size() == 0)
+		if(hiddenLayers.size() == 0)
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
 		// Traverse the network backwards after the output layer
 		// to pull delta values through the network.
-		for(int i = layers.size() - 2; i >= 0; i--)
+		for(int i = hiddenLayers.size() - 2; i >= 0; i--)
 		{
-			ArrayList<Perceptron> currentLayer = layers.get(i);
+			ArrayList<Perceptron> currentLayer = hiddenLayers.get(i);
 			for(Perceptron p : currentLayer)
 			{
 				p.calculateDeltas();
@@ -215,7 +230,7 @@ public class NeuralNetwork
 	 */
 	private void updateWeightsWithDeltas()
 	{
-		for(ArrayList<Perceptron> layer : layers)
+		for(ArrayList<Perceptron> layer : hiddenLayers)
 		{
 			for(Perceptron p : layer)
 			{
@@ -229,12 +244,12 @@ public class NeuralNetwork
 	 */
 	private double[] extractOutputs()
 	{
-		if(layers.size() == 0)
+		if(hiddenLayers.size() == 0)
 		{
 			throw new IllegalStateException("Neural Network has no layers.");
 		}
 		
-		ArrayList<Perceptron> outputLayer = layers.get(layers.size() - 1);
+		ArrayList<Perceptron> outputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
 		double[] outputs = new double[outputLayer.size()];
 		
 		for(int i = 0; i < outputLayer.size(); i++)
