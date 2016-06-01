@@ -24,22 +24,34 @@ public class Main extends PApplet
 		nn.addLayer(10);
 
 		// learn from every image in the images folder
+		// Load images in images folder
 		File imagesDir = new File("images");
 		String[] filenames = imagesDir.list();
+		
+		// Learn from images
 		for(int i=0;i<filenames.length;i++)
 		{
+			// Identify image label (integer in range 0-9)
 			String labelString = filenames[i].split("_")[2].split("\\.")[0];
 			int label = Integer.parseInt(labelString);
+			
+			// Extract pixels from image
 			PImage image = loadImage("images/"+filenames[i]);
 			image.updatePixels();
 			double[] inputs = new double[image.pixels.length];
+			
+			// Set input as the brightness of each pixel
 			for(int j=0;j<image.pixels.length;j++)
 				inputs[j] = (brightness(image.pixels[j])/255.0);
+			
+			// Set the outputs according to the image label
 			double[] outputs = new double[10];
 			for(int j=0;j<10;j++)
 				outputs[j] = (label==j) ? 1.0 : 0.0;
+			
 			// train with the current image data
 			nn.train(inputs, outputs);
+			
 			// display progress after training on every 1000 images
 			if(i%1000==0) System.out.println("PROGRESS: " + i + "/" + filenames.length);
 		}
