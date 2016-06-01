@@ -140,12 +140,12 @@ public class Perceptron
 	 */
 	public void updateWeights()
 	{
-		bias = bias - LEARNING_RATE * delta * activationValue;
+		bias = bias + LEARNING_RATE * delta * activationValue;
 		
 		for(int i = 0; i < inputWeights.size(); i++)
 		{
 			double weight = inputWeights.get(i);
-			inputWeights.set(i, weight - LEARNING_RATE * delta * activationValue);
+			inputWeights.set(i, weight + LEARNING_RATE * delta * activationValue);
 		}
 	}
 	

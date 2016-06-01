@@ -178,6 +178,21 @@ public class PerceptronTest {
 	@Test
 	public void updateWeightsCalculation()
 	{
+		Perceptron inputP = new Perceptron(0, null);
+		ArrayList<Perceptron> inputs = new ArrayList<Perceptron>(1);
+		inputs.add(inputP);
+		
+		Perceptron testP = new Perceptron(0, inputs);
+		
+		testP.delta = -0.1;
+		testP.activationValue = 0.5;
+		testP.inputWeights.set(0, 0.5);
+		testP.bias = 0.1;
+		
+		testP.updateWeights();
+		
+		assertEquals(0.095, testP.bias, DELTA);
+		assertEquals(0.495, testP.inputWeights.get(0), DELTA);
 		
 	}
 }
