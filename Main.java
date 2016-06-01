@@ -1,5 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import processing.core.*;
 
@@ -18,15 +20,11 @@ public class Main extends PApplet
 	public void createAndTrainNN()
 	{
 		// create neural network with 400 inputs, 300 hidden nodes, and 10 outputs
-		nn = new NeuralNetwork();
-		nn.addLayer(400);
-		nn.addLayer(300);
-		nn.addLayer(10);
+		nn = createNN();
 
 		// learn from every image in the images folder
 		// Load images in images folder
-		File imagesDir = new File("images");
-		String[] filenames = imagesDir.list();
+		String[] filenames = getImageFileNamesInDirectory(new File("images"));
 		
 		// Learn from images
 		for(int i=0;i<filenames.length;i++)
@@ -55,6 +53,35 @@ public class Main extends PApplet
 			// display progress after training on every 1000 images
 			if(i%1000==0) System.out.println("PROGRESS: " + i + "/" + filenames.length);
 		}
+	}
+	
+	private NeuralNetwork createNN()
+	{
+		NeuralNetwork nn = new NeuralNetwork();
+		nn.addLayer(400);
+		nn.addLayer(300);
+		nn.addLayer(10);
+		return nn;
+	}
+	
+	private String[] getImageFileNamesInDirectory(File directory)
+	{
+		if(!directory.isDirectory() || !directory.exists())
+		{
+			throw new IllegalArgumentException("Invalid image directory.");
+		}
+		// Get all the names of files in the directory
+		List<String> filenames = Arrays.asList(directory.list());
+		// Ignore any files that are not images
+		List<String> imageFiles = new ArrayList<String>(filenames.size());
+		for(String file : filenames)
+		{
+			if(file.matches("digit_\\d*_\\d."))
+			{
+				imageFiles.add(file);
+			}
+		}
+		return imageFiles.toArray(new String[filenames.size()]);
 	}
 	
 	public void testNN(PImage image)
