@@ -8,7 +8,7 @@ public class NeuralNetwork
 	// and the hidden layers are in between
 	
 	private ArrayList<Perceptron> inputLayer;
-	private ArrayList<ArrayList<Perceptron>> hiddenLayers;
+	public ArrayList<ArrayList<Perceptron>> hiddenLayers;
 	private ArrayList<Perceptron> outputLayer;
 	
 	/*

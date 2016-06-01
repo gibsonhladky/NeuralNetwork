@@ -10,17 +10,17 @@ public class NeuralNetworkTests {
 	public void constructor() {
 		NeuralNetwork nn = new NeuralNetwork();
 		
-		assertNotNull(nn.layers);
+		assertNotNull(nn.hiddenLayers);
 	}
 	
 	@Test
-	public void addLayerStandard()
+	public void addhiddenLayerstandard()
 	{
 		NeuralNetwork nn = new NeuralNetwork();
 		nn.addLayer(100);
 		
-		assertEquals(1, nn.layers.size());
-		assertEquals(100, nn.layers.get(0).size());
+		assertEquals(1, nn.hiddenLayers.size());
+		assertEquals(100, nn.hiddenLayers.get(0).size());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -28,7 +28,7 @@ public class NeuralNetworkTests {
 	{
 		NeuralNetwork nn = new NeuralNetwork();
 		nn.addLayer(-1);
-		assertEquals(0, nn.layers.size());
+		assertEquals(0, nn.hiddenLayers.size());
 		System.out.println("Invalid layer added");
 	}
 	
@@ -37,7 +37,7 @@ public class NeuralNetworkTests {
 	{
 		NeuralNetwork nn = new NeuralNetwork();
 		nn.addLayer(2);
-		ArrayList<Perceptron> inputLayer = nn.layers.get(0);
+		ArrayList<Perceptron> inputLayer = nn.hiddenLayers.get(0);
 		for(Perceptron p : inputLayer)
 		{
 			assertNull(p.inputs);
@@ -52,8 +52,8 @@ public class NeuralNetworkTests {
 		nn.addLayer(2);
 		nn.addLayer(2);
 		
-		ArrayList<Perceptron> inputs = nn.layers.get(0);
-		ArrayList<Perceptron> outputs = nn.layers.get(1);
+		ArrayList<Perceptron> inputs = nn.hiddenLayers.get(0);
+		ArrayList<Perceptron> outputs = nn.hiddenLayers.get(1);
 		
 		for(Perceptron p : inputs)
 		{
