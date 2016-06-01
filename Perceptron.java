@@ -16,7 +16,8 @@ public class Perceptron
 	public double bias;
 	
 	public double delta;
-		
+	
+	
 	public Perceptron(int index, ArrayList<Perceptron> inputs)
 	{
 		if(index < 0)
@@ -56,6 +57,14 @@ public class Perceptron
 	
 	public void activate(double[] inputs)
 	{
+		if(!inputLayer)
+		{
+			throw new IllegalStateException("Non input layer perceptron called input-only activate method.");
+		}
+		if(index > inputs.length)
+		{
+			throw new IllegalArgumentException("Activate called from perceptron outside input size.");
+		}
 		activationValue = logisticalFunction(bias + inputs[index]);
 	}
 
@@ -67,7 +76,7 @@ public class Perceptron
 	{
 		if(inputLayer)
 		{
-			return;
+			throw new IllegalStateException("Input layer perceptron called non-input activate method.");
 		}
 		
 		activationValue = logisticalFunction(bias + sumOfWeightedInputs());
@@ -95,6 +104,14 @@ public class Perceptron
 	 */
 	public void calculateDeltas(double[] expectedOutputs)
 	{
+		if(outputs != null)
+		{
+			throw new IllegalStateException("Output layer calculate deltas called from non-output layer perceptron.");
+		}
+		if(expectedOutputs.length < index)
+		{
+			throw new IllegalArgumentException("Output layer calculate deltas called from perceptron with index outside expected outputs length");
+		}
 		delta = -2 * (expectedOutputs[index] - activationValue)*(activationValue)*(1 - activationValue);
 	}
 	
@@ -105,7 +122,7 @@ public class Perceptron
 	{
 		if(outputs == null)
 		{
-			throw new IllegalStateException("Output layer calling non-output layer function (calculateDeltas).");
+			throw new IllegalStateException("Non-output layer calculate deltas called from output layer perceptron.");
 		}
 		
 		double outputDeltaSum = 0;
@@ -123,12 +140,12 @@ public class Perceptron
 	 */
 	public void updateWeights()
 	{
-		bias = bias - LEARNING_RATE * delta * activationValue;
+		bias = bias + LEARNING_RATE * delta * activationValue;
 		
 		for(int i = 0; i < inputWeights.size(); i++)
 		{
 			double weight = inputWeights.get(i);
-			inputWeights.set(i, weight - LEARNING_RATE * delta * activationValue);
+			inputWeights.set(i, weight + LEARNING_RATE * delta * activationValue);
 		}
 	}
 	
