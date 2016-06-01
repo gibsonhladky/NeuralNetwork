@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Perceptron 
+public class Perceptron
 {	
 	public static final double LEARNING_RATE = 0.1;
-	public static final Random randGen = new Random();
+	public static final WeightGenerator weightGenerator = new RandomWeightGenerator();
 	
 	public int index; // current perceptron's index with it's layer
 	public ArrayList<Perceptron> outputs; // next layer of perceptrons
@@ -26,11 +26,7 @@ public class Perceptron
 		}
 		
 		this.index = index;
-		bias = randGen.nextDouble();
-		if(randGen.nextBoolean())
-		{
-			bias *= -1;
-		}
+		bias = weightGenerator.nextWeight();
 		
 		if(inputs != null)
 		{
@@ -39,11 +35,7 @@ public class Perceptron
 			inputWeights = new ArrayList<Double>(size);
 			for(int i = 0; i < size; i++)
 			{
-				double weight = randGen.nextDouble();
-				if(randGen.nextBoolean())
-				{
-					weight *= -1;
-				}
+				double weight = weightGenerator.nextWeight();
 				inputWeights.add(weight);
 			}
 		}
