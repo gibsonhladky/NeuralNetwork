@@ -29,6 +29,10 @@ public class NeuralNetwork
 	 */
 	public void addLayer(int size)
 	{
+		if(size < 1)
+		{
+			throw new IllegalArgumentException("Cannot add a layer with size smaller than 1.");
+		}
 		ArrayList<Perceptron> newLayer = new ArrayList<Perceptron>(size);
 		
 		// Determine the input layer to the new layer
