@@ -19,39 +19,22 @@ public class Main extends PApplet
 
 	public void createAndTrainNN()
 	{
-		// create neural network with 400 inputs, 300 hidden nodes, and 10 outputs
 		nn = createNN();
 
 		// learn from every image in the images folder
-		// Load images in images folder
 		String[] filenames = getImageFileNamesInDirectory(new File("images"));
-		
-		// Learn from images
 		for(int i=0;i<filenames.length;i++)
 		{
-			// Identify image label (integer in range 0-9)
-			String labelString = filenames[i].split("_")[2].split("\\.")[0];
-			int label = Integer.parseInt(labelString);
-			
-			// Extract pixels from image
-			PImage image = loadImage("images/"+filenames[i]);
-			image.updatePixels();
-			double[] inputs = new double[image.pixels.length];
-			
-			// Set input as the brightness of each pixel
-			for(int j=0;j<image.pixels.length;j++)
-				inputs[j] = (brightness(image.pixels[j])/255.0);
-			
-			// Set the outputs according to the image label
-			double[] outputs = new double[10];
-			for(int j=0;j<10;j++)
-				outputs[j] = (label==j) ? 1.0 : 0.0;
-			
-			// train with the current image data
+			int label = identifyImageLabel(filenames[i]);
+			double[] inputs = extractPixelsFromImage(loadImage("images/"+filenames[i]));
+			double[] outputs = setOutputsAccordingToLabel(label);
 			nn.train(inputs, outputs);
 			
 			// display progress after training on every 1000 images
-			if(i%1000==0) System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			if(i % 1000 == 0)
+			{
+				System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			}
 		}
 	}
 	
@@ -82,6 +65,35 @@ public class Main extends PApplet
 			}
 		}
 		return imageFiles.toArray(new String[imageFiles.size()]);
+	}
+
+	private int identifyImageLabel(String filename)
+	{
+		String labelString = filename.split("_")[2].split("\\.")[0];
+		return Integer.parseInt(labelString);
+	}
+	
+	private double[] extractPixelsFromImage(PImage img)
+	{
+		img.updatePixels();
+		double[] inputs = new double[img.pixels.length];
+
+		// Set input as the brightness of each pixel
+		for(int j=0;j<img.pixels.length;j++)
+		{
+			inputs[j] = (brightness(img.pixels[j])/255.0);
+		}
+		return inputs;
+	}
+	
+	private double[] setOutputsAccordingToLabel(int label)
+	{
+		double[] outputs = new double[10];
+		for(int j=0;j<10;j++)
+		{
+			outputs[j] = (label==j) ? 1.0 : 0.0;
+		}
+		return outputs;
 	}
 	
 	public void testNN(PImage image)
