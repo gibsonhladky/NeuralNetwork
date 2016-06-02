@@ -59,12 +59,17 @@ public class Main extends PApplet
 		List<String> imageFiles = new ArrayList<String>(filenames.size());
 		for(String file : filenames)
 		{
-			if(file.matches("digit_\\d+_\\d.png"))
+			if(validImageFile(file))
 			{
 				imageFiles.add(file);
 			}
 		}
 		return imageFiles.toArray(new String[imageFiles.size()]);
+	}
+	
+	private boolean validImageFile(String filename)
+	{
+		return filename.matches("digit_\\d+_\\d.png");
 	}
 
 	private int identifyImageDigit(String filename)
@@ -76,14 +81,14 @@ public class Main extends PApplet
 	private double[] extractPixelsFromImage(PImage img)
 	{
 		img.updatePixels();
-		double[] inputs = new double[img.pixels.length];
+		double[] pixels = new double[img.pixels.length];
 
 		// Set input as the brightness of each pixel
 		for(int i = 0; i < img.pixels.length; i++)
 		{
-			inputs[i] = (brightness(img.pixels[i]) / 255.0);
+			pixels[i] = (brightness(img.pixels[i]) / 255.0);
 		}
-		return inputs;
+		return pixels;
 	}
 	
 	private double[] setOutputsAccordingToDigit(int digit)
@@ -101,19 +106,35 @@ public class Main extends PApplet
 		// when image is null, pick a random image from images folder
 		if(image == null)
 		{
-			File imagesDir = new File("images");
-			String[] filenames = imagesDir.list();
-			String filename = filenames[(int)(Math.random()*filenames.length)];
-			image = loadImage("images/"+filename);
+			image = pickRandomImageFromDirectory(new File("images/"));
 			actualImage = image;
 		}
-		image.updatePixels();
-		double[] inputs = new double[image.pixels.length];
-		for(int j=0;j<image.pixels.length;j++)
-			inputs[j] = (brightness(image.pixels[j])/255.0);
+		
+		// Extract pixels from image
+		double[] inputs = extractPixelsFromImage(image);
+		
 		// get prediction from neural network
 		double[] outputs = nn.predict(inputs);
+		
 		// convert prediction into results string
+		convertOutputsToResult(outputs);
+	}
+	
+	private PImage pickRandomImageFromDirectory(File directory)
+	{
+		String[] filenames = directory.list();
+		String filename = "";
+		while(!validImageFile(filename))
+		{
+			int randomIndex = (int) (Math.random() * filenames.length);
+			filename = filenames[randomIndex];
+		}
+		PImage image = loadImage("images/" + filename);
+		return image;
+	}
+	
+	private void convertOutputsToResult(double[] outputs)
+	{
 		int prediction = 0;
 		results = "RESULTS:\n";
 		for(int i=1;i<outputs.length;i++)
