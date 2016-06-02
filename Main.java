@@ -1,5 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import processing.core.*;
 
@@ -17,32 +19,81 @@ public class Main extends PApplet
 
 	public void createAndTrainNN()
 	{
-		// create neural network with 400 inputs, 300 hidden nodes, and 10 outputs
-		nn = new NeuralNetwork();
+		nn = createNN();
+
+		// learn from every image in the images folder
+		String[] filenames = getImageFileNamesInDirectory(new File("images"));
+		for(int i = 0; i < filenames.length; i++)
+		{
+			int digit = identifyImageDigit(filenames[i]);
+			double[] inputs = extractPixelsFromImage(loadImage("images/" + filenames[i]));
+			double[] outputs = setOutputsAccordingToDigit(digit);
+			nn.train(inputs, outputs);
+			
+			// display progress after training on every 1000 images
+			if(i % 1000 == 0)
+			{
+				System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			}
+		}
+	}
+	
+	private NeuralNetwork createNN()
+	{
+		NeuralNetwork nn = new NeuralNetwork();
 		nn.addLayer(400);
 		nn.addLayer(300);
 		nn.addLayer(10);
-
-		// learn from every image in the images folder
-		File imagesDir = new File("images");
-		String[] filenames = imagesDir.list();
-		for(int i=0;i<filenames.length;i++)
+		return nn;
+	}
+	
+	private String[] getImageFileNamesInDirectory(File directory)
+	{
+		if(!directory.isDirectory() || !directory.exists())
 		{
-			String labelString = filenames[i].split("_")[2].split("\\.")[0];
-			int label = Integer.parseInt(labelString);
-			PImage image = loadImage("images/"+filenames[i]);
-			image.updatePixels();
-			double[] inputs = new double[image.pixels.length];
-			for(int j=0;j<image.pixels.length;j++)
-				inputs[j] = (brightness(image.pixels[j])/255.0);
-			double[] outputs = new double[10];
-			for(int j=0;j<10;j++)
-				outputs[j] = (label==j) ? 1.0 : 0.0;
-			// train with the current image data
-			nn.train(inputs, outputs);
-			// display progress after training on every 1000 images
-			if(i%1000==0) System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			throw new IllegalArgumentException("Invalid image directory.");
 		}
+		// Get all the names of files in the directory
+		List<String> filenames = Arrays.asList(directory.list());
+		// Ignore any files that are not images
+		List<String> imageFiles = new ArrayList<String>(filenames.size());
+		for(String file : filenames)
+		{
+			if(file.matches("digit_\\d+_\\d.png"))
+			{
+				imageFiles.add(file);
+			}
+		}
+		return imageFiles.toArray(new String[imageFiles.size()]);
+	}
+
+	private int identifyImageDigit(String filename)
+	{
+		String digitString = filename.split("_")[2].split("\\.")[0];
+		return Integer.parseInt(digitString);
+	}
+	
+	private double[] extractPixelsFromImage(PImage img)
+	{
+		img.updatePixels();
+		double[] inputs = new double[img.pixels.length];
+
+		// Set input as the brightness of each pixel
+		for(int i = 0; i < img.pixels.length; i++)
+		{
+			inputs[i] = (brightness(img.pixels[i]) / 255.0);
+		}
+		return inputs;
+	}
+	
+	private double[] setOutputsAccordingToDigit(int digit)
+	{
+		double[] outputs = new double[10];
+		for(int i = 0; i < 10; i++)
+		{
+			outputs[i] = (digit == i) ? 1.0 : 0.0;
+		}
+		return outputs;
 	}
 	
 	public void testNN(PImage image)
