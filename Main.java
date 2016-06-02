@@ -23,11 +23,11 @@ public class Main extends PApplet
 
 		// learn from every image in the images folder
 		String[] filenames = getImageFileNamesInDirectory(new File("images"));
-		for(int i=0;i<filenames.length;i++)
+		for(int i = 0; i < filenames.length; i++)
 		{
-			int label = identifyImageLabel(filenames[i]);
-			double[] inputs = extractPixelsFromImage(loadImage("images/"+filenames[i]));
-			double[] outputs = setOutputsAccordingToLabel(label);
+			int digit = identifyImageDigit(filenames[i]);
+			double[] inputs = extractPixelsFromImage(loadImage("images/" + filenames[i]));
+			double[] outputs = setOutputsAccordingToDigit(digit);
 			nn.train(inputs, outputs);
 			
 			// display progress after training on every 1000 images
@@ -67,10 +67,10 @@ public class Main extends PApplet
 		return imageFiles.toArray(new String[imageFiles.size()]);
 	}
 
-	private int identifyImageLabel(String filename)
+	private int identifyImageDigit(String filename)
 	{
-		String labelString = filename.split("_")[2].split("\\.")[0];
-		return Integer.parseInt(labelString);
+		String digitString = filename.split("_")[2].split("\\.")[0];
+		return Integer.parseInt(digitString);
 	}
 	
 	private double[] extractPixelsFromImage(PImage img)
@@ -79,19 +79,19 @@ public class Main extends PApplet
 		double[] inputs = new double[img.pixels.length];
 
 		// Set input as the brightness of each pixel
-		for(int j=0;j<img.pixels.length;j++)
+		for(int i = 0; i < img.pixels.length; i++)
 		{
-			inputs[j] = (brightness(img.pixels[j])/255.0);
+			inputs[i] = (brightness(img.pixels[i]) / 255.0);
 		}
 		return inputs;
 	}
 	
-	private double[] setOutputsAccordingToLabel(int label)
+	private double[] setOutputsAccordingToDigit(int digit)
 	{
 		double[] outputs = new double[10];
-		for(int j=0;j<10;j++)
+		for(int i = 0; i < 10; i++)
 		{
-			outputs[j] = (label==j) ? 1.0 : 0.0;
+			outputs[i] = (digit == i) ? 1.0 : 0.0;
 		}
 		return outputs;
 	}
