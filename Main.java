@@ -59,12 +59,17 @@ public class Main extends PApplet
 		List<String> imageFiles = new ArrayList<String>(filenames.size());
 		for(String file : filenames)
 		{
-			if(file.matches("digit_\\d+_\\d.png"))
+			if(validImageFile(file))
 			{
 				imageFiles.add(file);
 			}
 		}
 		return imageFiles.toArray(new String[imageFiles.size()]);
+	}
+	
+	private boolean validImageFile(String filename)
+	{
+		return filename.matches("digit_\\d+_\\d.png");
 	}
 
 	private int identifyImageDigit(String filename)
@@ -101,18 +106,18 @@ public class Main extends PApplet
 		// when image is null, pick a random image from images folder
 		if(image == null)
 		{
-			File imagesDir = new File("images");
-			String[] filenames = imagesDir.list();
-			String filename = filenames[(int)(Math.random()*filenames.length)];
-			image = loadImage("images/"+filename);
-			actualImage = image;
+			
+			actualImage = pickRandomImageFromDirectory(new File("images/"));
 		}
 		image.updatePixels();
+		
 		double[] inputs = new double[image.pixels.length];
 		for(int j=0;j<image.pixels.length;j++)
 			inputs[j] = (brightness(image.pixels[j])/255.0);
+		
 		// get prediction from neural network
 		double[] outputs = nn.predict(inputs);
+		
 		// convert prediction into results string
 		int prediction = 0;
 		results = "RESULTS:\n";
@@ -125,6 +130,19 @@ public class Main extends PApplet
 			}
 		}
 		results += " \nPREDICTION: " + prediction;
+	}
+	
+	private PImage pickRandomImageFromDirectory(File directory)
+	{
+		String[] filenames = directory.list();
+		String filename = "";
+		while(!validImageFile(filename))
+		{
+			int randomIndex = (int) (Math.random() * filenames.length);
+			filename = filenames[randomIndex];
+		}
+		PImage image = loadImage("images/" + filename);
+		return image;
 	}
 	
 	public void setup()
