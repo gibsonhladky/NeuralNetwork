@@ -76,12 +76,12 @@ public class Main extends PApplet
 		List<String> imageFiles = new ArrayList<String>(filenames.size());
 		for(String file : filenames)
 		{
-			if(file.matches("digit_\\d*_\\d."))
+			if(file.matches("digit_\\d+_\\d.png"))
 			{
 				imageFiles.add(file);
 			}
 		}
-		return imageFiles.toArray(new String[filenames.size()]);
+		return imageFiles.toArray(new String[imageFiles.size()]);
 	}
 	
 	public void testNN(PImage image)
