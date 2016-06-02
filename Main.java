@@ -106,30 +106,18 @@ public class Main extends PApplet
 		// when image is null, pick a random image from images folder
 		if(image == null)
 		{
-			
-			actualImage = pickRandomImageFromDirectory(new File("images/"));
+			image = pickRandomImageFromDirectory(new File("images/"));
+			actualImage = image;
 		}
-		image.updatePixels();
 		
-		double[] inputs = new double[image.pixels.length];
-		for(int j=0;j<image.pixels.length;j++)
-			inputs[j] = (brightness(image.pixels[j])/255.0);
+		// Extract pixels from image
+		double[] inputs = extractPixelsFromImage(image);
 		
 		// get prediction from neural network
 		double[] outputs = nn.predict(inputs);
 		
 		// convert prediction into results string
-		int prediction = 0;
-		results = "RESULTS:\n";
-		for(int i=1;i<outputs.length;i++)
-		{
-			results += i + ": " + outputs[i] + "\n";
-			if(outputs[i] > outputs[prediction])
-			{
-				prediction = i;
-			}
-		}
-		results += " \nPREDICTION: " + prediction;
+		convertOutputsToResult(outputs);
 	}
 	
 	private PImage pickRandomImageFromDirectory(File directory)
@@ -143,6 +131,21 @@ public class Main extends PApplet
 		}
 		PImage image = loadImage("images/" + filename);
 		return image;
+	}
+	
+	private void convertOutputsToResult(double[] outputs)
+	{
+		int prediction = 0;
+		results = "RESULTS:\n";
+		for(int i=1;i<outputs.length;i++)
+		{
+			results += i + ": " + outputs[i] + "\n";
+			if(outputs[i] > outputs[prediction])
+			{
+				prediction = i;
+			}
+		}
+		results += " \nPREDICTION: " + prediction;
 	}
 	
 	public void setup()
