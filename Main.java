@@ -76,14 +76,14 @@ public class Main extends PApplet
 	private double[] extractPixelsFromImage(PImage img)
 	{
 		img.updatePixels();
-		double[] inputs = new double[img.pixels.length];
+		double[] pixels = new double[img.pixels.length];
 
 		// Set input as the brightness of each pixel
 		for(int i = 0; i < img.pixels.length; i++)
 		{
-			inputs[i] = (brightness(img.pixels[i]) / 255.0);
+			pixels[i] = (brightness(img.pixels[i]) / 255.0);
 		}
-		return inputs;
+		return pixels;
 	}
 	
 	private double[] setOutputsAccordingToDigit(int digit)
