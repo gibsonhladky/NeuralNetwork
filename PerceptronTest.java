@@ -191,8 +191,8 @@ public class PerceptronTest {
 		
 		testP.updateWeights();
 		
-		assertEquals(0.095, testP.bias, DELTA);
-		assertEquals(0.495, testP.inputWeights.get(0), DELTA);
+		assertEquals(0.105, testP.bias, DELTA);
+		assertEquals(0.505, testP.inputWeights.get(0), DELTA);
 		
 	}
 }
