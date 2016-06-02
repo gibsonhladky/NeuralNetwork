@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import neuralNetwork.Perceptron;
+
 public class PerceptronTest {
 
 	private final double DELTA = 0.001;

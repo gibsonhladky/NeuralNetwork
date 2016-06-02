@@ -1,3 +1,4 @@
+package neuralNetwork;
 import java.util.ArrayList;
 import java.util.Random;
 

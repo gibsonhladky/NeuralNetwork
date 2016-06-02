@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import neuralNetwork.NeuralNetwork;
+import neuralNetwork.Perceptron;
+
 public class NeuralNetworkTests {
 
 	@Test

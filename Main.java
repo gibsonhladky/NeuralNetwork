@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import neuralNetwork.NeuralNetwork;
 import processing.core.*;
 
 public class Main extends PApplet
