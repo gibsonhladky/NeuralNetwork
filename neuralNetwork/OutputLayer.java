@@ -9,7 +9,7 @@ public class OutputLayer implements NetworkLayer {
 	 * These perceptrons will specifically handle unique
 	 * calculations and feeding the output to the neural network.
 	 */
-	ArrayList<Perceptron> perceptrons;
+	ArrayList<OutputPerceptron> perceptrons;
 	
 	@Override
 	public void feedForwardActivation() {
