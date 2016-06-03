@@ -19,6 +19,12 @@ public interface Perceptron {
 	public void updateWeights();
 	
 	/*
+	 * Returns the activation value of the perceptron. This is used to
+	 * pass the value down the network.
+	 */
+	public double output();
+	
+	/*
 	 * Logistical activation function shared amongst all
 	 * perceptrons.
 	 */

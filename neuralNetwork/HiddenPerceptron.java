@@ -159,4 +159,10 @@ public class HiddenPerceptron implements Perceptron
 	{
 		return 1 / (1 + Math.pow(Math.E, -x));
 	}
+
+	@Override
+	public double output() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

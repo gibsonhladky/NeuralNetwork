@@ -8,7 +8,6 @@ package neuralNetwork;
 public class InputPerceptron implements Perceptron {
 
 	private double input;
-	
 	private double output;
 	
 	public InputPerceptron(int index) {
@@ -17,25 +16,27 @@ public class InputPerceptron implements Perceptron {
 
 	@Override
 	public void activate() {
-		// TODO Auto-generated method stub
-		
+		output = input;
 	}
 
 	@Override
 	public void calculateDeltas() {
-		// TODO Auto-generated method stub
-		
+		// Do nothing
 	}
 
 	@Override
 	public void updateWeights() {
-		// TODO Auto-generated method stub
-		
+		// do nothing
 	}
 	
 	public void setInput(double input)
 	{
-		
+		this.input = input;
+	}
+	
+	public double output()
+	{
+		return output;
 	}
 
 }
