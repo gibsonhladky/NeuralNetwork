@@ -10,7 +10,7 @@ public class InputPerceptronTest {
 	
 	@Test
 	public void activateSetsOutputToInput() {
-		InputPerceptron testPerceptron = new InputPerceptron(0);
+		InputPerceptron testPerceptron = new InputPerceptron();
 		final double testInput = 1.0;
 		testPerceptron.setInput(testInput);
 		testPerceptron.activate();
@@ -21,7 +21,7 @@ public class InputPerceptronTest {
 	@Test
 	public void doesNotAdjustToError()
 	{
-		InputPerceptron testPerceptron = new InputPerceptron(0);
+		InputPerceptron testPerceptron = new InputPerceptron();
 		final double testInput = 1.0;
 		testPerceptron.setInput(testInput);
 		testPerceptron.activate();

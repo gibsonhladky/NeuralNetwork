@@ -26,7 +26,7 @@ public class InputLayer implements NetworkLayer{
 		perceptrons = new ArrayList<InputPerceptron>(size);
 		for(int i = 0; i < perceptrons.size(); i++)
 		{
-			perceptrons.add(new InputPerceptron(i));
+			perceptrons.add(new InputPerceptron());
 		}
 		inputs = new double[size];
 	}

@@ -10,7 +10,7 @@ public class InputPerceptron implements Perceptron {
 	private double input;
 	private double output;
 	
-	public InputPerceptron(int index) {
+	public InputPerceptron() {
 		
 	}
 
