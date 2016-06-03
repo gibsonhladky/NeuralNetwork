@@ -26,7 +26,6 @@ public class InputPerceptronTest {
 		testPerceptron.setInput(testInput);
 		testPerceptron.activate();
 		
-		testPerceptron.calculateDeltas();
 		testPerceptron.adjustToError();
 		
 		testPerceptron.activate();
