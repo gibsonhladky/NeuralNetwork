@@ -24,10 +24,4 @@ interface NetworkLayer {
 	 */
 	public void backPropagateError();
 	
-	/*
-	 * Adjusts the weights of each perceptron in this layer
-	 * based on the error calculated.
-	 */
-	public void adjustToError();
-	
 }
