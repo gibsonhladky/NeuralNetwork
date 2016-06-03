@@ -1,6 +1,8 @@
 package neuralNetwork;
 
+import utilities.Pair;
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Perceptron input links store the (output, weight)
@@ -13,17 +15,34 @@ public class PerceptronInputLink {
 	
 	private final WeightGenerator weightGen;
 
-	private ArrayList<Perceptron> inputPerceptrons;
-	private ArrayList<Double> inputWeights;
+	private ArrayList< Pair<Perceptron, Double> > inputWeightPairs;
+	
+	public PerceptronInputLink()
+	{
+		this(new RandomWeightGenerator());
+	}
 	
 	public PerceptronInputLink(WeightGenerator wg)
 	{
 		weightGen = wg;
-		
-		inputPerceptrons = new ArrayList<Perceptron>();
-		inputPerceptrons.add(new BiasPerceptron());
-		
-		
+		addBias();
+	}
+	
+	public PerceptronInputLink(WeightGenerator wg, ArrayList<Perceptron> inputs)
+	{
+		weightGen = wg;
+		addBias();
+		addAll(inputs);
+	}
+	
+	private void addAll(List<Perceptron> inputs)
+	{
+		inputWeightPairs.addAll(inputs);
+	}
+	
+	private void addBias()
+	{
+		inputWeightPairs.add(new Pair(new BiasPerceptron(), 1));
 	}
 	
 }
