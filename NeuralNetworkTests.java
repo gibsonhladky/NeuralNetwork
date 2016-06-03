@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import neuralNetwork.NeuralNetwork;
-import neuralNetwork.Perceptron;
+import neuralNetwork.HiddenPerceptron;
 
 public class NeuralNetworkTests {
 
@@ -40,8 +40,8 @@ public class NeuralNetworkTests {
 	{
 		NeuralNetwork nn = new NeuralNetwork();
 		nn.addLayer(2);
-		ArrayList<Perceptron> inputLayer = nn.hiddenLayers.get(0);
-		for(Perceptron p : inputLayer)
+		ArrayList<HiddenPerceptron> inputLayer = nn.hiddenLayers.get(0);
+		for(HiddenPerceptron p : inputLayer)
 		{
 			assertNull(p.inputs);
 			assertNull(p.outputs);
@@ -55,16 +55,16 @@ public class NeuralNetworkTests {
 		nn.addLayer(2);
 		nn.addLayer(2);
 		
-		ArrayList<Perceptron> inputs = nn.hiddenLayers.get(0);
-		ArrayList<Perceptron> outputs = nn.hiddenLayers.get(1);
+		ArrayList<HiddenPerceptron> inputs = nn.hiddenLayers.get(0);
+		ArrayList<HiddenPerceptron> outputs = nn.hiddenLayers.get(1);
 		
-		for(Perceptron p : inputs)
+		for(HiddenPerceptron p : inputs)
 		{
 			assertNull(p.inputs);
 			assertEquals(outputs, p.outputs);
 		}
 		
-		for(Perceptron p : outputs)
+		for(HiddenPerceptron p : outputs)
 		{
 			assertNull(p.outputs);
 			assertEquals(inputs, p.inputs);

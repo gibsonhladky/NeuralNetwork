@@ -26,7 +26,7 @@ public class OutputLayer implements NetworkLayer {
 
 	@Override
 	public void backPropagateError() {
-		for(Perceptron p : perceptrons)
+		for(HiddenPerceptron p : perceptrons)
 		{
 			p.calculateDeltas(expectedOutputs);
 		}

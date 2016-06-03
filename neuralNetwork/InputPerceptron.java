@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * handling unique problems specific to the input into
  * a network.
  */
-public class InputPerceptron extends Perceptron {
+public class InputPerceptron extends HiddenPerceptron {
 
 	public InputPerceptron(int index) {
 		super(index, null);
