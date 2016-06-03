@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
    InputLayerTest.class,
    InputPerceptronTest.class,
    OutputPerceptronTest.class,
+   PerceptronInputLinkTest.class,
    
 })
 
