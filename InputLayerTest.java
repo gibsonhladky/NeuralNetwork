@@ -6,13 +6,13 @@ import neuralNetwork.InputLayer;
 
 public class InputLayerTest {
 	
-	final double DUMBYINPUT = 1.0;
+	final double ONE = 1;
 
 	@Test (expected = IllegalArgumentException.class)
 	public void setInputsTooSmall()
 	{
 		InputLayer testLayer = new InputLayer(2);
-		double[] testInputs = {DUMBYINPUT};
+		double[] testInputs = {ONE};
 		testLayer.setInputs(testInputs);
 	}
 	
@@ -20,7 +20,7 @@ public class InputLayerTest {
 	public void setInputsTooLarge()
 	{
 		InputLayer testLayer = new InputLayer(2);
-		double[] testInputs = {DUMBYINPUT, DUMBYINPUT, DUMBYINPUT};
+		double[] testInputs = {ONE, ONE, ONE};
 		testLayer.setInputs(testInputs);
 	}
 	
@@ -28,8 +28,9 @@ public class InputLayerTest {
 	public void feedForwardActivationCalculation()
 	{
 		InputLayer testLayer = new InputLayer(2);
-		double[] testInputs = {DUMBYINPUT, DUMBYINPUT};
+		double[] testInputs = {ONE, ONE};
 		testLayer.setInputs(testInputs);
+		
 	}
 
 }
