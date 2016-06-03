@@ -1,10 +1,10 @@
 package neuralNetwork;
 
-import java.util.ArrayList;
-
 public class OutputPerceptron implements Perceptron {
 
-	public OutputPerceptron(int index, ArrayList<HiddenPerceptron> inputs) {
+	
+	
+	public OutputPerceptron() {
 		
 		// TODO Auto-generated constructor stub
 	}

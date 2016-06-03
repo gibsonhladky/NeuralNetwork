@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
    NeuralNetworkTests.class,
    InputLayerTest.class,
    InputPerceptronTest.class,
+   OutputPerceptronTest.class,
    
 })
 
