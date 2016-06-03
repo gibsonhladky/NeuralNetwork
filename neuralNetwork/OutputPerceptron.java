@@ -10,8 +10,10 @@ public class OutputPerceptron implements Perceptron {
 	
 	private double output;
 	private double expectedOutput;
+	private double error;
 	
-	public OutputPerceptron(int inputSize) {
+	public OutputPerceptron(int inputSize) 
+	{
 		if(inputSize <= 0)
 		{
 			throw new IllegalArgumentException("Perceptron must have positive input size.");
@@ -20,19 +22,28 @@ public class OutputPerceptron implements Perceptron {
 	}
 
 	@Override
-	public void activate() {
+	public void activate() 
+	{
 		output = Perceptron.activationFunction(inputValue());
 	}
 
 	@Override
-	public void adjustToError() {
-		final double delta = calculateDelta();
-		adjustWeightsBy(LEARNING_RATE, delta);
+	public void adjustToError() 
+	{
+		error = calculateError();
+		adjustWeightsBy(error);
 	}
 
 	@Override
-	public double output() {
+	public double output() 
+	{
 		return output;
+	}
+	
+	@Override
+	public double error()
+	{
+		return error;
 	}
 	
 	public void setInputs(double[] newInputs)
@@ -68,15 +79,17 @@ public class OutputPerceptron implements Perceptron {
 		return sumOfWeightedInputs;
 	}
 	
-	private double calculateDelta()
+	private double calculateError()
 	{
-		
-		return 0;
+		return expectedOutput - output;
 	}
 	
-	private void adjustWeightsBy(final double learningRate, final double delta)
+	private void adjustWeightsBy(final double error)
 	{
-		
+		for(int i = 0; i < inputSize; i++)
+		{
+			weights[i] += LEARNING_RATE * error * output;
+		}
 	}
 
 }

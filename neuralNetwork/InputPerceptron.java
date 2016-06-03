@@ -30,6 +30,12 @@ public class InputPerceptron implements Perceptron {
 		return output;
 	}
 	
+	@Override
+	public double error()
+	{
+		return 0;
+	}
+	
 	public void setInput(double input)
 	{
 		this.input = input;

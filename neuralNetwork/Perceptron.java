@@ -21,6 +21,13 @@ public interface Perceptron {
 	public double output();
 	
 	/*
+	 * Returns the error associated with the perceptron.
+	 * This is used to pass back through the network to 
+	 * adjust each perceptrons error.
+	 */
+	public double error();
+	
+	/*
 	 * Logistical activation function shared amongst all
 	 * perceptrons.
 	 */

@@ -161,4 +161,10 @@ public class HiddenPerceptron implements Perceptron
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public double error() 
+	{
+		return 0;
+	}
 }
