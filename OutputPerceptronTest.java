@@ -14,8 +14,47 @@ public class OutputPerceptronTest {
 		OutputPerceptron testP = new OutputPerceptron(-1);
 	}
 	
+	@Test (expected = IllegalArgumentException.class)
+	public void zeroInputSize()
+	{
+		OutputPerceptron testP = new OutputPerceptron(0);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setInputsTooSmall()
+	{
+		OutputPerceptron testP = new OutputPerceptron(2);
+		double[] testInputs = {1.0};
+		testP.setInputs(testInputs);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setInputsTooLarge()
+	{
+		OutputPerceptron testP = new OutputPerceptron(2);
+		double[] testInputs = {1.0, 1.0, 1.0};
+		testP.setInputs(testInputs);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setWeightsTooSmall()
+	{
+		OutputPerceptron testP = new OutputPerceptron(2);
+		double[] testWeights = {1.0};
+		testP.setWeights(testWeights);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setWeightsTooLarge()
+	{
+		OutputPerceptron testP = new OutputPerceptron(2);
+		double[] testWeights = {1.0, 1.0, 1.0};
+		testP.setWeights(testWeights);
+	}
+	
 	@Test
-	public void correctOutput() {
+	public void correctOutput() 
+	{
 		OutputPerceptron testP = new OutputPerceptron(2);
 		double[] testInputs = {0.5, 0.5};
 		double[] testWeights = {1.0, -1.0};
@@ -29,12 +68,20 @@ public class OutputPerceptronTest {
 		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
-	public void setInputsTooSmall()
+	@Test
+	public void correctErrorAdjustment()
 	{
 		OutputPerceptron testP = new OutputPerceptron(2);
-		double[] testInputs = {1.0};
+		double[] testInputs = {0.5, 0.5};
+		double[] testWeights = {1.0, -1.0};
+		
 		testP.setInputs(testInputs);
+		testP.setWeights(testWeights);
+		
+		testP.activate();
+		
+		final double trainingExpectedOutput = 1.0;
+		testP.setExpectedOutput(trainingExpectedOutput);
 	}
 
 }

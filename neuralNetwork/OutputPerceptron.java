@@ -8,8 +8,13 @@ public class OutputPerceptron implements Perceptron {
 	double[] weights;
 	
 	double output;
+	double expectedOutput;
 	
 	public OutputPerceptron(int inputSize) {
+		if(inputSize <= 0)
+		{
+			throw new IllegalArgumentException("Perceptron must have positive input size.");
+		}
 		this.inputSize = inputSize;
 	}
 
@@ -51,6 +56,11 @@ public class OutputPerceptron implements Perceptron {
 			throw new IllegalArgumentException("Inputs must match input size of the perceptron.");
 		}
 		weights = newWeights;
+	}
+	
+	public void setExpectedOutput(double newExpectedOutput)
+	{
+		expectedOutput = newExpectedOutput;
 	}
 	
 	private double inputValue()
