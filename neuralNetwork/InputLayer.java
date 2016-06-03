@@ -1,6 +1,8 @@
 package neuralNetwork;
 
-public class InputLayer extends NetworkLayer{
+import java.util.ArrayList;
+
+public class InputLayer implements NetworkLayer{
 
 	/*
 	 * Inputs to neural networks are handled at the input layer 
@@ -13,7 +15,11 @@ public class InputLayer extends NetworkLayer{
 	 */
 	protected InputLayer(int size) 
 	{
-		super(size, null);
+		perceptrons = new ArrayList<Perceptron>(size);
+		for(int i = 0; i < perceptrons.size(); i++)
+		{
+			perceptrons.add(new InputPerceptron(i));
+		}
 		inputs = new double[size];
 	}
 	
