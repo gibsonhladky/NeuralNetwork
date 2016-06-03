@@ -171,13 +171,6 @@ public class HiddenPerceptronTest {
 		
 	}
 	
-	@Test (expected = IllegalStateException.class)
-	public void calculateDeltasInnerLayerCalledFromOutputLayer()
-	{
-		Perceptron testP = new HiddenPerceptron(0, null);
-		testP.calculateDeltas();
-	}
-	
 	@Test
 	public void updateWeightsCalculation()
 	{
