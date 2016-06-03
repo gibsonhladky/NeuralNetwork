@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class InputLayer implements NetworkLayer{
 
-	ArrayList<InputPerceptron> perceptrons;
+	private ArrayList<InputPerceptron> perceptrons;
 	
 	/*
 	 * Inputs to neural networks are handled at the input layer 
 	 * level to clarify how the network should handle inputs.
 	 */
-	double[] inputs;
+	private double[] inputs;
 	
 	/*
 	 * Creates a layer with no previous layer.
