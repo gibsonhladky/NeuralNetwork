@@ -6,16 +6,25 @@ public interface Perceptron {
 	 * Calculates a new activation value based on inputs and weights.
 	 * Does nothing for input layer perceptrons
 	 */
-	void activate();
+	public void activate();
 
 	/*
 	 * Calculates the delta value for a non-output layer perceptron
 	 */
-	void calculateDeltas();
+	public void calculateDeltas();
 
 	/*
 	 * Update the weights the perceptron with the current delta values.
 	 */
-	void updateWeights();
+	public void updateWeights();
+	
+	/*
+	 * Logistical activation function shared amongst all
+	 * perceptrons.
+	 */
+	static double activationFunction(double input)
+	{
+		return 1 / (1 + Math.pow(Math.E, -input));
+	}
 
 }

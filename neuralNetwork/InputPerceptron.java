@@ -1,7 +1,5 @@
 package neuralNetwork;
 
-import java.util.ArrayList;
-
 /*
  * InputPerceptron implements the Perceptron interface,
  * handling unique problems specific to the input into
@@ -9,7 +7,9 @@ import java.util.ArrayList;
  */
 public class InputPerceptron implements Perceptron {
 
+	private double input;
 	
+	private double output;
 	
 	public InputPerceptron(int index) {
 		
