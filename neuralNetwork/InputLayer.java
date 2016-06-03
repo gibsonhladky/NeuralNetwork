@@ -7,6 +7,12 @@ public class InputLayer implements NetworkLayer{
 	private ArrayList<InputPerceptron> perceptrons;
 	
 	/*
+	 * Reference to the next layer in the network
+	 * to be wired to the perceptrons in the input layer.
+	 */
+	private NetworkLayer nextLayer;
+	
+	/*
 	 * Inputs to neural networks are handled at the input layer 
 	 * level to clarify how the network should handle inputs.
 	 */
@@ -58,6 +64,25 @@ public class InputLayer implements NetworkLayer{
 			throw new IllegalArgumentException("Must specify imputs of the correct size (" + inputs.length + ".");
 		}
 		inputs = newInputs;
+	}
+	
+	/*
+	 * Rewires this input layer to a new layer of
+	 * the network. All connections to the previous
+	 * layer are lost.
+	 */
+	public void setNextLayer(NetworkLayer layer)
+	{
+		nextLayer = layer;
+	}
+	
+	/*
+	 * Returns the layer that this input layer is
+	 * currently wired to.
+	 */
+	public NetworkLayer getNextLayer()
+	{
+		return nextLayer;
 	}
 	
 }
