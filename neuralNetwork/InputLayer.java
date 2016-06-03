@@ -37,18 +37,15 @@ public class InputLayer implements NetworkLayer{
 		}
 	}
 	
-	
 	/*
 	 * The input layer does not have to handle errors.
 	 */
 	public void backPropagateError(){}
 	
-	
 	/*
 	 * The input layer does not have to handle errors.
 	 */
 	public void adjustToError(){}
-	
 	
 	/*
 	 * Input layers have a unique function to take inputs
@@ -63,6 +60,4 @@ public class InputLayer implements NetworkLayer{
 		inputs = newInputs;
 	}
 	
-	
-
 }
