@@ -115,10 +115,6 @@ public class HiddenPerceptron implements Perceptron
 	/*
 	 * Calculates the delta value for a non-output layer perceptron
 	 */
-	/* (non-Javadoc)
-	 * @see neuralNetwork.Perceptron#calculateDeltas()
-	 */
-	@Override
 	public void calculateDeltas()
 	{
 		if(outputs == null)
@@ -143,7 +139,7 @@ public class HiddenPerceptron implements Perceptron
 	 * @see neuralNetwork.Perceptron#updateWeights()
 	 */
 	@Override
-	public void updateWeights()
+	public void adjustToError()
 	{
 		bias = bias - LEARNING_RATE * delta * activationValue;
 		

@@ -27,7 +27,7 @@ public class InputPerceptronTest {
 		testPerceptron.activate();
 		
 		testPerceptron.calculateDeltas();
-		testPerceptron.updateWeights();
+		testPerceptron.adjustToError();
 		
 		testPerceptron.activate();
 		

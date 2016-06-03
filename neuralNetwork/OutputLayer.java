@@ -28,15 +28,7 @@ public class OutputLayer implements NetworkLayer {
 	public void backPropagateError() {
 		for(OutputPerceptron p : perceptrons)
 		{
-			p.calculateDeltas();
-		}
-	}
-
-	@Override
-	public void adjustToError() {
-		for(Perceptron p : perceptrons)
-		{
-			p.updateWeights();
+			p.adjustToError();
 		}
 	}
 	

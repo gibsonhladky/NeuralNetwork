@@ -220,7 +220,7 @@ public class NeuralNetwork
 			ArrayList<HiddenPerceptron> currentLayer = hiddenLayers.get(i);
 			for(Perceptron p : currentLayer)
 			{
-				p.calculateDeltas();
+				p.adjustToError();
 			}
 		}
 	}
@@ -235,7 +235,7 @@ public class NeuralNetwork
 		{
 			for(Perceptron p : layer)
 			{
-				p.updateWeights();
+				p.adjustToError();
 			}
 		}
 	}

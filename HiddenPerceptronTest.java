@@ -7,7 +7,7 @@ import org.junit.Test;
 import neuralNetwork.HiddenPerceptron;
 import neuralNetwork.Perceptron;
 
-public class PerceptronTest {
+public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
 	
@@ -171,13 +171,6 @@ public class PerceptronTest {
 		
 	}
 	
-	@Test (expected = IllegalStateException.class)
-	public void calculateDeltasInnerLayerCalledFromOutputLayer()
-	{
-		Perceptron testP = new HiddenPerceptron(0, null);
-		testP.calculateDeltas();
-	}
-	
 	@Test
 	public void updateWeightsCalculation()
 	{
@@ -192,7 +185,7 @@ public class PerceptronTest {
 		testP.inputWeights.set(0, 0.5);
 		testP.bias = 0.1;
 		
-		testP.updateWeights();
+		testP.adjustToError();
 		
 		assertEquals(0.105, testP.bias, DELTA);
 		assertEquals(0.505, testP.inputWeights.get(0), DELTA);
