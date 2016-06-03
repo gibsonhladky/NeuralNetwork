@@ -28,15 +28,16 @@ public class InputPerceptron implements Perceptron {
 	public void updateWeights() {
 		// do nothing
 	}
+
+	@Override
+	public double output()
+	{
+		return output;
+	}
 	
 	public void setInput(double input)
 	{
 		this.input = input;
-	}
-	
-	public double output()
-	{
-		return output;
 	}
 
 }

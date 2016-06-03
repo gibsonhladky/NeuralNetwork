@@ -6,6 +6,8 @@ import org.junit.runners.Suite;
    PerceptronTest.class,
    NeuralNetworkTests.class,
    InputLayerTest.class,
+   InputPerceptronTest.class,
+   
 })
 
 public class TestSuite {   
