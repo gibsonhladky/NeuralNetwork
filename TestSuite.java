@@ -4,7 +4,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
    PerceptronTest.class,
-   NeuralNetworkTests.class
+   NeuralNetworkTests.class,
+   InputLayerTest.class,
 })
 
 public class TestSuite {   

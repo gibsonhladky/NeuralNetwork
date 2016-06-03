@@ -55,7 +55,7 @@ public class InputLayer implements NetworkLayer{
 	{
 		if(newInputs.length != inputs.length)
 		{
-			throw new IllegalArgumentException("Must specify imputs of the correct size.");
+			throw new IllegalArgumentException("Must specify imputs of the correct size (" + inputs.length + ".");
 		}
 		inputs = newInputs;
 	}
