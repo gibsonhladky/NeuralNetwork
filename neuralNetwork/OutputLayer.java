@@ -11,19 +11,38 @@ public class OutputLayer implements NetworkLayer {
 	 */
 	ArrayList<OutputPerceptron> perceptrons;
 	
+	/*
+	 * Stores the expected output values for 
+	 */
+	double[] expectedOutputs;
+	
 	@Override
 	public void feedForwardActivation() {
-		
+		for(Perceptron p : perceptrons)
+		{
+			p.activate();
+		}
 	}
 
 	@Override
 	public void backPropagateError() {
-		
+		for(Perceptron p : perceptrons)
+		{
+			p.calculateDeltas(expectedOutputs);
+		}
 	}
 
 	@Override
 	public void adjustToError() {
-		
+		for(Perceptron p : perceptrons)
+		{
+			p.updateWeights();
+		}
+	}
+	
+	public void setExpectedOutputs(double[] outputs)
+	{
+		expectedOutputs = outputs;
 	}
 	
 	/*
@@ -31,7 +50,6 @@ public class OutputLayer implements NetworkLayer {
 	 */
 	public double[] getOutputs()
 	{
-		
 		return null;
 	}
 
