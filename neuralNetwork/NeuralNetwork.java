@@ -235,7 +235,7 @@ public class NeuralNetwork
 		{
 			for(Perceptron p : layer)
 			{
-				p.updateWeights();
+				p.adjustToError();
 			}
 		}
 	}

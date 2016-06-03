@@ -9,14 +9,10 @@ public interface Perceptron {
 	public void activate();
 
 	/*
-	 * Calculates the delta value for a non-output layer perceptron
+	 * Update the weights of the perceptron 
+	 * based on the error down the network.
 	 */
-	public void calculateDeltas();
-
-	/*
-	 * Update the weights the perceptron with the current delta values.
-	 */
-	public void updateWeights();
+	public void adjustToError();
 	
 	/*
 	 * Returns the activation value of the perceptron. This is used to

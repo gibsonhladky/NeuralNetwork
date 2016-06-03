@@ -36,7 +36,7 @@ public class OutputLayer implements NetworkLayer {
 	public void adjustToError() {
 		for(Perceptron p : perceptrons)
 		{
-			p.updateWeights();
+			p.adjustToError();
 		}
 	}
 	

@@ -25,7 +25,7 @@ public class InputPerceptron implements Perceptron {
 	}
 
 	@Override
-	public void updateWeights() {
+	public void adjustToError() {
 		// do nothing
 	}
 
