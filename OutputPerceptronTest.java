@@ -82,6 +82,11 @@ public class OutputPerceptronTest {
 		
 		final double trainingExpectedOutput = 1.0;
 		testP.setExpectedOutput(trainingExpectedOutput);
+		testP.adjustToError();
+		testP.activate();
+		
+		final double expectedOutput = 0.506250;
+		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 
 }

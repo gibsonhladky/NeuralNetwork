@@ -2,13 +2,14 @@ package neuralNetwork;
 
 public class OutputPerceptron implements Perceptron {
 
-	int inputSize;
+	private final int inputSize;
+	private final double LEARNING_RATE = 0.10;
 	
-	double[] inputs;
-	double[] weights;
+	private double[] inputs;
+	private double[] weights;
 	
-	double output;
-	double expectedOutput;
+	private double output;
+	private double expectedOutput;
 	
 	public OutputPerceptron(int inputSize) {
 		if(inputSize <= 0)
@@ -25,8 +26,8 @@ public class OutputPerceptron implements Perceptron {
 
 	@Override
 	public void adjustToError() {
-		// TODO Auto-generated method stub
-		
+		final double delta = calculateDelta();
+		adjustWeightsBy(LEARNING_RATE, delta);
 	}
 
 	@Override
@@ -65,6 +66,17 @@ public class OutputPerceptron implements Perceptron {
 			sumOfWeightedInputs += inputs[i] * weights[i];
 		}
 		return sumOfWeightedInputs;
+	}
+	
+	private double calculateDelta()
+	{
+		
+		return 0;
+	}
+	
+	private void adjustWeightsBy(final double learningRate, final double delta)
+	{
+		
 	}
 
 }
