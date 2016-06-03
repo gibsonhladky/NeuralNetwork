@@ -7,7 +7,7 @@ import org.junit.Test;
 import neuralNetwork.HiddenPerceptron;
 import neuralNetwork.Perceptron;
 
-public class PerceptronTest {
+public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
 	
