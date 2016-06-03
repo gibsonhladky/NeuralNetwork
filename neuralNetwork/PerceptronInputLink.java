@@ -10,14 +10,20 @@ import java.util.ArrayList;
  * which perceptrons are connected to it.
  */
 public class PerceptronInputLink {
+	
+	private final WeightGenerator weightGen;
 
 	private ArrayList<Perceptron> inputPerceptrons;
 	private ArrayList<Double> inputWeights;
 	
-	public PerceptronInputLink()
+	public PerceptronInputLink(WeightGenerator wg)
 	{
+		weightGen = wg;
+		
 		inputPerceptrons = new ArrayList<Perceptron>();
 		inputPerceptrons.add(new BiasPerceptron());
+		
+		
 	}
 	
 }
