@@ -69,6 +69,26 @@ public class OutputPerceptronTest {
 	}
 	
 	@Test
+	public void correctError()
+	{
+		OutputPerceptron testP = new OutputPerceptron(2);
+		double[] testInputs = {0.5, 0.5};
+		double[] testWeights = {1.0, -1.0};
+		
+		testP.setInputs(testInputs);
+		testP.setWeights(testWeights);
+		
+		testP.activate();
+		
+		final double trainingExpectedOutput = 1.0;
+		testP.setExpectedOutput(trainingExpectedOutput);
+		testP.adjustToError();
+		
+		final double expectedOutput = 0.5;
+		assertEquals(expectedOutput, testP.error(), DELTA);
+	}
+	
+	@Test
 	public void correctErrorAdjustment()
 	{
 		OutputPerceptron testP = new OutputPerceptron(2);
