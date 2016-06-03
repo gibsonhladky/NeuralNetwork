@@ -7,11 +7,35 @@ import java.util.ArrayList;
  * handling unique problems specific to the input into
  * a network.
  */
-public class InputPerceptron extends HiddenPerceptron {
+public class InputPerceptron implements Perceptron {
 
+	
+	
 	public InputPerceptron(int index) {
-		super(index, null);
-		// TODO Auto-generated constructor stub
+		
+	}
+
+	@Override
+	public void activate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void calculateDeltas() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateWeights() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void setInput(double input)
+	{
+		
 	}
 
 }

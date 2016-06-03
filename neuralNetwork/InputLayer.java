@@ -37,9 +37,9 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public void feedForwardActivation()
 	{
-		for(HiddenPerceptron p : perceptrons)
+		for(InputPerceptron p : perceptrons)
 		{
-			p.activate(inputs);
+			p.activate();
 		}
 	}
 	
