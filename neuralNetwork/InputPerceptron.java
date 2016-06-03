@@ -20,11 +20,6 @@ public class InputPerceptron implements Perceptron {
 	}
 
 	@Override
-	public void calculateDeltas() {
-		// Do nothing
-	}
-
-	@Override
 	public void adjustToError() {
 		// do nothing
 	}
