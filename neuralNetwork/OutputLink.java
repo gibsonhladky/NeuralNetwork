@@ -2,6 +2,12 @@ package neuralNetwork;
 
 import java.util.ArrayList;
 
+/*
+ * OutputLink represents the outgoing edges from
+ * perceptrons. It is used to keep track of each link
+ * between perceptrons and to produce the error
+ * associated with the perceptron from it's outputs.
+ */
 public class OutputLink {
 
 	private ArrayList<Perceptron> outputs;
@@ -15,6 +21,9 @@ public class OutputLink {
 		size = 0;
 	}
 	
+	/*
+	 * Returns the total error associated with these links.
+	 */
 	public double getError()
 	{
 		double error = 0;
@@ -25,6 +34,9 @@ public class OutputLink {
 		return error;
 	}
 	
+	/*
+	 * Introduces a new link to the OutputLink.
+	 */
 	public void addLink(Perceptron newOutput, Double weight)
 	{
 		outputs.add(newOutput);
