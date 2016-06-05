@@ -8,3 +8,8 @@
 /OutputLayer.class
 /OutputPerceptron.class
 /HiddenPerceptron.class
+/PerceptronInputLink.class
+/BiasPerceptron.class
+/Pair.class
+/InputLink.class
+/OutputLink.class

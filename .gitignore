@@ -9,3 +9,9 @@
 /InputPerceptronTest.class
 /OutputPerceptronTest.class
 /HiddenPerceptronTest.class
+/PerceptronInputLink.class
+/PerceptronInputLinkTest.class
+/MockWeightGenerator.class
+/MockPerceptron.class
+/InputLinkTest.class
+/OutputLinkTest.class
