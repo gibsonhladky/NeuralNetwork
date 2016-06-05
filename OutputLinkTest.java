@@ -9,7 +9,7 @@ public class OutputLinkTest {
 	static final double DELTA = 0.1;
 	
 	@Test
-	public void getErrorReturnsNothingFromEmptyList() {
+	public void getAssociatedErrorNoLinks() {
 		OutputLink testLink = new OutputLink();
 		
 		final double error = testLink.getAssociatedError();
@@ -18,7 +18,7 @@ public class OutputLinkTest {
 	}
 	
 	@Test
-	public void getErrorSingleLink()
+	public void getAssociatedErrorSingleLink()
 	{
 		OutputLink testLink = new OutputLink();
 		testLink.addLink(new MockPerceptron(), new Double(1.0));
@@ -29,7 +29,7 @@ public class OutputLinkTest {
 	}
 	
 	@Test
-	public void getErrorMultipleLink()
+	public void getAssociatedErrorMultipleLink()
 	{
 		OutputLink testLink = new OutputLink();
 		for(int i = 0; i < 3; i++)
