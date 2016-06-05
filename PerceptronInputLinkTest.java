@@ -53,5 +53,35 @@ public class PerceptronInputLinkTest {
 		final double[] expectedInputValues = {1.0, 0.5, 0.5};
 		assertArrayEquals(expectedInputValues, actualInputs, DELTA);
 	}
+	
+	@Test
+	public void adjustToErrorGivenOutputZeroError()
+	{
+		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		
+		final double[] expectedInputs = testLink.inputValues();
+		testLink.adjustToErrorGivenOutput(0, 1);
+		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+	}
+	
+	@Test
+	public void adjustToErrorGivenOutputZeroOutput()
+	{
+		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		
+		final double[] expectedInputs = testLink.inputValues();
+		testLink.adjustToErrorGivenOutput(1, 0);
+		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+	}
+	
+	@Test
+	public void adjustToErrorGivenOutputCalculations()
+	{
+		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		testLink.adjustToErrorGivenOutput(1, 1);
+		
+		final double[] expectedInputs = {1.1};
+		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+	}
 
 }

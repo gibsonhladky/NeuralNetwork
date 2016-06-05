@@ -58,7 +58,7 @@ public class PerceptronInputLink {
 		for(Pair<Perceptron, Double> pair : inputWeightPairs)
 		{
 			double weight = pair.getRight();
-			weight += LEARNING_RATE * error * output;
+			pair.setRight(weight + LEARNING_RATE * error * output);
 		}
 	}
 	
