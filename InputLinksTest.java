@@ -16,12 +16,8 @@ public class InputLinksTest {
 	public void constructorNoArgsCreatesOnlyRandomBias()
 	{
 		InputLinks testLink = new InputLinks();
-		final double[] actualInputs = testLink.inputValues();
+		final double biasValue = testLink.inputValue();
 		
-		final int expectedLength = 1;
-		assertEquals(expectedLength, actualInputs.length);
-		
-		final double biasValue = actualInputs[0];
 		assertTrue(biasValue >= -1 && biasValue <= 1.0);
 	}
 	
@@ -29,12 +25,8 @@ public class InputLinksTest {
 	public void constructorOneArgsCreatesOnlyBiasFromWeightGenerator()
 	{
 		InputLinks testLink = new InputLinks(new MockWeightGenerator());
-		final double[] actualInputs = testLink.inputValues();
+		final double actualBiasValue = testLink.inputValue();
 		
-		final int expectedLength = 1;
-		assertEquals(expectedLength, actualInputs.length);
-		
-		final double actualBiasValue = actualInputs[0];
 		final double expectedBiasValue = 1;
 		assertEquals(expectedBiasValue, actualBiasValue, DELTA);
 	}
@@ -48,10 +40,10 @@ public class InputLinksTest {
 		
 		InputLinks testLink = new InputLinks(new MockWeightGenerator(), inputs);
 		
-		final double[] actualInputs = testLink.inputValues();
+		final double actualInputValue = testLink.inputValue();
 		
-		final double[] expectedInputValues = {1.0, 0.5, 0.5};
-		assertArrayEquals(expectedInputValues, actualInputs, DELTA);
+		final double expectedInputValue = 2.0;
+		assertEquals(expectedInputValue, actualInputValue, DELTA);
 	}
 	
 	@Test
@@ -59,9 +51,9 @@ public class InputLinksTest {
 	{
 		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		
-		final double[] expectedInputs = testLink.inputValues();
+		final double expectedInputValue = testLink.inputValue();
 		testLink.adjustToErrorGivenOutput(0, 1);
-		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+		assertEquals(expectedInputValue, testLink.inputValue(), DELTA);
 	}
 	
 	@Test
@@ -69,9 +61,9 @@ public class InputLinksTest {
 	{
 		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		
-		final double[] expectedInputs = testLink.inputValues();
+		final double expectedInputValue = testLink.inputValue();
 		testLink.adjustToErrorGivenOutput(1, 0);
-		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+		assertEquals(expectedInputValue, testLink.inputValue(), DELTA);
 	}
 	
 	@Test
@@ -80,8 +72,8 @@ public class InputLinksTest {
 		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		testLink.adjustToErrorGivenOutput(1, 1);
 		
-		final double[] expectedInputs = {1.1};
-		assertArrayEquals(expectedInputs, testLink.inputValues(), DELTA);
+		final double expectedInputValue = 1.1;
+		assertEquals(expectedInputValue, testLink.inputValue(), DELTA);
 	}
 
 }

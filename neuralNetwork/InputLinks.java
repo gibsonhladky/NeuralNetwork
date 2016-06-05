@@ -38,19 +38,19 @@ public class InputLinks {
 		addAll(inputs);
 	}
 	
-	public double[] inputValues()
+	public double inputValue()
 	{
-		double[] inputValues = new double[inputWeightPairs.size()];
+		double inputValue = 0;
 		
 		for(int i = 0; i < inputWeightPairs.size(); i++)
 		{
 			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
 			Perceptron p = pair.getLeft();
 			double weight = pair.getRight();
-			inputValues[i] = p.output() * weight;
+			inputValue += p.output() * weight;
 		}
 		
-		return inputValues;
+		return inputValue;
 	}
 	
 	public void adjustToErrorGivenOutput(double error, double output)
