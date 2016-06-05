@@ -13,8 +13,9 @@ import java.util.List;
  */
 public class PerceptronInputLink {
 	
+	private final double LEARNING_RATE = 0.1;
+	
 	private final WeightGenerator weightGen;
-
 	private ArrayList< Pair<Perceptron, Double> > inputWeightPairs;
 	
 	public PerceptronInputLink()
@@ -50,6 +51,15 @@ public class PerceptronInputLink {
 		}
 		
 		return inputValues;
+	}
+	
+	public void adjustToErrorGivenOutput(double error, double output)
+	{
+		for(Pair<Perceptron, Double> pair : inputWeightPairs)
+		{
+			double weight = pair.getRight();
+			weight += LEARNING_RATE * error * output;
+		}
 	}
 	
 	private void addAll(List<Perceptron> inputs)

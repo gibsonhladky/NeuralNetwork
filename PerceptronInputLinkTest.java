@@ -50,9 +50,6 @@ public class PerceptronInputLinkTest {
 		
 		final double[] actualInputs = testLink.inputValues();
 		
-		final int expectedLength = 3;
-		assertEquals(expectedLength, actualInputs.length);
-		
 		final double[] expectedInputValues = {1.0, 0.5, 0.5};
 		assertArrayEquals(expectedInputValues, actualInputs, DELTA);
 	}

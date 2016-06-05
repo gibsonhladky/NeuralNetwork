@@ -21,4 +21,14 @@ public class Pair <E, F> {
 		return right;
 	}
 	
+	public void setLeft(E newLeft)
+	{
+		left = newLeft;
+	}
+	
+	public void setRight(F newRight)
+	{
+		right = newRight;
+	}
+	
 }
