@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import neuralNetwork.InputPerceptron;
 import neuralNetwork.Perceptron;
 import neuralNetwork.InputLinks;
 

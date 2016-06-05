@@ -14,13 +14,16 @@ public class OutputPerceptron implements Perceptron {
 	private double expectedOutput;
 	private double error;
 	
-	public OutputPerceptron(int inputSize) 
+	public OutputPerceptron()
 	{
-		if(inputSize <= 0)
-		{
-			throw new IllegalArgumentException("Perceptron must have positive input size.");
-		}
-		this.inputSize = inputSize;
+		this(new RandomWeightGenerator());
+	}
+	
+	public OutputPerceptron(WeightGenerator wg) 
+	{
+		inputLinks = new InputLinks(wg);
+		
+		inputSize = 0;
 	}
 
 	@Override
@@ -73,12 +76,7 @@ public class OutputPerceptron implements Perceptron {
 	
 	private double inputValue()
 	{
-		double sumOfWeightedInputs = 0;
-		for(int i = 0; i < inputSize; i++)
-		{
-			sumOfWeightedInputs += inputs[i] * weights[i];
-		}
-		return sumOfWeightedInputs;
+		return inputLinks.inputValue();
 	}
 	
 	private double calculateError()
