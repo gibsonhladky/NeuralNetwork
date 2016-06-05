@@ -2,30 +2,34 @@ package neuralNetwork;
 
 import java.util.ArrayList;
 
-import utilities.Pair;
-
 public class OutputLink {
 
-	ArrayList< Pair<Perceptron, Double>> links;
+	private ArrayList<Perceptron> outputs;
+	private ArrayList<Double> weights;
+	private int size;
 	
 	public OutputLink()
 	{
-		links = new ArrayList< Pair<Perceptron, Double>>();
+		outputs = new ArrayList<Perceptron>();
+		weights = new ArrayList<Double>();
+		size = 0;
 	}
 	
 	public double getError()
 	{
 		double error = 0;
-		for(Pair<Perceptron, Double> link : links)
+		for(int i = 0; i < size; i++)
 		{
-			error += link.getLeft().error() * link.getRight();
+			error += outputs.get(i).error() * weights.get(i);
 		}
 		return error;
 	}
 	
 	public void addLink(Perceptron newOutput, Double weight)
 	{
-		links.add(new Pair<Perceptron, Double>(newOutput, weight));
+		outputs.add(newOutput);
+		weights.add(weight);
+		size++;
 	}
 	
 }
