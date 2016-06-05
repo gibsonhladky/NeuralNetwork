@@ -51,24 +51,6 @@ public class OutputPerceptron implements Perceptron {
 		return error;
 	}
 	
-	public void setInputs(double[] newInputs)
-	{
-		if(newInputs.length != inputSize)
-		{
-			throw new IllegalArgumentException("Inputs must match input size of the perceptron.");
-		}
-		this.inputs = newInputs;
-	}
-	
-	public void setWeights(double[] newWeights)
-	{
-		if(newWeights.length != inputSize)
-		{
-			throw new IllegalArgumentException("Inputs must match input size of the perceptron.");
-		}
-		weights = newWeights;
-	}
-	
 	public void setExpectedOutput(double newExpectedOutput)
 	{
 		expectedOutput = newExpectedOutput;

@@ -11,17 +11,7 @@ public class OutputPerceptronTest {
 	
 	final WeightGenerator mockGen = new MockWeightGenerator();
 	
-	@Test (expected = IllegalArgumentException.class)
-	public void negativeInputSize()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-	}
 	
-	@Test (expected = IllegalArgumentException.class)
-	public void zeroInputSize()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void setInputsTooSmall()
