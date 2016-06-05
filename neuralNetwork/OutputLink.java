@@ -24,7 +24,7 @@ public class OutputLink {
 	/*
 	 * Returns the total error associated with these links.
 	 */
-	public double getError()
+	public double getAssociatedError()
 	{
 		double error = 0;
 		for(int i = 0; i < size; i++)

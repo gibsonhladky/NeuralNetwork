@@ -12,7 +12,7 @@ public class OutputLinkTest {
 	public void getErrorReturnsNothingFromEmptyList() {
 		OutputLink testLink = new OutputLink();
 		
-		final double error = testLink.getError();
+		final double error = testLink.getAssociatedError();
 		final double expectedError = 0;
 		assertEquals(expectedError, error, DELTA);
 	}
@@ -23,7 +23,7 @@ public class OutputLinkTest {
 		OutputLink testLink = new OutputLink();
 		testLink.addLink(new MockPerceptron(), new Double(1.0));
 		
-		final double error = testLink.getError();
+		final double error = testLink.getAssociatedError();
 		final double expectedError = 0.5;
 		assertEquals(expectedError, error, DELTA);
 	}
@@ -37,7 +37,7 @@ public class OutputLinkTest {
 			testLink.addLink(new MockPerceptron(), new Double(i));
 		}
 		
-		final double error = testLink.getError();
+		final double error = testLink.getAssociatedError();
 		final double expectedError = 1.5;
 		assertEquals(expectedError, error, DELTA);
 	}
