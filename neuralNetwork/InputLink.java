@@ -11,26 +11,26 @@ import java.util.List;
  * the perceptron, and handles the management of 
  * which perceptrons are connected to it.
  */
-public class PerceptronInputLink {
+public class InputLink {
 	
 	private final double LEARNING_RATE = 0.1;
 	
 	private final WeightGenerator weightGen;
 	private ArrayList< Pair<Perceptron, Double> > inputWeightPairs;
 	
-	public PerceptronInputLink()
+	public InputLink()
 	{
 		this(new RandomWeightGenerator());
 	}
 	
-	public PerceptronInputLink(WeightGenerator wg)
+	public InputLink(WeightGenerator wg)
 	{
 		weightGen = wg;
 		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(1);
 		addBias();
 	}
 	
-	public PerceptronInputLink(WeightGenerator wg, ArrayList<Perceptron> inputs)
+	public InputLink(WeightGenerator wg, ArrayList<Perceptron> inputs)
 	{
 		weightGen = wg;
 		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(inputs.size() + 1);

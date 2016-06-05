@@ -6,16 +6,16 @@ import org.junit.Test;
 
 import neuralNetwork.InputPerceptron;
 import neuralNetwork.Perceptron;
-import neuralNetwork.PerceptronInputLink;
+import neuralNetwork.InputLink;
 
-public class PerceptronInputLinkTest {
+public class InputLinkTest {
 	
 	final double DELTA = 0.001;
 
 	@Test
 	public void constructorNoArgsCreatesOnlyRandomBias()
 	{
-		PerceptronInputLink testLink = new PerceptronInputLink();
+		InputLink testLink = new InputLink();
 		final double[] actualInputs = testLink.inputValues();
 		
 		final int expectedLength = 1;
@@ -28,7 +28,7 @@ public class PerceptronInputLinkTest {
 	@Test
 	public void constructorOneArgsCreatesOnlyBiasFromWeightGenerator()
 	{
-		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		InputLink testLink = new InputLink(new MockWeightGenerator());
 		final double[] actualInputs = testLink.inputValues();
 		
 		final int expectedLength = 1;
@@ -46,7 +46,7 @@ public class PerceptronInputLinkTest {
 		inputs.add(new MockPerceptron());
 		inputs.add(new MockPerceptron());
 		
-		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator(), inputs);
+		InputLink testLink = new InputLink(new MockWeightGenerator(), inputs);
 		
 		final double[] actualInputs = testLink.inputValues();
 		
@@ -57,7 +57,7 @@ public class PerceptronInputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputZeroError()
 	{
-		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		InputLink testLink = new InputLink(new MockWeightGenerator());
 		
 		final double[] expectedInputs = testLink.inputValues();
 		testLink.adjustToErrorGivenOutput(0, 1);
@@ -67,7 +67,7 @@ public class PerceptronInputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputZeroOutput()
 	{
-		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		InputLink testLink = new InputLink(new MockWeightGenerator());
 		
 		final double[] expectedInputs = testLink.inputValues();
 		testLink.adjustToErrorGivenOutput(1, 0);
@@ -77,7 +77,7 @@ public class PerceptronInputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputCalculations()
 	{
-		PerceptronInputLink testLink = new PerceptronInputLink(new MockWeightGenerator());
+		InputLink testLink = new InputLink(new MockWeightGenerator());
 		testLink.adjustToErrorGivenOutput(1, 1);
 		
 		final double[] expectedInputs = {1.1};
