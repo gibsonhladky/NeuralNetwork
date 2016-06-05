@@ -56,6 +56,11 @@ public class OutputPerceptron implements Perceptron {
 		expectedOutput = newExpectedOutput;
 	}
 	
+	public void addInput(Perceptron p)
+	{
+		inputLinks.addLinkFrom(p);
+	}
+	
 	private double inputValue()
 	{
 		return inputLinks.inputValue();

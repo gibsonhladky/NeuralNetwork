@@ -62,6 +62,11 @@ public class InputLinks {
 		}
 	}
 	
+	public void addLinkFrom(Perceptron p)
+	{
+		inputWeightPairs.add(new Pair<Perceptron, Double>(p, weightGen.nextWeight()));
+	}
+	
 	private void addAll(List<Perceptron> inputs)
 	{
 		for(Perceptron p : inputs)

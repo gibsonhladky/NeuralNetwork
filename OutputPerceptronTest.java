@@ -12,39 +12,6 @@ public class OutputPerceptronTest {
 	final WeightGenerator mockGen = new MockWeightGenerator();
 	
 	
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void setInputsTooSmall()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testInputs = {1.0};
-		testP.setInputs(testInputs);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void setInputsTooLarge()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testInputs = {1.0, 1.0, 1.0};
-		testP.setInputs(testInputs);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void setWeightsTooSmall()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testWeights = {1.0};
-		testP.setWeights(testWeights);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void setWeightsTooLarge()
-	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testWeights = {1.0, 1.0, 1.0};
-		testP.setWeights(testWeights);
-	}
-	
 	@Test
 	public void correctOutput() 
 	{
