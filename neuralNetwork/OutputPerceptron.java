@@ -8,6 +8,8 @@ public class OutputPerceptron implements Perceptron {
 	private double[] inputs;
 	private double[] weights;
 	
+	private InputLinks inputLinks;
+	
 	private double output;
 	private double expectedOutput;
 	private double error;

@@ -6,16 +6,16 @@ import org.junit.Test;
 
 import neuralNetwork.InputPerceptron;
 import neuralNetwork.Perceptron;
-import neuralNetwork.InputLink;
+import neuralNetwork.InputLinks;
 
-public class InputLinkTest {
+public class InputLinksTest {
 	
 	final double DELTA = 0.001;
 
 	@Test
 	public void constructorNoArgsCreatesOnlyRandomBias()
 	{
-		InputLink testLink = new InputLink();
+		InputLinks testLink = new InputLinks();
 		final double[] actualInputs = testLink.inputValues();
 		
 		final int expectedLength = 1;
@@ -28,7 +28,7 @@ public class InputLinkTest {
 	@Test
 	public void constructorOneArgsCreatesOnlyBiasFromWeightGenerator()
 	{
-		InputLink testLink = new InputLink(new MockWeightGenerator());
+		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		final double[] actualInputs = testLink.inputValues();
 		
 		final int expectedLength = 1;
@@ -46,7 +46,7 @@ public class InputLinkTest {
 		inputs.add(new MockPerceptron());
 		inputs.add(new MockPerceptron());
 		
-		InputLink testLink = new InputLink(new MockWeightGenerator(), inputs);
+		InputLinks testLink = new InputLinks(new MockWeightGenerator(), inputs);
 		
 		final double[] actualInputs = testLink.inputValues();
 		
@@ -57,7 +57,7 @@ public class InputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputZeroError()
 	{
-		InputLink testLink = new InputLink(new MockWeightGenerator());
+		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		
 		final double[] expectedInputs = testLink.inputValues();
 		testLink.adjustToErrorGivenOutput(0, 1);
@@ -67,7 +67,7 @@ public class InputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputZeroOutput()
 	{
-		InputLink testLink = new InputLink(new MockWeightGenerator());
+		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		
 		final double[] expectedInputs = testLink.inputValues();
 		testLink.adjustToErrorGivenOutput(1, 0);
@@ -77,7 +77,7 @@ public class InputLinkTest {
 	@Test
 	public void adjustToErrorGivenOutputCalculations()
 	{
-		InputLink testLink = new InputLink(new MockWeightGenerator());
+		InputLinks testLink = new InputLinks(new MockWeightGenerator());
 		testLink.adjustToErrorGivenOutput(1, 1);
 		
 		final double[] expectedInputs = {1.1};
