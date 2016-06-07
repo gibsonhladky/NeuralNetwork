@@ -14,16 +14,16 @@ public class HiddenPerceptronTest {
 	@Test
 	public void outputDoesNotChangeState()
 	{
-		HiddenPerceptron testP = new HiddenPerceptron(0, null);
+		HiddenPerceptron testP = new HiddenPerceptron(new MockWeightGenerator());
 		final double expectedOutput = testP.output();
 		
 		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 	
 	@Test
-	public void activateCorrectlyCalculatesOutput()
+	public void activateCorrectlyChangesOutput()
 	{
-		HiddenPerceptron testP = new HiddenPerceptron(0, null);
+		HiddenPerceptron testP = new HiddenPerceptron(new MockWeightGenerator());
 		testP.addInputLink(new MockPerceptron());
 		testP.addInputLink(new MockPerceptron());
 		
