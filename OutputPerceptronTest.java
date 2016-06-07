@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.OutputPerceptron;
@@ -11,54 +12,58 @@ public class OutputPerceptronTest {
 	
 	final WeightGenerator mockGen = new MockWeightGenerator();
 	
+	OutputPerceptron testP;
+	
+	@Before
+	public void setup()
+	{
+		testP = new OutputPerceptron(mockGen);
+		testP.addInput(new MockPerceptron());
+		testP.addInput(new MockPerceptron());
+		testP.activate();
+	}
 	
 	@Test
-	public void correctOutput() 
+	public void activateProducesCorrectlySetsOutput() 
 	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		testP.addInput(new MockPerceptron());
-		testP.addInput(new MockPerceptron());
-		
-		testP.activate();
-		
 		final double expectedOutput = 0.8807971;
 		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 	
 	@Test
-	public void correctError()
+	public void calculateErrorCorrectlySetsError()
 	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		testP.addInput(new MockPerceptron());
-		testP.addInput(new MockPerceptron());
-		
-		testP.activate();
-		
 		final double trainingExpectedOutput = 1.0;
 		testP.setExpectedOutput(trainingExpectedOutput);
-		testP.adjustToError();
+		testP.calculateError();
 		
 		final double expectedOutput = 0.119203;
 		assertEquals(expectedOutput, testP.error(), DELTA);
 	}
 	
 	@Test
-	public void correctErrorAdjustment()
+	public void adjustToErrorCorrectlyUpdatesInputs()
 	{
-		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		testP.addInput(new MockPerceptron());
-		testP.addInput(new MockPerceptron());
-		
-		testP.activate();
-		
 		final double trainingExpectedOutput = 1.0;
 		testP.setExpectedOutput(trainingExpectedOutput);
+		testP.calculateError();
 		testP.adjustToError();
-		// weights = 1.010499
 		testP.activate();
 		
 		final double expectedOutput = 0.8829842;
 		assertEquals(expectedOutput, testP.output(), DELTA);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesNullInput()
+	{
+		testP = new OutputPerceptron(null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void addInputHandlesNullInput()
+	{
+		testP.addInput(null);
 	}
 
 }
