@@ -55,10 +55,10 @@ public class HiddenPerceptronTest {
 	@Test
 	public void activateDoesNotChangeError()
 	{
-		final double priorOutput = testP.error();
+		final double priorError = testP.error();
 		testP.activate();
 		
-		assertEquals(priorOutput, testP.error(), DELTA);
+		assertEquals(priorError, testP.error(), DELTA);
 	}
 	
 	@Test
@@ -73,10 +73,10 @@ public class HiddenPerceptronTest {
 	@Test
 	public void adjustToErrorCorrectlyChangesError()
 	{
-		testP.activate();
+		testP.adjustToError();
 		
-		final double expectedOutput = 0.8807971;
-		assertEquals(expectedOutput, testP.output(), DELTA);
+		final double expectedError = 1.0;
+		assertEquals(expectedError, testP.error(), DELTA);
 	}
 	
 }

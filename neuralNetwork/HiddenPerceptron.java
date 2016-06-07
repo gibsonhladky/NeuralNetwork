@@ -15,9 +15,10 @@ public class HiddenPerceptron implements Perceptron
 	public ArrayList<Double> inputWeights;
 	public double bias;
 	
-	public double delta;
+	public double error;
 	
 	private InputLinks inputLinks;
+	private OutputLink outputLinks;
 	
 	
 	public HiddenPerceptron(WeightGenerator wg)
@@ -45,7 +46,9 @@ public class HiddenPerceptron implements Perceptron
 		}
 		this.outputs = null;
 		
+		
 		inputLinks = new InputLinks(wg);
+		outputLinks = new OutputLink();
 	}
 
 	/*
@@ -64,12 +67,13 @@ public class HiddenPerceptron implements Perceptron
 	@Override
 	public void adjustToError()
 	{
-		bias = bias - LEARNING_RATE * delta * output;
+		
+		bias = bias - LEARNING_RATE * error * output;
 		
 		for(int i = 0; i < inputWeights.size(); i++)
 		{
 			double weight = inputWeights.get(i);
-			inputWeights.set(i, weight - LEARNING_RATE * delta * output);
+			inputWeights.set(i, weight - LEARNING_RATE * error * output);
 		}
 	}
 
@@ -81,7 +85,7 @@ public class HiddenPerceptron implements Perceptron
 	@Override
 	public double error() 
 	{
-		return 0;
+		return error;
 	}
 	
 	public void addInputLink(Perceptron p)
@@ -91,6 +95,6 @@ public class HiddenPerceptron implements Perceptron
 	
 	public void addOutputLink(Perceptron p)
 	{
-		
+		outputLinks.addLink(p, 1.0);
 	}
 }
