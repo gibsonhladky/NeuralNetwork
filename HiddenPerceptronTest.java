@@ -79,6 +79,7 @@ public class HiddenPerceptronTest {
 	@Test
 	public void adjustToErrorCorrectlyUpdatesInputs()
 	{
+		testP.activate();
 		testP.adjustToError();
 		testP.activate();
 		
