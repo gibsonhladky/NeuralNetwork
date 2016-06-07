@@ -73,10 +73,7 @@ public class OutputPerceptron implements Perceptron {
 	
 	private void adjustWeightsBy(final double error)
 	{
-		for(int i = 0; i < inputSize; i++)
-		{
-			weights[i] += LEARNING_RATE * error * output;
-		}
+		inputLinks.adjustToErrorGivenOutput(error, this.output);
 	}
 
 }

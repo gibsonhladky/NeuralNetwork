@@ -55,8 +55,9 @@ public class InputLinks {
 	
 	public void adjustToErrorGivenOutput(double error, double output)
 	{
-		for(Pair<Perceptron, Double> pair : inputWeightPairs)
+		for(int i = 0; i < inputWeightPairs.size(); i++)
 		{
+			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
 			double weight = pair.getRight();
 			pair.setRight(weight + LEARNING_RATE * error * output);
 		}

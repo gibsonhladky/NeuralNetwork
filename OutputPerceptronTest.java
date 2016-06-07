@@ -54,6 +54,7 @@ public class OutputPerceptronTest {
 		final double trainingExpectedOutput = 1.0;
 		testP.setExpectedOutput(trainingExpectedOutput);
 		testP.adjustToError();
+		// weights = 1.010499
 		testP.activate();
 		
 		final double expectedOutput = 0.8829842;
