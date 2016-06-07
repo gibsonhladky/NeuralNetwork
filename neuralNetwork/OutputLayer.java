@@ -1,7 +1,5 @@
 package neuralNetwork;
 
-import java.util.ArrayList;
-
 public class OutputLayer implements NetworkLayer {
 
 	/*
@@ -9,7 +7,25 @@ public class OutputLayer implements NetworkLayer {
 	 * These perceptrons will specifically handle unique
 	 * calculations and feeding the output to the neural network.
 	 */
-	ArrayList<OutputPerceptron> perceptrons;
+	OutputPerceptron[] perceptrons;
+	
+	public OutputLayer(int size, WeightGenerator wg)
+	{
+		if(size < 1)
+		{
+			throw new IllegalArgumentException("OutputLayer must have positive size.");
+		}
+		if(wg == null)
+		{
+			throw new IllegalArgumentException("Cannot have a null weight generator.");
+		}
+		
+		perceptrons = new OutputPerceptron[size];
+		for(int i = 0; i < size; i++)
+		{
+			perceptrons[i] = new OutputPerceptron(wg);
+		}
+	}
 	
 	/*
 	 * Stores the expected output values for 
@@ -25,8 +41,8 @@ public class OutputLayer implements NetworkLayer {
 	}
 
 	@Override
-	public void backPropagateError() {
-		for(OutputPerceptron p : perceptrons)
+	public void calculateError() {
+		for(Perceptron p : perceptrons)
 		{
 			p.calculateError();
 		}
@@ -35,7 +51,7 @@ public class OutputLayer implements NetworkLayer {
 	@Override
 	public void adjustToError()
 	{
-		for(OutputPerceptron p : perceptrons)
+		for(Perceptron p : perceptrons)
 		{
 			p.adjustToError();
 		}
@@ -43,7 +59,10 @@ public class OutputLayer implements NetworkLayer {
 	
 	public void setExpectedOutputs(double[] outputs)
 	{
-		expectedOutputs = outputs;
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			perceptrons[i].setExpectedOutput(outputs[i]);
+		}
 	}
 	
 	/*
@@ -52,6 +71,11 @@ public class OutputLayer implements NetworkLayer {
 	public double[] getOutputs()
 	{
 		return null;
+	}
+	
+	protected Perceptron[] perceptrons()
+	{
+		
 	}
 
 }

@@ -3,11 +3,15 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-   HiddenPerceptronTest.class,
    NeuralNetworkTests.class,
+   
    InputLayerTest.class,
+   OutputLayerTest.class,
+   
    InputPerceptronTest.class,
+   HiddenPerceptronTest.class,
    OutputPerceptronTest.class,
+   
    InputLinksTest.class,
    OutputLinkTest.class,
    

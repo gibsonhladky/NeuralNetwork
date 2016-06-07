@@ -46,7 +46,7 @@ public class InputLayer implements NetworkLayer{
 	/*
 	 * The input layer does not have to handle errors.
 	 */
-	public void backPropagateError(){}
+	public void calculateError(){}
 	
 	/*
 	 * The input layer does not have to handle errors.
