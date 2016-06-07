@@ -28,7 +28,7 @@ public class OutputPerceptron implements Perceptron {
 	public void adjustToError() 
 	{
 		error = calculateError();
-		adjustWeightsBy(error);
+		inputLinks.adjustToErrorGivenOutput(error, output);
 	}
 
 	@Override
@@ -61,11 +61,6 @@ public class OutputPerceptron implements Perceptron {
 	private double calculateError()
 	{
 		return expectedOutput - output;
-	}
-	
-	private void adjustWeightsBy(final double error)
-	{
-		inputLinks.adjustToErrorGivenOutput(error, this.output);
 	}
 
 }
