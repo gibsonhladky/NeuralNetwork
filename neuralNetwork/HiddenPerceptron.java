@@ -47,19 +47,6 @@ public class HiddenPerceptron implements Perceptron
 		}
 		this.outputs = null;
 	}
-	
-	public void activate(double[] inputs)
-	{
-		if(!inputLayer)
-		{
-			throw new IllegalStateException("Non input layer perceptron called input-only activate method.");
-		}
-		if(index > inputs.length)
-		{
-			throw new IllegalArgumentException("Activate called from perceptron outside input size.");
-		}
-		activationValue = logisticalFunction(bias + inputs[index]);
-	}
 
 	/*
 	 * Calculates a new activation value based on inputs and weights.
@@ -94,42 +81,6 @@ public class HiddenPerceptron implements Perceptron
 			sum += inputs.get(i).activationValue * inputWeights.get(i);
 		}
 		return sum;
-	}
-	
-	/*
-	 * Calculates the delta value for the output layer perceptron given the expected output value.
-	 */
-	public void calculateDeltas(double[] expectedOutputs)
-	{
-		if(outputs != null)
-		{
-			throw new IllegalStateException("Output layer calculate deltas called from non-output layer perceptron.");
-		}
-		if(expectedOutputs.length < index)
-		{
-			throw new IllegalArgumentException("Output layer calculate deltas called from perceptron with index outside expected outputs length");
-		}
-		delta = -2 * (expectedOutputs[index] - activationValue)*(activationValue)*(1 - activationValue);
-	}
-	
-	/*
-	 * Calculates the delta value for a non-output layer perceptron
-	 */
-	public void calculateDeltas()
-	{
-		if(outputs == null)
-		{
-			throw new IllegalStateException("Non-output layer calculate deltas called from output layer perceptron.");
-		}
-		
-		double outputDeltaSum = 0;
-		
-		for(int i = 0; i < outputs.size(); i++)
-		{
-			HiddenPerceptron outputi = outputs.get(i);
-			outputDeltaSum += outputi.delta * outputi.inputWeights.get(index);
-		}
-		delta = outputDeltaSum * activationValue * (1 - activationValue);
 	}
 	
 	/*
