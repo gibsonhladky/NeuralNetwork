@@ -1,12 +1,6 @@
 package neuralNetwork;
 
 public class OutputPerceptron implements Perceptron {
-
-	private final int inputSize;
-	private final double LEARNING_RATE = 0.10;
-	
-	private double[] inputs;
-	private double[] weights;
 	
 	private InputLinks inputLinks;
 	
@@ -22,8 +16,6 @@ public class OutputPerceptron implements Perceptron {
 	public OutputPerceptron(WeightGenerator wg) 
 	{
 		inputLinks = new InputLinks(wg);
-		
-		inputSize = 0;
 	}
 
 	@Override
