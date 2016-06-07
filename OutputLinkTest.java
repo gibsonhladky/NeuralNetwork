@@ -10,7 +10,7 @@ public class OutputLinkTest {
 	
 	@Test
 	public void getAssociatedErrorNoLinks() {
-		OutputLink testLink = new OutputLink();
+		OutputLink testLink = new OutputLink(new MockWeightGenerator());
 		
 		final double error = testLink.getAssociatedError();
 		final double expectedError = 0;
@@ -20,8 +20,8 @@ public class OutputLinkTest {
 	@Test
 	public void getAssociatedErrorSingleLink()
 	{
-		OutputLink testLink = new OutputLink();
-		testLink.addLink(new MockPerceptron(), new Double(1.0));
+		OutputLink testLink = new OutputLink(new MockWeightGenerator());
+		testLink.addLink(new MockPerceptron());
 		
 		final double error = testLink.getAssociatedError();
 		final double expectedError = 0.5;
@@ -31,10 +31,10 @@ public class OutputLinkTest {
 	@Test
 	public void getAssociatedErrorMultipleLink()
 	{
-		OutputLink testLink = new OutputLink();
+		OutputLink testLink = new OutputLink(new MockWeightGenerator());
 		for(int i = 0; i < 3; i++)
 		{
-			testLink.addLink(new MockPerceptron(), new Double(i));
+			testLink.addLink(new MockPerceptron());
 		}
 		
 		final double error = testLink.getAssociatedError();

@@ -255,7 +255,7 @@ public class NeuralNetwork
 		
 		for(int i = 0; i < outputLayer.size(); i++)
 		{
-			outputs[i] = outputLayer.get(i).activationValue;
+			outputs[i] = outputLayer.get(i).output;
 		}
 		
 		return outputs;
