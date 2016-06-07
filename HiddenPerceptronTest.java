@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class PerceptronTest {
+import neuralNetwork.HiddenPerceptron;
+import neuralNetwork.Perceptron;
+
+public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
 	
@@ -12,7 +15,7 @@ public class PerceptronTest {
 	public void constructorNullInputs()
 	{
 		int testIndex = 0;
-		Perceptron testP = new Perceptron(testIndex, null);
+		HiddenPerceptron testP = new HiddenPerceptron(testIndex, null);
 		
 		assertEquals(testIndex, testP.index);
 		assertTrue(testP.bias <= 1.0 && testP.bias >= -1.0);
@@ -23,10 +26,10 @@ public class PerceptronTest {
 	public void constructorNonNullInputs()
 	{
 		int testIndex = 0;
-		ArrayList<Perceptron> inputs = new ArrayList<Perceptron>(1);
-		inputs.add(new Perceptron(0, null));
+		ArrayList<HiddenPerceptron> inputs = new ArrayList<HiddenPerceptron>(1);
+		inputs.add(new HiddenPerceptron(0, null));
 		
-		Perceptron testP = new Perceptron(testIndex, inputs);
+		HiddenPerceptron testP = new HiddenPerceptron(testIndex, inputs);
 		
 		assertEquals(testIndex, testP.index);
 		assertTrue(testP.bias <= 1.0 && testP.bias >= -1.0);
@@ -38,7 +41,7 @@ public class PerceptronTest {
 	{
 		int invalidIndex = -1;
 		@SuppressWarnings("unused")
-		Perceptron testP = new Perceptron(invalidIndex, null);
+		Perceptron testP = new HiddenPerceptron(invalidIndex, null);
 	}
 	
 	
@@ -46,7 +49,7 @@ public class PerceptronTest {
 	public void activateInputLayerCalculation()
 	{
 		double[] inputs = {1.0};
-		Perceptron p = new Perceptron(0, null);
+		HiddenPerceptron p = new HiddenPerceptron(0, null);
 		p.bias = -1;
 		
 		p.activate(inputs);
@@ -58,7 +61,7 @@ public class PerceptronTest {
 	public void activateInputLayerTooSmallInputs()
 	{
 		double[] inputs = {1.0};
-		Perceptron p = new Perceptron(10, null);
+		HiddenPerceptron p = new HiddenPerceptron(10, null);
 		
 		p.activate(inputs);
 	}
@@ -66,12 +69,12 @@ public class PerceptronTest {
 	@Test (expected = IllegalStateException.class)
 	public void activateHiddenLayerCallingInputLayerMethod()
 	{
-		Perceptron inputP = new Perceptron(0, null);
-		ArrayList<Perceptron> inputLayer = new ArrayList<Perceptron>(1);
+		HiddenPerceptron inputP = new HiddenPerceptron(0, null);
+		ArrayList<HiddenPerceptron> inputLayer = new ArrayList<HiddenPerceptron>(1);
 		
 		inputLayer.add(inputP);
 		
-		Perceptron testP = new Perceptron(0, inputLayer);
+		HiddenPerceptron testP = new HiddenPerceptron(0, inputLayer);
 		
 		double[] inputs = {1.0};
 		testP.activate(inputs);
@@ -80,16 +83,16 @@ public class PerceptronTest {
 	@Test
 	public void activateHiddenLayerCalculation()
 	{
-		Perceptron inputPerceptron1 = new Perceptron(0, null);
+		HiddenPerceptron inputPerceptron1 = new HiddenPerceptron(0, null);
 		inputPerceptron1.activationValue = -0.5;
-		Perceptron inputPerceptron2 = new Perceptron(1, null);
+		HiddenPerceptron inputPerceptron2 = new HiddenPerceptron(1, null);
 		inputPerceptron2.activationValue = 0.5;
 		
-		ArrayList<Perceptron> inputLayer = new ArrayList<Perceptron>(2);
+		ArrayList<HiddenPerceptron> inputLayer = new ArrayList<HiddenPerceptron>(2);
 		inputLayer.add(inputPerceptron1);
 		inputLayer.add(inputPerceptron2);
 		
-		Perceptron testPerceptron = new Perceptron(0, inputLayer);
+		HiddenPerceptron testPerceptron = new HiddenPerceptron(0, inputLayer);
 		testPerceptron.bias = 0.0;
 		testPerceptron.inputWeights.set(0, 1.0);
 		testPerceptron.inputWeights.set(1, 1.0);
@@ -102,7 +105,7 @@ public class PerceptronTest {
 	@Test (expected = IllegalStateException.class)
 	public void activateInputLayerCallingHiddenLayerMethod()
 	{
-		Perceptron testP = new Perceptron(0, null);
+		Perceptron testP = new HiddenPerceptron(0, null);
 		
 		testP.activate();
 	}
@@ -110,7 +113,7 @@ public class PerceptronTest {
 	@Test
 	public void calculateDeltasOutputLayerCalculation()
 	{
-		Perceptron testP = new Perceptron(0, null);
+		HiddenPerceptron testP = new HiddenPerceptron(0, null);
 		testP.activationValue = 0.5;
 		double[] expectedOutputs = {1.0};
 		testP.calculateDeltas(expectedOutputs);
@@ -121,7 +124,7 @@ public class PerceptronTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void calculateDeltasOutputLayerIndexOutOfBounds()
 	{
-		Perceptron testP = new Perceptron(10, null);
+		HiddenPerceptron testP = new HiddenPerceptron(10, null);
 		double[] expectedOutputs = {1.0};
 		
 		testP.calculateDeltas(expectedOutputs);
@@ -130,11 +133,11 @@ public class PerceptronTest {
 	@Test (expected = IllegalStateException.class)
 	public void calculateDeltasOutputLayerCalledFromNonOutputLayer()
 	{
-		Perceptron outputP = new Perceptron(0, null);
-		ArrayList<Perceptron> outputs = new ArrayList<Perceptron>(1);
+		HiddenPerceptron outputP = new HiddenPerceptron(0, null);
+		ArrayList<HiddenPerceptron> outputs = new ArrayList<HiddenPerceptron>(1);
 		outputs.add(outputP);
 		
-		Perceptron testP = new Perceptron(0, null);
+		HiddenPerceptron testP = new HiddenPerceptron(0, null);
 		testP.outputs = outputs;
 		
 		double[] expectedOutputs = {1.0};
@@ -145,18 +148,18 @@ public class PerceptronTest {
 	@Test
 	public void calculateDeltasInnerLayerCalculation()
 	{
-		Perceptron testP = new Perceptron(0, null);
+		HiddenPerceptron testP = new HiddenPerceptron(0, null);
 		testP.activationValue = 0.5;
-		ArrayList<Perceptron> inputs = new ArrayList<Perceptron>(1);
+		ArrayList<HiddenPerceptron> inputs = new ArrayList<HiddenPerceptron>(1);
 		inputs.add(testP);
 		
-		Perceptron outputP1 = new Perceptron(0, inputs);
+		HiddenPerceptron outputP1 = new HiddenPerceptron(0, inputs);
 		outputP1.delta = 0.1;
 		outputP1.inputWeights.set(0, 1.0);
-		Perceptron outputP2 = new Perceptron(1, inputs);
+		HiddenPerceptron outputP2 = new HiddenPerceptron(1, inputs);
 		outputP2.delta = -0.1;
 		outputP2.inputWeights.set(0, 0.5);
-		ArrayList<Perceptron> outputs = new ArrayList<Perceptron>(2);
+		ArrayList<HiddenPerceptron> outputs = new ArrayList<HiddenPerceptron>(2);
 		outputs.add(outputP1);
 		outputs.add(outputP2);
 		
@@ -168,28 +171,21 @@ public class PerceptronTest {
 		
 	}
 	
-	@Test (expected = IllegalStateException.class)
-	public void calculateDeltasInnerLayerCalledFromOutputLayer()
-	{
-		Perceptron testP = new Perceptron(0, null);
-		testP.calculateDeltas();
-	}
-	
 	@Test
 	public void updateWeightsCalculation()
 	{
-		Perceptron inputP = new Perceptron(0, null);
-		ArrayList<Perceptron> inputs = new ArrayList<Perceptron>(1);
+		HiddenPerceptron inputP = new HiddenPerceptron(0, null);
+		ArrayList<HiddenPerceptron> inputs = new ArrayList<HiddenPerceptron>(1);
 		inputs.add(inputP);
 		
-		Perceptron testP = new Perceptron(0, inputs);
+		HiddenPerceptron testP = new HiddenPerceptron(0, inputs);
 		
 		testP.delta = -0.1;
 		testP.activationValue = 0.5;
 		testP.inputWeights.set(0, 0.5);
 		testP.bias = 0.1;
 		
-		testP.updateWeights();
+		testP.adjustToError();
 		
 		assertEquals(0.105, testP.bias, DELTA);
 		assertEquals(0.505, testP.inputWeights.get(0), DELTA);

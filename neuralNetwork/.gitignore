@@ -1,0 +1,17 @@
+/NetworkLayer.class
+/NeuralNetwork.class
+/Perceptron.class
+/WeightGenerator.class
+/RandomWeightGenerator.class
+/InputLayer.class
+/InputPerceptron.class
+/OutputLayer.class
+/OutputPerceptron.class
+/HiddenPerceptron.class
+/PerceptronInputLink.class
+/BiasPerceptron.class
+/Pair.class
+/InputLink.class
+/OutputLink.class
+/InputLinks.class
+/Link.class

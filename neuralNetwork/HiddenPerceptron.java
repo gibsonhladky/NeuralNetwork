@@ -1,14 +1,15 @@
+package neuralNetwork;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Perceptron
+public class HiddenPerceptron implements Perceptron
 {	
 	public static final double LEARNING_RATE = 0.1;
 	public static final WeightGenerator weightGenerator = new RandomWeightGenerator();
 	
 	public int index; // current perceptron's index with it's layer
-	public ArrayList<Perceptron> outputs; // next layer of perceptrons
-	public ArrayList<Perceptron> inputs; // previous layer of perceptrons
+	public ArrayList<HiddenPerceptron> outputs; // next layer of perceptrons
+	public ArrayList<HiddenPerceptron> inputs; // previous layer of perceptrons
 	
 	public boolean inputLayer;
 	public double activationValue;
@@ -18,7 +19,7 @@ public class Perceptron
 	public double delta;
 	
 	
-	public Perceptron(int index, ArrayList<Perceptron> inputs)
+	public HiddenPerceptron(int index, ArrayList<HiddenPerceptron> inputs)
 	{
 		if(index < 0)
 		{
@@ -64,6 +65,10 @@ public class Perceptron
 	 * Calculates a new activation value based on inputs and weights.
 	 * Does nothing for input layer perceptrons
 	 */
+	/* (non-Javadoc)
+	 * @see neuralNetwork.Perceptron#activate()
+	 */
+	@Override
 	public void activate()
 	{
 		if(inputLayer)
@@ -121,7 +126,7 @@ public class Perceptron
 		
 		for(int i = 0; i < outputs.size(); i++)
 		{
-			Perceptron outputi = outputs.get(i);
+			HiddenPerceptron outputi = outputs.get(i);
 			outputDeltaSum += outputi.delta * outputi.inputWeights.get(index);
 		}
 		delta = outputDeltaSum * activationValue * (1 - activationValue);
@@ -130,7 +135,11 @@ public class Perceptron
 	/*
 	 * Update the weights the perceptron with the current delta values.
 	 */
-	public void updateWeights()
+	/* (non-Javadoc)
+	 * @see neuralNetwork.Perceptron#updateWeights()
+	 */
+	@Override
+	public void adjustToError()
 	{
 		bias = bias - LEARNING_RATE * delta * activationValue;
 		
@@ -145,5 +154,17 @@ public class Perceptron
 	private static double logisticalFunction(double x)
 	{
 		return 1 / (1 + Math.pow(Math.E, -x));
+	}
+
+	@Override
+	public double output() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double error() 
+	{
+		return 0;
 	}
 }

@@ -1,3 +1,4 @@
+package neuralNetwork;
 
 /*
  * WeightGenerator is responsible for creating the weights
