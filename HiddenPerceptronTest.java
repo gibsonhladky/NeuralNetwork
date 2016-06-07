@@ -11,5 +11,32 @@ public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
 	
+	@Test
+	public void outputDoesNotChangeState()
+	{
+		HiddenPerceptron testP = new HiddenPerceptron(0, null);
+		final double expectedOutput = testP.output();
+		
+		assertEquals(expectedOutput, testP.output(), DELTA);
+	}
+	
+	@Test
+	public void activateCorrectlyCalculatesOutput()
+	{
+		HiddenPerceptron testP = new HiddenPerceptron(0, null);
+		testP.addInputLink(new MockPerceptron());
+		testP.addInputLink(new MockPerceptron());
+		
+		testP.activate();
+		
+		final double expectedOutput = 0.8807971;
+		assertEquals(expectedOutput, testP.output(), DELTA);
+	}
+	
+	@Test
+	public void activateChangesOutput()
+	{
+		
+	}
 	
 }
