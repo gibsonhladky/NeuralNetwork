@@ -69,9 +69,9 @@ public class InputLinksTest {
 	public void adjustToErrorGivenOutputCalculations()
 	{
 		InputLinks testLink = new InputLinks(new MockWeightGenerator());
-		testLink.adjustToErrorGivenOutput(1, 1);
+		testLink.adjustToErrorGivenOutput(0.5, 0.5);
 		
-		final double expectedInputValue = 1.1;
+		final double expectedInputValue = 1.025;
 		assertEquals(expectedInputValue, testLink.inputValue(), DELTA);
 	}
 

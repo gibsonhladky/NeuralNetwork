@@ -1,5 +1,11 @@
 package neuralNetwork;
 
+/*
+ * HiddenPerceptron is an implementation of Perceptron
+ * that deals with absolutely no strict input or output.
+ * The HiddenPerceptron provides output based on its inputs
+ * and updates based on its outputs.
+ */
 public class HiddenPerceptron implements Perceptron
 {
 	private double output;
@@ -20,8 +26,8 @@ public class HiddenPerceptron implements Perceptron
 	}
 
 	/*
-	 * Calculates a new activation value based on inputs and weights.
-	 * Does nothing for input layer perceptrons
+	 * Converts the inputs of the Hidden Perceptron to an
+	 * output value.
 	 */
 	@Override
 	public void activate()
@@ -33,6 +39,7 @@ public class HiddenPerceptron implements Perceptron
 	public void adjustToError()
 	{
 		error = outputLinks.getAssociatedError();
+		inputLinks.adjustToErrorGivenOutput(error, output);
 	}
 
 	@Override

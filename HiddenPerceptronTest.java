@@ -76,6 +76,16 @@ public class HiddenPerceptronTest {
 		assertEquals(expectedError, testP.error(), DELTA);
 	}
 	
+	@Test
+	public void adjustToErrorCorrectlyUpdatesInputs()
+	{
+		testP.adjustToError();
+		testP.activate();
+		
+		final double expectedOutput = 0.8980880967;
+		assertEquals(expectedOutput, testP.output(), DELTA);
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void constructorHandlesNullInput()
 	{
