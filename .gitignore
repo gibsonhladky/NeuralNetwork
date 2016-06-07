@@ -16,3 +16,7 @@
 /InputLinkTest.class
 /OutputLinkTest.class
 /InputLinksTest.class
+
+MockLayer.class
+
+OutputLayerTest.class
