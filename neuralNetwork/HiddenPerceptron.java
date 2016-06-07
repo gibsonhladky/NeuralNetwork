@@ -118,4 +118,14 @@ public class HiddenPerceptron implements Perceptron
 	{
 		return 0;
 	}
+	
+	public void addInputLink(Perceptron p)
+	{
+		
+	}
+	
+	public void addOutputLink(Perceptron p)
+	{
+		
+	}
 }
