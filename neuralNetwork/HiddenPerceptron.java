@@ -1,12 +1,9 @@
 package neuralNetwork;
 
 public class HiddenPerceptron implements Perceptron
-{	
-	public static final double LEARNING_RATE = 0.1;
-	
-	public double output;
-	
-	public double error;
+{
+	private double output;
+	private double error;
 	
 	private InputLinks inputLinks;
 	private OutputLink outputLinks;
