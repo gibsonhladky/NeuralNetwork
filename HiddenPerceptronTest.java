@@ -1,18 +1,15 @@
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.HiddenPerceptron;
-import neuralNetwork.Perceptron;
 
 public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
 	
-	HiddenPerceptron testP;
+	private HiddenPerceptron testP;
 	
 	@Before
 	public void setup()
@@ -27,10 +24,10 @@ public class HiddenPerceptronTest {
 	@Test
 	public void outputAndErrorDoNotChangeState()
 	{
-		final double expectedOutput = testP.output();
+		final double priorOutput = testP.output();
 		final double expectedError = testP.error();
 		
-		assertEquals(expectedOutput, testP.output(), DELTA);
+		assertEquals(priorOutput, testP.output(), DELTA);
 		assertEquals(expectedError, testP.error(), DELTA);
 	}
 	
@@ -44,7 +41,7 @@ public class HiddenPerceptronTest {
 	}
 	
 	@Test
-	public void activateChangesOutputOnNewInputs()
+	public void activateChangesOutputOnlyOnNewInputs()
 	{
 		final double priorOutput = testP.output();
 		testP.activate();
@@ -77,6 +74,24 @@ public class HiddenPerceptronTest {
 		
 		final double expectedError = 1.0;
 		assertEquals(expectedError, testP.error(), DELTA);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesNullInput()
+	{
+		testP = new HiddenPerceptron(null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void addInputLinkHandlesNullInput()
+	{
+		testP.addInputLink(null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void addOutputLinkHandlesNullInput()
+	{
+		testP.addOutputLink(null);
 	}
 	
 }

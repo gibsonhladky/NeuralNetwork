@@ -11,6 +11,10 @@ public class HiddenPerceptron implements Perceptron
 	
 	public HiddenPerceptron(WeightGenerator wg)
 	{
+		if(wg == null)
+		{
+			throw new IllegalArgumentException("Cannot have a null weight generator.");
+		}
 		inputLinks = new InputLinks(wg);
 		outputLinks = new OutputLink(wg);
 	}
@@ -25,9 +29,6 @@ public class HiddenPerceptron implements Perceptron
 		output = Perceptron.activationFunction(inputLinks.inputValue());
 	}
 	
-	/*
-	 * Update the weights the perceptron with the current delta values.
-	 */
 	@Override
 	public void adjustToError()
 	{
@@ -47,11 +48,19 @@ public class HiddenPerceptron implements Perceptron
 	
 	public void addInputLink(Perceptron p)
 	{
+		if(p == null)
+		{
+			throw new IllegalArgumentException("Cannot add input from a null.");
+		}
 		inputLinks.addLinkFrom(p);
 	}
 	
 	public void addOutputLink(Perceptron p)
 	{
+		if(p == null)
+		{
+			throw new IllegalArgumentException("Cannot add output to a null.");
+		}
 		outputLinks.addLink(p);
 	}
 }
