@@ -16,15 +16,12 @@ public class OutputPerceptronTest {
 	public void correctOutput() 
 	{
 		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testInputs = {0.5, 0.5};
-		double[] testWeights = {1.0, -1.0};
-		
-		testP.setInputs(testInputs);
-		testP.setWeights(testWeights);
+		testP.addInput(new MockPerceptron());
+		testP.addInput(new MockPerceptron());
 		
 		testP.activate();
 		
-		final double expectedOutput = 0.5;
+		final double expectedOutput = 0.8807971;
 		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 	
@@ -32,11 +29,8 @@ public class OutputPerceptronTest {
 	public void correctError()
 	{
 		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testInputs = {0.5, 0.5};
-		double[] testWeights = {1.0, -1.0};
-		
-		testP.setInputs(testInputs);
-		testP.setWeights(testWeights);
+		testP.addInput(new MockPerceptron());
+		testP.addInput(new MockPerceptron());
 		
 		testP.activate();
 		
@@ -44,7 +38,7 @@ public class OutputPerceptronTest {
 		testP.setExpectedOutput(trainingExpectedOutput);
 		testP.adjustToError();
 		
-		final double expectedOutput = 0.5;
+		final double expectedOutput = 0.119203;
 		assertEquals(expectedOutput, testP.error(), DELTA);
 	}
 	
@@ -52,11 +46,8 @@ public class OutputPerceptronTest {
 	public void correctErrorAdjustment()
 	{
 		OutputPerceptron testP = new OutputPerceptron(mockGen);
-		double[] testInputs = {0.5, 0.5};
-		double[] testWeights = {1.0, -1.0};
-		
-		testP.setInputs(testInputs);
-		testP.setWeights(testWeights);
+		testP.addInput(new MockPerceptron());
+		testP.addInput(new MockPerceptron());
 		
 		testP.activate();
 		
@@ -65,7 +56,7 @@ public class OutputPerceptronTest {
 		testP.adjustToError();
 		testP.activate();
 		
-		final double expectedOutput = 0.506250;
+		final double expectedOutput = 0.8829842;
 		assertEquals(expectedOutput, testP.output(), DELTA);
 	}
 
