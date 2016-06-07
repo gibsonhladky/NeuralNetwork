@@ -7,6 +7,12 @@ public interface Perceptron {
 	 * Does nothing for input layer perceptrons
 	 */
 	public void activate();
+	
+	/*
+	 * Calculates the error of the perceptron
+	 * based on the output.
+	 */
+	public void calculateError();
 
 	/*
 	 * Update the weights of the perceptron 

@@ -31,4 +31,10 @@ public class MockPerceptron implements Perceptron {
 		return 0.5;
 	}
 
+	@Override
+	public void calculateError() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

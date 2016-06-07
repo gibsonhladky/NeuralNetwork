@@ -41,4 +41,9 @@ public class InputPerceptron implements Perceptron {
 		this.input = input;
 	}
 
+	@Override
+	public void calculateError() {
+		// do nothing
+	}
+
 }
