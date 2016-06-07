@@ -4,12 +4,10 @@ public class BiasPerceptron implements Perceptron {
 
 	@Override
 	public void activate() {
-		
 	}
 
 	@Override
 	public void adjustToError() {
-		
 	}
 
 	@Override
@@ -20,6 +18,10 @@ public class BiasPerceptron implements Perceptron {
 	@Override
 	public double error() {
 		return 0;
+	}
+
+	@Override
+	public void calculateError() {
 	}
 
 }

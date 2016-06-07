@@ -15,7 +15,7 @@ interface NetworkLayer {
 	 * in this layer, preparing the next layer to call
 	 * this method.
 	 */
-	public void feedForwardActivation();
+	public void activate();
 	
 	/*
 	 * Calculates and sets the error of each perceptron
@@ -23,5 +23,11 @@ interface NetworkLayer {
 	 * call this method.
 	 */
 	public void backPropagateError();
+	
+	/*
+	 * Adjusts the perceptron inputs to take a small
+	 * step towards a better value.
+	 */
+	public void adjustToError();
 	
 }

@@ -35,7 +35,7 @@ public class InputLayer implements NetworkLayer{
 	 * Activates the perceptrons in the input layer
 	 * according to the inputs currently specified.
 	 */
-	public void feedForwardActivation()
+	public void activate()
 	{
 		for(InputPerceptron p : perceptrons)
 		{
