@@ -36,9 +36,14 @@ public class HiddenPerceptron implements Perceptron
 	}
 	
 	@Override
-	public void adjustToError()
+	public void calculateError()
 	{
 		error = outputLinks.getAssociatedError();
+	}
+	
+	@Override
+	public void adjustToError()
+	{
 		inputLinks.adjustToErrorGivenOutput(error, output);
 	}
 
