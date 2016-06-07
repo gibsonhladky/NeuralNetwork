@@ -10,12 +10,14 @@ import java.util.ArrayList;
  */
 public class OutputLink {
 
+	private WeightGenerator weightGen;
 	private ArrayList<Perceptron> outputs;
 	private ArrayList<Double> weights;
 	private int size;
 	
-	public OutputLink()
+	public OutputLink(WeightGenerator wg)
 	{
+		weightGen = wg;
 		outputs = new ArrayList<Perceptron>();
 		weights = new ArrayList<Double>();
 		size = 0;
@@ -37,10 +39,10 @@ public class OutputLink {
 	/*
 	 * Introduces a new link to the OutputLink.
 	 */
-	public void addLink(Perceptron newOutput, Double weight)
+	public void addLink(Perceptron newOutput)
 	{
 		outputs.add(newOutput);
-		weights.add(weight);
+		weights.add(weightGen.nextWeight());
 		size++;
 	}
 	

@@ -48,7 +48,7 @@ public class HiddenPerceptron implements Perceptron
 		
 		
 		inputLinks = new InputLinks(wg);
-		outputLinks = new OutputLink();
+		outputLinks = new OutputLink(wg);
 	}
 
 	/*
@@ -95,6 +95,6 @@ public class HiddenPerceptron implements Perceptron
 	
 	public void addOutputLink(Perceptron p)
 	{
-		outputLinks.addLink(p, 1.0);
+		outputLinks.addLink(p);
 	}
 }
