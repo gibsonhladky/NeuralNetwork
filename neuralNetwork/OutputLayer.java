@@ -17,7 +17,7 @@ public class OutputLayer implements NetworkLayer {
 	double[] expectedOutputs;
 	
 	@Override
-	public void feedForwardActivation() {
+	public void activate() {
 		for(Perceptron p : perceptrons)
 		{
 			p.activate();
@@ -26,6 +26,15 @@ public class OutputLayer implements NetworkLayer {
 
 	@Override
 	public void backPropagateError() {
+		for(OutputPerceptron p : perceptrons)
+		{
+			p.calculateError();
+		}
+	}
+
+	@Override
+	public void adjustToError()
+	{
 		for(OutputPerceptron p : perceptrons)
 		{
 			p.adjustToError();
