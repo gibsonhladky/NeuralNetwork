@@ -11,26 +11,26 @@ import java.util.List;
  * the perceptron, and handles the management of 
  * which perceptrons are connected to it.
  */
-public class InputLink {
+public class InputLinks {
 	
 	private final double LEARNING_RATE = 0.1;
 	
 	private final WeightGenerator weightGen;
 	private ArrayList< Pair<Perceptron, Double> > inputWeightPairs;
 	
-	public InputLink()
+	public InputLinks()
 	{
 		this(new RandomWeightGenerator());
 	}
 	
-	public InputLink(WeightGenerator wg)
+	public InputLinks(WeightGenerator wg)
 	{
 		weightGen = wg;
 		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(1);
 		addBias();
 	}
 	
-	public InputLink(WeightGenerator wg, ArrayList<Perceptron> inputs)
+	public InputLinks(WeightGenerator wg, ArrayList<Perceptron> inputs)
 	{
 		weightGen = wg;
 		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(inputs.size() + 1);
@@ -38,28 +38,34 @@ public class InputLink {
 		addAll(inputs);
 	}
 	
-	public double[] inputValues()
+	public double inputValue()
 	{
-		double[] inputValues = new double[inputWeightPairs.size()];
+		double inputValue = 0;
 		
 		for(int i = 0; i < inputWeightPairs.size(); i++)
 		{
 			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
 			Perceptron p = pair.getLeft();
 			double weight = pair.getRight();
-			inputValues[i] = p.output() * weight;
+			inputValue += p.output() * weight;
 		}
 		
-		return inputValues;
+		return inputValue;
 	}
 	
 	public void adjustToErrorGivenOutput(double error, double output)
 	{
-		for(Pair<Perceptron, Double> pair : inputWeightPairs)
+		for(int i = 0; i < inputWeightPairs.size(); i++)
 		{
+			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
 			double weight = pair.getRight();
 			pair.setRight(weight + LEARNING_RATE * error * output);
 		}
+	}
+	
+	public void addLinkFrom(Perceptron p)
+	{
+		inputWeightPairs.add(new Pair<Perceptron, Double>(p, weightGen.nextWeight()));
 	}
 	
 	private void addAll(List<Perceptron> inputs)
