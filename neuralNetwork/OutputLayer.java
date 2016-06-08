@@ -1,5 +1,8 @@
 package neuralNetwork;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OutputLayer implements NetworkLayer {
 
 	/*
@@ -8,6 +11,10 @@ public class OutputLayer implements NetworkLayer {
 	 * calculations and feeding the output to the neural network.
 	 */
 	OutputPerceptron[] perceptrons;
+	
+	private List<NetworkLayer> previousLayer;
+	
+	double[] expectedOutputs;
 	
 	public OutputLayer(int size, WeightGenerator wg)
 	{
@@ -25,12 +32,8 @@ public class OutputLayer implements NetworkLayer {
 		{
 			perceptrons[i] = new OutputPerceptron(wg);
 		}
+		previousLayer = new ArrayList<NetworkLayer>();
 	}
-	
-	/*
-	 * Stores the expected output values for 
-	 */
-	double[] expectedOutputs;
 	
 	@Override
 	public void activate() {
@@ -57,6 +60,11 @@ public class OutputLayer implements NetworkLayer {
 		}
 	}
 	
+	public void addPreviousLayer(NetworkLayer prev)
+	{
+		
+	}
+	
 	public void setExpectedOutputs(double[] outputs)
 	{
 		for(int i = 0; i < perceptrons.length; i++)
@@ -75,7 +83,7 @@ public class OutputLayer implements NetworkLayer {
 	
 	protected Perceptron[] perceptrons()
 	{
-		
+		return null;
 	}
 
 }

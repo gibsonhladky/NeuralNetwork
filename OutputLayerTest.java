@@ -14,7 +14,13 @@ public class OutputLayerTest {
 	@Before
 	public void setUp() {
 		testLayer = new OutputLayer(2, new MockWeightGenerator());
-		testLayer.setPreviousLayer(new MockLayer());
+		testLayer.addPreviousLayer(new MockLayer());
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void addPreviousLayerHandlesNull()
+	{
+		testLayer.addPreviousLayer(null);
 	}
 
 	@Test
