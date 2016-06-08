@@ -12,7 +12,7 @@ public class OutputLayer implements NetworkLayer {
 	 */
 	OutputPerceptron[] perceptrons;
 	
-	private List<NetworkLayer> previousLayer;
+	private List<NetworkLayer> previousLayers;
 	
 	double[] expectedOutputs;
 	
@@ -32,7 +32,7 @@ public class OutputLayer implements NetworkLayer {
 		{
 			perceptrons[i] = new OutputPerceptron(wg);
 		}
-		previousLayer = new ArrayList<NetworkLayer>();
+		previousLayers = new ArrayList<NetworkLayer>();
 	}
 	
 	@Override
@@ -62,7 +62,19 @@ public class OutputLayer implements NetworkLayer {
 	
 	public void addPreviousLayer(NetworkLayer prev)
 	{
-		
+		if(prev == null)
+		{
+			throw new IllegalArgumentException("Cannot add a null network layer.");
+		}
+		previousLayers.add(prev);
+		Perceptron[] newInputs = prev.perceptrons();
+		for(OutputPerceptron p : perceptrons)
+		{
+			for(Perceptron inputP : newInputs)
+			{
+				p.addInput(inputP);
+			}
+		}
 	}
 	
 	public void setExpectedOutputs(double[] outputs)
@@ -78,12 +90,17 @@ public class OutputLayer implements NetworkLayer {
 	 */
 	public double[] getOutputs()
 	{
-		return null;
+		double[] outputs = new double[perceptrons.length];
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			outputs[i] = perceptrons[i].output();
+		}
+		return outputs;
 	}
 	
 	public Perceptron[] perceptrons()
 	{
-		return null;
+		return perceptrons;
 	}
 
 }

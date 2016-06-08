@@ -18,6 +18,18 @@ public class OutputLayerTest {
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesInvalidSize()
+	{
+		testLayer = new OutputLayer(0, new MockWeightGenerator());
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesNullWeightGenerator()
+	{
+		testLayer = new OutputLayer(1, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
 	public void addPreviousLayerHandlesNull()
 	{
 		testLayer.addPreviousLayer(null);
