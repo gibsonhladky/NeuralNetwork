@@ -16,6 +16,13 @@
 /InputLinkTest.class
 /OutputLinkTest.class
 /InputLinksTest.class
+<<<<<<< HEAD
 /OutputLayerTest.class
 /MockLayer.class
 /HiddenLayerTest.class
+=======
+
+MockLayer.class
+
+OutputLayerTest.class
+>>>>>>> master
