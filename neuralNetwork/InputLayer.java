@@ -8,20 +8,11 @@ public class InputLayer implements NetworkLayer{
 	private InputPerceptron[] perceptrons;
 	
 	/*
-	 * Reference to the next layer in the network
+	 * Reference to the next layers in the network
 	 * to be wired to the perceptrons in the input layer.
 	 */
 	private List<NetworkLayer> nextLayers;
 	
-	/*
-	 * Inputs to neural networks are handled at the input layer 
-	 * level to clarify how the network should handle inputs.
-	 */
-	private double[] inputs;
-	
-	/*
-	 * Creates a layer with no previous layer.
-	 */
 	public InputLayer(int size) 
 	{
 		if(size < 1)
@@ -33,7 +24,6 @@ public class InputLayer implements NetworkLayer{
 		{
 			perceptrons[i] = new InputPerceptron();
 		}
-		inputs = new double[size];
 		nextLayers = new ArrayList<NetworkLayer>();
 	}
 	
@@ -71,11 +61,14 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public void setInputs(double[] newInputs)
 	{
-		if(newInputs.length != inputs.length)
+		if(newInputs.length != perceptrons.length)
 		{
 			throw new IllegalArgumentException("Cannot set inputs from a list of different size.");
 		}
-		inputs = newInputs;
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			perceptrons[i].setInput(newInputs[i]);
+		}
 	}
 	
 	/*
@@ -83,16 +76,20 @@ public class InputLayer implements NetworkLayer{
 	 * the network. All connections to the previous
 	 * layer are lost.
 	 */
-	public void setNextLayer(NetworkLayer layer)
+	public void addNextLayer(NetworkLayer newLayer)
 	{
-		nextLayers.add(layer);
+		if(newLayer == null)
+		{
+			throw new IllegalArgumentException("Cannot add a null layer to an input layer.");
+		}
+		nextLayers.add(newLayer);
 	}
 	
 	/*
 	 * Returns the layer that this input layer is
 	 * currently wired to.
 	 */
-	public List<NetworkLayer> getNextLayer()
+	public List<NetworkLayer> nextLayers()
 	{
 		return nextLayers;
 	}
