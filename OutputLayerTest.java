@@ -1,8 +1,12 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import neuralNetwork.NetworkLayer;
 import neuralNetwork.OutputLayer;
 
 public class OutputLayerTest {
@@ -75,6 +79,22 @@ public class OutputLayerTest {
 	{
 		double[] largeExpectedOutputs = {0.0, 0.0, 0.0};
 		testLayer.setExpectedOutputs(largeExpectedOutputs);
+	}
+	
+	@Test
+	public void returnsCorrectPreviousLayers()
+	{
+		NetworkLayer previous1 = new MockLayer(2);
+		NetworkLayer previous2 = new MockLayer(2);
+		List<NetworkLayer> expectedLayers = new ArrayList<NetworkLayer>();
+		expectedLayers.add(previous1);
+		expectedLayers.add(previous2);
+		
+		testLayer = new OutputLayer(2, new MockWeightGenerator());
+		testLayer.addPreviousLayer(previous1);
+		testLayer.addPreviousLayer(previous2);
+		
+		assertEquals(expectedLayers, testLayer.previousLayers());
 	}
 
 }

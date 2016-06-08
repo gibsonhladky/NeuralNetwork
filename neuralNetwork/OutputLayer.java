@@ -108,5 +108,10 @@ public class OutputLayer implements NetworkLayer {
 	{
 		return perceptrons;
 	}
+	
+	public List<NetworkLayer> previousLayers()
+	{
+		return previousLayers;
+	}
 
 }
