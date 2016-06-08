@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
    
    InputLayerTest.class,
    OutputLayerTest.class,
+   HiddenLayerTest.class,
    
    InputPerceptronTest.class,
    HiddenPerceptronTest.class,
