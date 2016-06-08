@@ -42,5 +42,39 @@ public class OutputLayerTest {
 		double[] expectedOutputs = {0.8807970779, 0.8807970779};
 		assertArrayEquals(expectedOutputs, testLayer.getOutputs(), DELTA);
 	}
+	
+	@Test
+	public void correctlyAdjustsToError()
+	{
+		double[] expectedTrainingOutputs = {1.0, 0.0};
+		testLayer.setExpectedOutputs(expectedTrainingOutputs);
+		testLayer.activate();
+		testLayer.calculateError();
+		testLayer.adjustToError();
+		testLayer.activate();
+		
+		double[] expectedOutputs = {0.8829842, 0.882042963};
+		assertArrayEquals(expectedOutputs, testLayer.getOutputs(), DELTA);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setExpectedOutputsHandlesNull()
+	{
+		testLayer.setExpectedOutputs(null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setExpectedOutputsHandlesSmallArray()
+	{
+		double[] smallExpectedOutputs = {0.0};
+		testLayer.setExpectedOutputs(smallExpectedOutputs);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void setExpectedOutputsHandlesLargeArray()
+	{
+		double[] largeExpectedOutputs = {0.0, 0.0, 0.0};
+		testLayer.setExpectedOutputs(largeExpectedOutputs);
+	}
 
 }

@@ -10,11 +10,9 @@ public class OutputLayer implements NetworkLayer {
 	 * These perceptrons will specifically handle unique
 	 * calculations and feeding the output to the neural network.
 	 */
-	OutputPerceptron[] perceptrons;
+	private OutputPerceptron[] perceptrons;
 	
 	private List<NetworkLayer> previousLayers;
-	
-	double[] expectedOutputs;
 	
 	public OutputLayer(int size, WeightGenerator wg)
 	{
@@ -79,6 +77,14 @@ public class OutputLayer implements NetworkLayer {
 	
 	public void setExpectedOutputs(double[] outputs)
 	{
+		if(outputs == null)
+		{
+			throw new IllegalArgumentException("Cannot provide null for expected outputs");
+		}
+		if(outputs.length != perceptrons.length){
+			throw new IllegalArgumentException("Cannot provide expected outputs of different size than output layer");
+		}
+		
 		for(int i = 0; i < perceptrons.length; i++)
 		{
 			perceptrons[i].setExpectedOutput(outputs[i]);
