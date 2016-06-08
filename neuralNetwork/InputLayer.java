@@ -1,16 +1,17 @@
 package neuralNetwork;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InputLayer implements NetworkLayer{
 
-	private ArrayList<InputPerceptron> perceptrons;
+	private InputPerceptron[] perceptrons;
 	
 	/*
 	 * Reference to the next layer in the network
 	 * to be wired to the perceptrons in the input layer.
 	 */
-	private NetworkLayer nextLayer;
+	private List<NetworkLayer> nextLayers;
 	
 	/*
 	 * Inputs to neural networks are handled at the input layer 
@@ -23,12 +24,17 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public InputLayer(int size) 
 	{
-		perceptrons = new ArrayList<InputPerceptron>(size);
-		for(int i = 0; i < perceptrons.size(); i++)
+		if(size < 1)
 		{
-			perceptrons.add(new InputPerceptron());
+			throw new IllegalArgumentException("Cannot create an input layer of zero or negative size.");
+		}
+		perceptrons = new InputPerceptron[size];
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			perceptrons[i] = new InputPerceptron();
 		}
 		inputs = new double[size];
+		nextLayers = new ArrayList<NetworkLayer>();
 	}
 	
 	/*
@@ -53,9 +59,10 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public void adjustToError(){}
 	
+	
 	public Perceptron[] perceptrons()
 	{
-		return perceptrons.toArray(new Perceptron[perceptrons.size()]);
+		return perceptrons;
 	}
 	
 	/*
@@ -66,7 +73,7 @@ public class InputLayer implements NetworkLayer{
 	{
 		if(newInputs.length != inputs.length)
 		{
-			throw new IllegalArgumentException("Must specify imputs of the correct size (" + inputs.length + ".");
+			throw new IllegalArgumentException("Cannot set inputs from a list of different size.");
 		}
 		inputs = newInputs;
 	}
@@ -78,16 +85,16 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public void setNextLayer(NetworkLayer layer)
 	{
-		nextLayer = layer;
+		nextLayers.add(layer);
 	}
 	
 	/*
 	 * Returns the layer that this input layer is
 	 * currently wired to.
 	 */
-	public NetworkLayer getNextLayer()
+	public List<NetworkLayer> getNextLayer()
 	{
-		return nextLayer;
+		return nextLayers;
 	}
 	
 }

@@ -1,17 +1,31 @@
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.InputLayer;
 
 public class InputLayerTest {
 	
-	final double ONE = 1;
+	private final double ONE = 1;
+	
+	private InputLayer testLayer;
+	
+	@Before
+	public void setup()
+	{
+		testLayer = new InputLayer(0);
+	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesSmallSize()
+	{
+		testLayer = new InputLayer(0);
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public void setInputsTooSmall()
 	{
-		InputLayer testLayer = new InputLayer(2);
 		double[] testInputs = {ONE};
 		testLayer.setInputs(testInputs);
 	}
@@ -19,7 +33,6 @@ public class InputLayerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void setInputsTooLarge()
 	{
-		InputLayer testLayer = new InputLayer(2);
 		double[] testInputs = {ONE, ONE, ONE};
 		testLayer.setInputs(testInputs);
 	}
@@ -27,7 +40,6 @@ public class InputLayerTest {
 	@Test
 	public void feedForwardActivationCalculation()
 	{
-		InputLayer testLayer = new InputLayer(2);
 		double[] testInputs = {ONE, ONE};
 		testLayer.setInputs(testInputs);
 		
