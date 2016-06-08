@@ -1,11 +1,22 @@
 import neuralNetwork.NetworkLayer;
+import neuralNetwork.Perceptron;
 
 public class MockLayer implements NetworkLayer {
 
+	private MockPerceptron[] perceptrons;
+	
+	public MockLayer(int size)
+	{
+		perceptrons = new MockPerceptron[2];
+		for(int i = 0; i < size; i++)
+		{
+			perceptrons[i] = new MockPerceptron();
+		}
+	}
+	
 	@Override
 	public void activate() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -18,6 +29,12 @@ public class MockLayer implements NetworkLayer {
 	public void adjustToError() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public Perceptron[] perceptrons()
+	{
+		return perceptrons;
 	}
 
 }

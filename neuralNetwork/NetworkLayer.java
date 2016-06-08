@@ -27,5 +27,9 @@ public interface NetworkLayer {
 	 */
 	public void adjustToError();
 	
+	/*
+	 * 
+	 */
+	public Perceptron[] perceptrons();
 	
 }

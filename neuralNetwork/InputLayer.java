@@ -53,6 +53,11 @@ public class InputLayer implements NetworkLayer{
 	 */
 	public void adjustToError(){}
 	
+	public Perceptron[] perceptrons()
+	{
+		return perceptrons.toArray(new Perceptron[perceptrons.size()]);
+	}
+	
 	/*
 	 * Input layers have a unique function to take inputs
 	 * from outside the network and insert them in perceptrons.

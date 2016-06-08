@@ -81,7 +81,7 @@ public class OutputLayer implements NetworkLayer {
 		return null;
 	}
 	
-	protected Perceptron[] perceptrons()
+	public Perceptron[] perceptrons()
 	{
 		return null;
 	}
