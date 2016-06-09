@@ -25,7 +25,7 @@ public class OutputPerceptron implements Perceptron {
 	@Override
 	public void activate() 
 	{
-		output = Perceptron.activationFunction(inputLinks.inputValue());
+		output = Perceptron.activationFunction(inputLinks.totalInput());
 	}
 	
 	@Override
@@ -63,7 +63,7 @@ public class OutputPerceptron implements Perceptron {
 		{
 			throw new IllegalArgumentException("Cannot add a null input.");
 		}
-		inputLinks.addLinkFrom(p);
+		inputLinks.addLink(p);
 	}
 	
 
