@@ -21,7 +21,7 @@ public class HiddenPerceptron implements Perceptron
 		{
 			throw new IllegalArgumentException("Cannot have a null weight generator.");
 		}
-		inputLinks = new InputLinks(wg);
+		inputLinks = new InputLinks(this, wg);
 		outputLinks = new OutputLink(this);
 	}
 
@@ -58,13 +58,13 @@ public class HiddenPerceptron implements Perceptron
 		return error;
 	}
 	
-	public void addInputLink(Perceptron p)
+	public void addInputLink(PerceptronLink l)
 	{
-		if(p == null)
+		if(l == null)
 		{
 			throw new IllegalArgumentException("Cannot add input from a null.");
 		}
-		inputLinks.addLink(p);
+		inputLinks.addLink(l);
 	}
 	
 	public void addOutputLink(PerceptronLink l)

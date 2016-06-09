@@ -70,7 +70,7 @@ public class OutputLayer implements NetworkLayer {
 		{
 			for(Perceptron inputP : newInputs)
 			{
-				p.addInput(inputP);
+				p.addInputLink(inputP);
 			}
 		}
 	}

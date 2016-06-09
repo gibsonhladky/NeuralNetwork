@@ -29,22 +29,26 @@ public class InputHiddenPerceptronIntegrationTest {
 		input2.setInput(0.3);
 		
 		hidden1 = new HiddenPerceptron(wg);
-		hidden1.addInputLink(input1);
-		hidden1.addInputLink(input2);
+		PerceptronLink inLink1a = new PerceptronLink(input1, hidden1, -1);
+		PerceptronLink inLink1b = new PerceptronLink(input2, hidden1, 1);
+		hidden1.addInputLink(inLink1a);
+		hidden1.addInputLink(inLink1b);
 		
 		hidden2 = new HiddenPerceptron(wg);
-		hidden2.addInputLink(input1);
-		hidden2.addInputLink(input2);
+		PerceptronLink inLink2a = new PerceptronLink(input1, hidden2, 1);
+		PerceptronLink inLink2b = new PerceptronLink(input2, hidden2, -1);
+		hidden2.addInputLink(inLink2a);
+		hidden2.addInputLink(inLink2b);
 		
-		PerceptronLink link1a = new PerceptronLink(hidden1, mockP, 1);
-		PerceptronLink link1b = new PerceptronLink(hidden1, mockP, 1);
-		PerceptronLink link2a = new PerceptronLink(hidden2, mockP, -1);
-		PerceptronLink link2b = new PerceptronLink(hidden2, mockP, -1);
+		PerceptronLink outLink1a = new PerceptronLink(hidden1, mockP, 1);
+		PerceptronLink outLink1b = new PerceptronLink(hidden1, mockP, 1);
+		PerceptronLink outLink2a = new PerceptronLink(hidden2, mockP, -1);
+		PerceptronLink outLink2b = new PerceptronLink(hidden2, mockP, -1);
 		
-		hidden1.addOutputLink(link1a);
-		hidden1.addOutputLink(link1b);
-		hidden2.addOutputLink(link2a);
-		hidden2.addOutputLink(link2b);
+		hidden1.addOutputLink(outLink1a);
+		hidden1.addOutputLink(outLink1b);
+		hidden2.addOutputLink(outLink2a);
+		hidden2.addOutputLink(outLink2b);
 		
 		activateAllInOrder();
 		calculateAllErrorsInOrder();

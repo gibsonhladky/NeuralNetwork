@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.OutputPerceptron;
+import neuralNetwork.PerceptronLink;
 import neuralNetwork.WeightGenerator;
 
 public class OutputPerceptronTest {
@@ -18,8 +19,10 @@ public class OutputPerceptronTest {
 	public void setup()
 	{
 		testP = new OutputPerceptron(mockGen);
-		testP.addInput(new MockPerceptron());
-		testP.addInput(new MockPerceptron());
+		PerceptronLink link1 = new PerceptronLink(new MockPerceptron(), testP, 1);
+		PerceptronLink link2 = new PerceptronLink(new MockPerceptron(), testP, 1);
+		testP.addInputLink(link1);
+		testP.addInputLink(link2);
 		testP.activate();
 	}
 	
@@ -63,7 +66,7 @@ public class OutputPerceptronTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void addInputHandlesNullInput()
 	{
-		testP.addInput(null);
+		testP.addInputLink(null);
 	}
 
 }
