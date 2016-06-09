@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import neuralNetwork.NetworkLayer;
 import neuralNetwork.OutputLayer;
+import neuralNetwork.Perceptron;
 
 public class OutputLayerTest {
 
@@ -19,6 +20,17 @@ public class OutputLayerTest {
 	public void setUp() {
 		testLayer = new OutputLayer(2, new MockWeightGenerator());
 		testLayer.addPreviousLayer(new MockLayer(2));
+	}
+	
+	private double[] getErrors()
+	{
+		Perceptron[] perceptrons = testLayer.perceptrons();
+		double[] errors = new double[perceptrons.length];
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			errors[i] = perceptrons[i].error();
+		}
+		return errors;
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -45,6 +57,18 @@ public class OutputLayerTest {
 		
 		double[] expectedOutputs = {0.8807970779, 0.8807970779};
 		assertArrayEquals(expectedOutputs, testLayer.getOutputs(), DELTA);
+	}
+	
+	@Test
+	public void calculateErrorProducesCorrectErrors()
+	{
+		double[] expectedTrainingOutputs = {1.0, 0.0};
+		testLayer.setExpectedOutputs(expectedTrainingOutputs);
+		testLayer.activate();
+		testLayer.calculateError();
+		
+		double[] expectedErrors = {0.119203, -0.8807970779};
+		assertArrayEquals(expectedErrors, getErrors(), DELTA);
 	}
 	
 	@Test

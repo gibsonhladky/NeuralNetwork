@@ -7,7 +7,7 @@ public class MockLayer implements NetworkLayer {
 	
 	public MockLayer(int size)
 	{
-		perceptrons = new MockPerceptron[2];
+		perceptrons = new MockPerceptron[size];
 		for(int i = 0; i < size; i++)
 		{
 			perceptrons[i] = new MockPerceptron();

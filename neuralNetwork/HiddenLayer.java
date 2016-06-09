@@ -1,10 +1,13 @@
 package neuralNetwork;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HiddenLayer implements NetworkLayer {
 
+	private HiddenPerceptron[] perceptrons;
 	private List<NetworkLayer> previousLayers;
+	private List<NetworkLayer> nextLayers;
 	
 	public HiddenLayer(int size, WeightGenerator wg)
 	{
@@ -16,30 +19,64 @@ public class HiddenLayer implements NetworkLayer {
 		{
 			throw new IllegalArgumentException("Cannot create a hidden layer with null weight generator.");
 		}
+		
+		perceptrons = new HiddenPerceptron[size];
+		for(int i = 0; i < perceptrons.length; i++)
+		{
+			perceptrons[i] = new HiddenPerceptron(wg);
+		}
+		previousLayers = new ArrayList<NetworkLayer>();
+		nextLayers = new ArrayList<NetworkLayer>();
 	}
 	
 	@Override
 	public void activate() {
-		// TODO Auto-generated method stub
-
+		for(Perceptron p : perceptrons)
+		{
+			p.activate();
+		}
 	}
 
 	@Override
 	public void calculateError() {
-		// TODO Auto-generated method stub
-
+		for(Perceptron p : perceptrons)
+		{
+			p.calculateError();
+		}
 	}
 
 	@Override
 	public void adjustToError() {
-		// TODO Auto-generated method stub
-
+		for(Perceptron p : perceptrons)
+		{
+			p.adjustToError();
+		}
 	}
 
 	@Override
 	public Perceptron[] perceptrons() {
-		// TODO Auto-generated method stub
-		return null;
+		return perceptrons;
+	}
+	
+	public void addNextLayer(NetworkLayer next)
+	{
+		if(next == null)
+		{
+			throw new IllegalArgumentException("Cannot add a null previous network layer to a hidden layer.");
+		}
+		nextLayers.add(next);
+		for(HiddenPerceptron hiddenP : perceptrons)
+		{
+			for(Perceptron outputP : next.perceptrons())
+			{
+				hiddenP.addOutputLink(outputP);
+			}
+		}
+	}
+	
+	public List<NetworkLayer> nextLayers()
+	{
+		return nextLayers;
 	}
 	
 	public void addPreviousLayer(NetworkLayer prev)
@@ -49,9 +86,16 @@ public class HiddenLayer implements NetworkLayer {
 			throw new IllegalArgumentException("Cannot add a null previous network layer to a hidden layer.");
 		}
 		previousLayers.add(prev);
+		for(HiddenPerceptron hiddenP : perceptrons)
+		{
+			for(Perceptron inputP : prev.perceptrons())
+			{
+				hiddenP.addInputLink(inputP);
+			}
+		}
 	}
 	
-	public List<NetworkLayer> prevousLayers()
+	public List<NetworkLayer> previousLayers()
 	{
 		return previousLayers;
 	}
