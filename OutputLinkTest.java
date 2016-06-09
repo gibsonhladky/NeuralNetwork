@@ -43,7 +43,7 @@ public class OutputLinkTest {
 	@Test
 	public void getTotalErrorCalculatesCorrectlyWithNoLinks()
 	{
-		final double error = testLinks.getTotalError();
+		final double error = testLinks.totalError();
 		final double expectedError = 0;
 		assertEquals(expectedError, error, DELTA);
 	}
@@ -58,7 +58,7 @@ public class OutputLinkTest {
 		testLinks.addLink(link2);
 		
 		final double expectedError = 0.6;
-		assertEquals(expectedError, testLinks.getTotalError(), DELTA);
+		assertEquals(expectedError, testLinks.totalError(), DELTA);
 	}
 
 }
