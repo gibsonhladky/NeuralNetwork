@@ -32,3 +32,6 @@ OutputLayerTest.class
 >>>>>>> master
 =======
 >>>>>>> master
+/InputOutputIntegrationTest.class
+/InputOutputPerceptronIntegrationTest.class
+/AlternatingMockWeightGenerator.class
