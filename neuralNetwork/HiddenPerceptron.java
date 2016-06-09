@@ -38,7 +38,7 @@ public class HiddenPerceptron implements Perceptron
 	@Override
 	public void calculateError()
 	{
-		error = outputLinks.getAssociatedError();
+		error = outputLinks.getTotalError();
 	}
 	
 	@Override

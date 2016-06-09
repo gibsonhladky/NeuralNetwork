@@ -10,28 +10,28 @@ import java.util.ArrayList;
  */
 public class OutputLink {
 
-	private WeightGenerator weightGen;
-	private ArrayList<Perceptron> outputs;
-	private ArrayList<Double> weights;
-	private int size;
+	private Perceptron source;
+	private ArrayList<PerceptronLink> links;
 	
-	public OutputLink(WeightGenerator wg)
+	public OutputLink(Perceptron source)
 	{
-		weightGen = wg;
-		outputs = new ArrayList<Perceptron>();
-		weights = new ArrayList<Double>();
-		size = 0;
+		if(source == null)
+		{
+			throw new IllegalArgumentException("Cannot have a null source.");
+		}
+		this.source = source;
+		links = new ArrayList<PerceptronLink>();
 	}
 	
 	/*
 	 * Returns the total error associated with these links.
 	 */
-	public double getAssociatedError()
+	public double getTotalError()
 	{
 		double error = 0;
-		for(int i = 0; i < size; i++)
+		for(PerceptronLink l : links)
 		{
-			error += outputs.get(i).error() * weights.get(i);
+			error += l.weightedError();
 		}
 		return error;
 	}
@@ -39,11 +39,17 @@ public class OutputLink {
 	/*
 	 * Introduces a new link to the OutputLink.
 	 */
-	public void addLink(Perceptron newOutput)
+	public void addLink(PerceptronLink newOutputLink)
 	{
-		outputs.add(newOutput);
-		weights.add(weightGen.nextWeight());
-		size++;
+		if(newOutputLink == null)
+		{
+			throw new IllegalArgumentException("Cannot add a null link.");
+		}
+		if(newOutputLink.from() != source)
+		{
+			throw new IllegalArgumentException("Cannot add a link from a different source.");
+		}
+		links.add(newOutputLink);
 	}
 	
 }
