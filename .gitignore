@@ -35,3 +35,5 @@ OutputLayerTest.class
 /InputOutputIntegrationTest.class
 /InputOutputPerceptronIntegrationTest.class
 /AlternatingMockWeightGenerator.class
+/InputHiddenPerceptronIntegrationTest.class
+/HiddenOutputPerceptronIntegrationTest.class

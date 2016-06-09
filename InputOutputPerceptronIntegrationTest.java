@@ -89,7 +89,7 @@ public class InputOutputPerceptronIntegrationTest {
 	}
 	
 	@Test
-	public void adjustToErrorChangesOutputsToCorrectNewValues()
+	public void adjustToErrorAdjustsWeightsCorrectly()
 	{
 		adjustAllToError();
 		activateAllInOrder();
