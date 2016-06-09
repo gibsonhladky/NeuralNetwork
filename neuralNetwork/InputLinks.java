@@ -1,86 +1,65 @@
 package neuralNetwork;
 
-import utilities.Pair;
 import java.util.ArrayList;
-import java.util.List;
 
-/*
- * Perceptron input links store the (output, weight)
- * pairs for connections between perceptrons.
- * The link provides weighted input values for
- * the perceptron, and handles the management of 
- * which perceptrons are connected to it.
- */
+
 public class InputLinks {
 	
 	private final double LEARNING_RATE = 0.1;
 	
 	private final WeightGenerator weightGen;
-	private ArrayList< Pair<Perceptron, Double> > inputWeightPairs;
+	private ArrayList<PerceptronLink> links;
+	private Perceptron source;
 	
-	public InputLinks()
+	public InputLinks(Perceptron source, WeightGenerator wg)
 	{
-		this(new RandomWeightGenerator());
-	}
-	
-	public InputLinks(WeightGenerator wg)
-	{
-		weightGen = wg;
-		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(1);
-		addBias();
-	}
-	
-	public InputLinks(WeightGenerator wg, ArrayList<Perceptron> inputs)
-	{
-		weightGen = wg;
-		inputWeightPairs = new ArrayList< Pair<Perceptron, Double>>(inputs.size() + 1);
-		addBias();
-		addAll(inputs);
-	}
-	
-	public double inputValue()
-	{
-		double inputValue = 0;
-		
-		for(int i = 0; i < inputWeightPairs.size(); i++)
+		if(source == null)
 		{
-			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
-			Perceptron p = pair.getLeft();
-			double weight = pair.getRight();
-			inputValue += p.output() * weight;
+			throw new IllegalArgumentException("Cannot create input links to a null source.");
+		}
+		if(wg == null)
+		{
+			throw new IllegalArgumentException("Cannot create input links with a null weight generator.");
 		}
 		
+		weightGen = wg;
+		this.source = source;
+		links = new ArrayList<PerceptronLink>(1);
+		addBias();
+	}
+	
+	public double totalInput()
+	{
+		double inputValue = 0;
+		for(PerceptronLink l : links)
+		{
+			inputValue += l.weightedOutput();
+		}
 		return inputValue;
 	}
 	
 	public void adjustToErrorGivenOutput(double error, double output)
 	{
-		for(int i = 0; i < inputWeightPairs.size(); i++)
+		double updateAmount = error * output * LEARNING_RATE;
+		for(PerceptronLink l : links)
 		{
-			Pair<Perceptron, Double> pair = inputWeightPairs.get(i);
-			double weight = pair.getRight();
-			pair.setRight(weight + LEARNING_RATE * error * output);
+			l.updateWeightBy(updateAmount);
 		}
 	}
 	
-	public void addLinkFrom(Perceptron p)
+	public void addLink(PerceptronLink l)
 	{
-		inputWeightPairs.add(new Pair<Perceptron, Double>(p, weightGen.nextWeight()));
-	}
-	
-	private void addAll(List<Perceptron> inputs)
-	{
-		for(Perceptron p : inputs)
+		if(l == null)
 		{
-			inputWeightPairs.add(new Pair<Perceptron, Double>(p, weightGen.nextWeight()));
+			throw new IllegalArgumentException("Cannot add a null link to input links.");
 		}
+		links.add(l);
 	}
 	
 	private void addBias()
 	{
-		Double nextWeight = weightGen.nextWeight();
-		Pair<Perceptron, Double> bias = new Pair<Perceptron, Double>(new BiasPerceptron(), nextWeight);
-		inputWeightPairs.add(bias);
+		PerceptronLink bias = new PerceptronLink(new BiasPerceptron(), source, weightGen.nextWeight());
+		addLink(bias);
 	}
 	
 }

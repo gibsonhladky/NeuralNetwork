@@ -26,7 +26,7 @@ public class OutputLink {
 	/*
 	 * Returns the total error associated with these links.
 	 */
-	public double getTotalError()
+	public double totalError()
 	{
 		double error = 0;
 		for(PerceptronLink l : links)

@@ -32,13 +32,13 @@ public class HiddenPerceptron implements Perceptron
 	@Override
 	public void activate()
 	{
-		output = Perceptron.activationFunction(inputLinks.inputValue());
+		output = Perceptron.activationFunction(inputLinks.totalInput());
 	}
 	
 	@Override
 	public void calculateError()
 	{
-		error = outputLinks.getTotalError();
+		error = outputLinks.totalError();
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class HiddenPerceptron implements Perceptron
 		{
 			throw new IllegalArgumentException("Cannot add input from a null.");
 		}
-		inputLinks.addLinkFrom(p);
+		inputLinks.addLink(p);
 	}
 	
 	public void addOutputLink(PerceptronLink l)
