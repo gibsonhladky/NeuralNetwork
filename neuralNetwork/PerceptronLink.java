@@ -34,12 +34,12 @@ public class PerceptronLink {
 	
 	public double weightedOutput()
 	{
-		return weight * to.output();
+		return weight * from.output();
 	}
 	
 	public double weightedError()
 	{
-		return weight * from.error();
+		return weight * to.error();
 	}
 	
 }

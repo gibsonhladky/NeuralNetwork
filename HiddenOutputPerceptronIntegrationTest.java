@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import neuralNetwork.HiddenPerceptron;
 import neuralNetwork.OutputPerceptron;
+import neuralNetwork.PerceptronLink;
 import neuralNetwork.WeightGenerator;
 
 public class HiddenOutputPerceptronIntegrationTest {
@@ -38,16 +39,22 @@ public class HiddenOutputPerceptronIntegrationTest {
 		output2.addInput(hidden1);
 		output2.addInput(hidden2);
 		
-		hidden1.addOutputLink(output1);
-		hidden1.addOutputLink(output2);
-		hidden2.addOutputLink(output1);
-		hidden2.addOutputLink(output2);
+		PerceptronLink link1a = new PerceptronLink(hidden1, mockP, -1);
+		PerceptronLink link1b = new PerceptronLink(hidden1, mockP, 1);
+		PerceptronLink link2a = new PerceptronLink(hidden2, mockP, 1);
+		PerceptronLink link2b = new PerceptronLink(hidden2, mockP, -1);
+		
+		hidden1.addOutputLink(link1a);
+		hidden1.addOutputLink(link1b);
+		hidden2.addOutputLink(link2a);
+		hidden2.addOutputLink(link2b);
 		
 		activateAllInOrder();
 	}
 
 	@Test
 	public void activationsPropagateCorrectOutputs() {
+		// TODO: Use different weights
 		final double expectedOutput1 = 0.6313198;
 		final double expectedOutput2 = 0.3686807;
 		assertEquals(expectedOutput1, hidden1.output(), DELTA);
