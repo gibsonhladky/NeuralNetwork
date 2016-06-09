@@ -18,12 +18,15 @@ public class HiddenPerceptronTest {
 	public void setup()
 	{
 		testP = new HiddenPerceptron(new MockWeightGenerator());
-		testP.addInputLink(mockP);
-		testP.addInputLink(mockP);
+		PerceptronLink inLink1 = new PerceptronLink(mockP, testP, 1);
+		PerceptronLink inLink2 = new PerceptronLink(mockP, testP, 1);
+		testP.addInputLink(inLink1);
+		testP.addInputLink(inLink2);
 		
-		PerceptronLink link1 = new PerceptronLink(testP, mockP, 1);
-		testP.addOutputLink(link1);
-		testP.addOutputLink(link1);
+		PerceptronLink outLink1 = new PerceptronLink(testP, mockP, 1);
+		PerceptronLink outLink2 = new PerceptronLink(testP, mockP, 1);
+		testP.addOutputLink(outLink1);
+		testP.addOutputLink(outLink2);
 	}
 	
 	@Test

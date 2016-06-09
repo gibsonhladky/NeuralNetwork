@@ -24,39 +24,42 @@ public class HiddenOutputPerceptronIntegrationTest {
 	public void setUp()
 	{
 		hidden1 = new HiddenPerceptron(wg);
-		hidden1.addInputLink(mockP);
-		hidden1.addInputLink(mockP);
-		
 		hidden2 = new HiddenPerceptron(wg);
-		hidden2.addInputLink(mockP);
-		hidden2.addInputLink(mockP);
-		
 		output1 = new OutputPerceptron(wg);
-		output1.addInput(hidden1);
-		output1.addInput(hidden2);
-		
 		output2 = new OutputPerceptron(wg);
-		output2.addInput(hidden1);
-		output2.addInput(hidden2);
 		
-		PerceptronLink link1a = new PerceptronLink(hidden1, mockP, -1);
-		PerceptronLink link1b = new PerceptronLink(hidden1, mockP, 1);
-		PerceptronLink link2a = new PerceptronLink(hidden2, mockP, 1);
-		PerceptronLink link2b = new PerceptronLink(hidden2, mockP, -1);
+		PerceptronLink hidden1ToOutput1 = new PerceptronLink(hidden1, output1, -0.5);
+		PerceptronLink hidden1ToOutput2 = new PerceptronLink(hidden1, output2, 0.5);
+		PerceptronLink hidden2ToOutput1 = new PerceptronLink(hidden2, output1, 0.5);
+		PerceptronLink hidden2ToOutput2 = new PerceptronLink(hidden2, output2, -0.7);
 		
-		hidden1.addOutputLink(link1a);
-		hidden1.addOutputLink(link1b);
-		hidden2.addOutputLink(link2a);
-		hidden2.addOutputLink(link2b);
+		hidden1.addOutputLink(hidden1ToOutput1);
+		hidden1.addOutputLink(hidden1ToOutput2);
+		hidden2.addOutputLink(hidden2ToOutput1);
+		hidden2.addOutputLink(hidden2ToOutput2);
+		
+		output1.addInputLink(hidden1ToOutput1);
+		output1.addInputLink(hidden1ToOutput2);
+		output2.addInputLink(hidden2ToOutput1);
+		output2.addInputLink(hidden2ToOutput2);
+		
+		PerceptronLink inLink1a = new PerceptronLink(hidden1, mockP, 0.7);
+		PerceptronLink inLink1b = new PerceptronLink(hidden1, mockP, 0.3);
+		PerceptronLink inLink2a = new PerceptronLink(hidden2, mockP, -0.5);
+		PerceptronLink inLink2b = new PerceptronLink(hidden2, mockP, -0.3);
+		
+		hidden1.addOutputLink(inLink1a);
+		hidden1.addOutputLink(inLink1b);
+		hidden2.addOutputLink(inLink2a);
+		hidden2.addOutputLink(inLink2b);
 		
 		activateAllInOrder();
 	}
 
 	@Test
 	public void activationsPropagateCorrectOutputs() {
-		// TODO: Use different weights
-		final double expectedOutput1 = 0.6313198;
-		final double expectedOutput2 = 0.3686807;
+		final double expectedOutput1 = 0.6659938;
+		final double expectedOutput2 = 0.242457;
 		assertEquals(expectedOutput1, hidden1.output(), DELTA);
 		assertEquals(expectedOutput2, hidden2.output(), DELTA);
 	}

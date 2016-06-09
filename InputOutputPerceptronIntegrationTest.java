@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import neuralNetwork.InputPerceptron;
 import neuralNetwork.OutputPerceptron;
+import neuralNetwork.PerceptronLink;
 import neuralNetwork.WeightGenerator;
 
 public class InputOutputPerceptronIntegrationTest {
@@ -27,13 +28,17 @@ public class InputOutputPerceptronIntegrationTest {
 		input2.setInput(0.3);
 		
 		output1 = new OutputPerceptron(wg);
-		output1.addInput(input1);
-		output1.addInput(input2);
+		PerceptronLink inLink1a = new PerceptronLink(input1, output1, -1);
+		PerceptronLink inLink1b = new PerceptronLink(input2, output1, 1);
+		output1.addInputLink(inLink1a);
+		output1.addInputLink(inLink1b);
 		output1.setExpectedOutput(1.0);
 		
 		output2 = new OutputPerceptron(wg);
-		output2.addInput(input1);
-		output2.addInput(input2);
+		PerceptronLink inLink2a = new PerceptronLink(input1, output2, 1);
+		PerceptronLink inLink2b = new PerceptronLink(input2, output2, -1);
+		output2.addInputLink(inLink2a);
+		output2.addInputLink(inLink2b);
 		output2.setExpectedOutput(0.0);
 		
 		activateAllInOrder();
