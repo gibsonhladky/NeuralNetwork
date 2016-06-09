@@ -5,12 +5,14 @@ import org.junit.Test;
 
 import neuralNetwork.HiddenPerceptron;
 import neuralNetwork.InputPerceptron;
+import neuralNetwork.PerceptronLink;
 import neuralNetwork.WeightGenerator;
 
 public class InputHiddenPerceptronIntegrationTest {
 
 	private final double DELTA = 0.001;
 	private final WeightGenerator wg = new AlternatingMockWeightGenerator();
+	private final MockPerceptron mockP = new MockPerceptron();
 	
 	private InputPerceptron input1;
 	private InputPerceptron input2;
@@ -34,15 +36,15 @@ public class InputHiddenPerceptronIntegrationTest {
 		hidden2.addInputLink(input1);
 		hidden2.addInputLink(input2);
 		
-		/*
-		 *  Hidden perceptrons are wired to mock perceptrons
-		 *  in this way to avoid creating 0 error due to
-		 *  the alternating weight generator.
-		 */
-		hidden1.addOutputLink(new MockPerceptron());
-		hidden2.addOutputLink(new MockPerceptron());
-		hidden1.addOutputLink(new MockPerceptron());
-		hidden2.addOutputLink(new MockPerceptron());
+		PerceptronLink link1a = new PerceptronLink(hidden1, mockP, 1);
+		PerceptronLink link1b = new PerceptronLink(hidden1, mockP, 1);
+		PerceptronLink link2a = new PerceptronLink(hidden2, mockP, -1);
+		PerceptronLink link2b = new PerceptronLink(hidden2, mockP, -1);
+		
+		hidden1.addOutputLink(link1a);
+		hidden1.addOutputLink(link1b);
+		hidden2.addOutputLink(link2a);
+		hidden2.addOutputLink(link2b);
 		
 		activateAllInOrder();
 		calculateAllErrorsInOrder();
