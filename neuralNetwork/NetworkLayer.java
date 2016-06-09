@@ -4,11 +4,8 @@ package neuralNetwork;
  * Describes the most basic functions a network layer
  * will be responsible for: propagating inputs,
  * back-propagating errors, and adjusting to those errors.
- * Abstract implementations are described in the most general
- * form. Any layer dealing with I/O will have to override
- * at least one method.
  */
-interface NetworkLayer {
+public interface NetworkLayer {
 	
 	/*
 	 * Calculates and sets the output value of each perceptron
@@ -22,12 +19,17 @@ interface NetworkLayer {
 	 * in this layer, preparing the previous layer to 
 	 * call this method.
 	 */
-	public void backPropagateError();
+	public void calculateError();
 	
 	/*
 	 * Adjusts the perceptron inputs to take a small
 	 * step towards a better value.
 	 */
 	public void adjustToError();
+	
+	/*
+	 * 
+	 */
+	public Perceptron[] perceptrons();
 	
 }
