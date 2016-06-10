@@ -58,7 +58,7 @@ public class OutputLayer implements NetworkLayer {
 		}
 	}
 	
-	public void addPreviousLayer(NetworkLayer prev)
+	public void appendTo(NetworkLayer prev)
 	{
 		if(prev == null)
 		{
