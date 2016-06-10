@@ -34,6 +34,18 @@ public interface Perceptron {
 	public double error();
 	
 	/*
+	 * Links the perceptron's input to another perceptron's output
+	 * with a PerceptronLink.
+	 */
+	public void addInputLink(PerceptronLink l);
+	
+	/*
+	 * Links the perceptron's output to another perceptron's input
+	 * with a PerceptronLink.
+	 */
+	public void addOutputLink(PerceptronLink l);
+	
+	/*
 	 * Logistical activation function shared amongst all
 	 * perceptrons.
 	 */

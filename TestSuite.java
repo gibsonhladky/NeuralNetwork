@@ -15,6 +15,7 @@ import org.junit.runners.Suite;
    InputOutputPerceptronIntegrationTest.class,
    InputHiddenPerceptronIntegrationTest.class,
    HiddenOutputPerceptronIntegrationTest.class,
+   HiddenHiddenPerceptronIntegrationTest.class,
    
    InputLinksTest.class,
    OutputLinkTest.class,

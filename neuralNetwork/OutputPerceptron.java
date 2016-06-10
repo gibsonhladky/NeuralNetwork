@@ -52,11 +52,7 @@ public class OutputPerceptron implements Perceptron {
 		return error;
 	}
 	
-	public void setExpectedOutput(double newExpectedOutput)
-	{
-		expectedOutput = newExpectedOutput;
-	}
-	
+	@Override
 	public void addInputLink(PerceptronLink l)
 	{
 		if(l == null)
@@ -64,6 +60,14 @@ public class OutputPerceptron implements Perceptron {
 			throw new IllegalArgumentException("Cannot add a null input.");
 		}
 		inputLinks.addLink(l);
+	}
+	
+	@Override
+	public void addOutputLink(PerceptronLink l) {};
+	
+	public void setExpectedOutput(double newExpectedOutput)
+	{
+		expectedOutput = newExpectedOutput;
 	}
 	
 
