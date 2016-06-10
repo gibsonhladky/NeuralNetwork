@@ -24,4 +24,10 @@ public class BiasPerceptron implements Perceptron {
 	public void calculateError() {
 	}
 
+	@Override
+	public void addInputLink(PerceptronLink l) {}
+
+	@Override
+	public void addOutputLink(PerceptronLink l) {}
+
 }

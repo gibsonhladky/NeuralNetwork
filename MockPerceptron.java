@@ -1,4 +1,5 @@
 import neuralNetwork.Perceptron;
+import neuralNetwork.PerceptronLink;
 
 /*
  * A dummy object to test interactions with Perceptrons.
@@ -8,33 +9,28 @@ import neuralNetwork.Perceptron;
 public class MockPerceptron implements Perceptron {
 
 	@Override
-	public void activate() {
-		// TODO Auto-generated method stub
-
-	}
+	public void activate() {}
 
 	@Override
-	public void adjustToError() {
-		// TODO Auto-generated method stub
-
-	}
+	public void adjustToError() {}
 
 	@Override
 	public double output() {
-		// TODO Auto-generated method stub
 		return 0.5;
 	}
 
 	@Override
 	public double error() {
-		// TODO Auto-generated method stub
 		return 0.5;
 	}
 
 	@Override
-	public void calculateError() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void calculateError() {}
+
+	@Override
+	public void addInputLink(PerceptronLink l) {}
+
+	@Override
+	public void addOutputLink(PerceptronLink l) {}
 
 }
