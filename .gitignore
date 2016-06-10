@@ -38,3 +38,4 @@ OutputLayerTest.class
 /InputHiddenPerceptronIntegrationTest.class
 /HiddenOutputPerceptronIntegrationTest.class
 /PerceptronLinkTest.class
+/HiddenHiddenPerceptronIntegrationTest.class
