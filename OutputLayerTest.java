@@ -19,7 +19,7 @@ public class OutputLayerTest {
 	@Before
 	public void setUp() {
 		testLayer = new OutputLayer(2, new MockWeightGenerator());
-		testLayer.addPreviousLayer(new MockLayer(2));
+		testLayer.appendTo(new MockLayer(2));
 	}
 	
 	private double[] getErrors()
@@ -48,7 +48,7 @@ public class OutputLayerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void addPreviousLayerHandlesNull()
 	{
-		testLayer.addPreviousLayer(null);
+		testLayer.appendTo(null);
 	}
 
 	@Test
@@ -115,8 +115,8 @@ public class OutputLayerTest {
 		expectedLayers.add(previous2);
 		
 		testLayer = new OutputLayer(2, new MockWeightGenerator());
-		testLayer.addPreviousLayer(previous1);
-		testLayer.addPreviousLayer(previous2);
+		testLayer.appendTo(previous1);
+		testLayer.appendTo(previous2);
 		
 		assertEquals(expectedLayers, testLayer.previousLayers());
 	}

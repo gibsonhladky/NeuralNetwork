@@ -19,13 +19,13 @@ public class OutputPerceptron implements Perceptron {
 		{
 			throw new IllegalArgumentException("Cannot have a null weight generator.");
 		}
-		inputLinks = new InputLinks(wg);
+		inputLinks = new InputLinks(this, wg);
 	}
 
 	@Override
 	public void activate() 
 	{
-		output = Perceptron.activationFunction(inputLinks.inputValue());
+		output = Perceptron.activationFunction(inputLinks.totalInput());
 	}
 	
 	@Override
@@ -52,18 +52,22 @@ public class OutputPerceptron implements Perceptron {
 		return error;
 	}
 	
-	public void setExpectedOutput(double newExpectedOutput)
+	@Override
+	public void addInputLink(PerceptronLink l)
 	{
-		expectedOutput = newExpectedOutput;
-	}
-	
-	public void addInput(Perceptron p)
-	{
-		if(p == null)
+		if(l == null)
 		{
 			throw new IllegalArgumentException("Cannot add a null input.");
 		}
-		inputLinks.addLinkFrom(p);
+		inputLinks.addLink(l);
+	}
+	
+	@Override
+	public void addOutputLink(PerceptronLink l) {};
+	
+	public void setExpectedOutput(double newExpectedOutput)
+	{
+		expectedOutput = newExpectedOutput;
 	}
 	
 

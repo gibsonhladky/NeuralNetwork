@@ -6,22 +6,17 @@ package neuralNetwork;
  * a network.
  */
 public class InputPerceptron implements Perceptron {
-
-	private double input;
-	private double output;
 	
-	public InputPerceptron() {
-		
-	}
+	private double output;
 
 	@Override
 	public void activate() {
-		output = input;
+		// Do nothing - output is only changed by setting input
 	}
 
 	@Override
 	public void adjustToError() {
-		// do nothing
+		// Do nothing
 	}
 
 	@Override
@@ -35,15 +30,25 @@ public class InputPerceptron implements Perceptron {
 	{
 		return 0;
 	}
-	
-	public void setInput(double input)
-	{
-		this.input = input;
-	}
 
 	@Override
 	public void calculateError() {
-		// do nothing
+		// Do nothing
+	}
+
+	@Override
+	public void addInputLink(PerceptronLink l) {
+		// Do nothing
+	}
+
+	@Override
+	public void addOutputLink(PerceptronLink l) {
+		// Do nothing
+	}
+	
+	public void setInput(double input)
+	{
+		this.output = input;
 	}
 
 }

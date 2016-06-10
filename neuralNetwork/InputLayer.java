@@ -93,5 +93,11 @@ public class InputLayer implements NetworkLayer{
 	{
 		return nextLayers;
 	}
+
+	/*
+	 * Input layers only care about provided inputs, not other network layers.
+	 */
+	@Override
+	public void appendTo(NetworkLayer l) {}
 	
 }

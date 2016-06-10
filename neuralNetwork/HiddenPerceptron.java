@@ -21,8 +21,8 @@ public class HiddenPerceptron implements Perceptron
 		{
 			throw new IllegalArgumentException("Cannot have a null weight generator.");
 		}
-		inputLinks = new InputLinks(wg);
-		outputLinks = new OutputLink(wg);
+		inputLinks = new InputLinks(this, wg);
+		outputLinks = new OutputLink(this);
 	}
 
 	/*
@@ -32,13 +32,13 @@ public class HiddenPerceptron implements Perceptron
 	@Override
 	public void activate()
 	{
-		output = Perceptron.activationFunction(inputLinks.inputValue());
+		output = Perceptron.activationFunction(inputLinks.totalInput());
 	}
 	
 	@Override
 	public void calculateError()
 	{
-		error = outputLinks.getAssociatedError();
+		error = outputLinks.totalError();
 	}
 	
 	@Override
@@ -58,21 +58,21 @@ public class HiddenPerceptron implements Perceptron
 		return error;
 	}
 	
-	public void addInputLink(Perceptron p)
+	public void addInputLink(PerceptronLink l)
 	{
-		if(p == null)
+		if(l == null)
 		{
 			throw new IllegalArgumentException("Cannot add input from a null.");
 		}
-		inputLinks.addLinkFrom(p);
+		inputLinks.addLink(l);
 	}
 	
-	public void addOutputLink(Perceptron p)
+	public void addOutputLink(PerceptronLink l)
 	{
-		if(p == null)
+		if(l == null)
 		{
 			throw new IllegalArgumentException("Cannot add output to a null.");
 		}
-		outputLinks.addLink(p);
+		outputLinks.addLink(l);
 	}
 }

@@ -4,10 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.HiddenPerceptron;
+import neuralNetwork.Perceptron;
+import neuralNetwork.PerceptronLink;
 
 public class HiddenPerceptronTest {
 
 	private final double DELTA = 0.001;
+	private final Perceptron mockP = new MockPerceptron();
 	
 	private HiddenPerceptron testP;
 	
@@ -15,10 +18,15 @@ public class HiddenPerceptronTest {
 	public void setup()
 	{
 		testP = new HiddenPerceptron(new MockWeightGenerator());
-		testP.addInputLink(new MockPerceptron());
-		testP.addInputLink(new MockPerceptron());
-		testP.addOutputLink(new MockPerceptron());
-		testP.addOutputLink(new MockPerceptron());
+		PerceptronLink inLink1 = new PerceptronLink(mockP, testP, 1);
+		PerceptronLink inLink2 = new PerceptronLink(mockP, testP, 1);
+		testP.addInputLink(inLink1);
+		testP.addInputLink(inLink2);
+		
+		PerceptronLink outLink1 = new PerceptronLink(testP, mockP, 1);
+		PerceptronLink outLink2 = new PerceptronLink(testP, mockP, 1);
+		testP.addOutputLink(outLink1);
+		testP.addOutputLink(outLink2);
 	}
 	
 	@Test
