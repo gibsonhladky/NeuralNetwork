@@ -67,6 +67,13 @@ public class InputLayerTest {
 	}
 	
 	@Test
+	public void sizeReturnsCorrectValue()
+	{
+		final int expectedSize = 2;
+		assertEquals(expectedSize, testLayer.size());
+	}
+	
+	@Test
 	public void nextLayersReturnsCorrectLayers()
 	{
 		MockLayer ml1 = new MockLayer(1);

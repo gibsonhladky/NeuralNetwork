@@ -107,6 +107,11 @@ public class OutputLayer implements NetworkLayer {
 		return outputs;
 	}
 	
+	public int size()
+	{
+		return perceptrons.length;
+	}
+	
 	public Perceptron[] perceptrons()
 	{
 		return perceptrons;
