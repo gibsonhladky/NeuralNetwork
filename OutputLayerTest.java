@@ -60,6 +60,13 @@ public class OutputLayerTest {
 	}
 	
 	@Test
+	public void sizeReturnsCorrectValue()
+	{
+		final int expectedSize = 2;
+		assertEquals(expectedSize, testLayer.size());
+	}
+	
+	@Test
 	public void calculateErrorProducesCorrectErrors()
 	{
 		double[] expectedTrainingOutputs = {1.0, 0.0};
