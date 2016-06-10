@@ -8,81 +8,28 @@ public class NeuralNetwork
 	// the output layer is: layers.get(layers.size()-1)
 	// and the hidden layers are in between
 	
-	private ArrayList<HiddenPerceptron> inputLayer;
-	public ArrayList<ArrayList<HiddenPerceptron>> hiddenLayers;
-	private ArrayList<HiddenPerceptron> outputLayer;
+	private InputLayer inputLayer;
+	private OutputLayer outputLayer;
+	private NetworkLayer[] networkLayers;
 	
 	/*
 	 * Initializes the neural network with no layers of perceptrons
 	 * and a threshold.
 	 */
-	public NeuralNetwork()
+	public NeuralNetwork(int[] layerSizes, WeightGenerator wg)
 	{
-		inputLayer = new ArrayList<HiddenPerceptron>();
-		hiddenLayers = new ArrayList<ArrayList<HiddenPerceptron>>();
-		outputLayer = new ArrayList<HiddenPerceptron>();
+		if(layerSizes == null || layerSizes.length < 2)
+		{
+			throw new IllegalArgumentException("Illegal layerSizes in NeuralNetwork constructor: " + layerSizes);
+		}
+		if(wg == null)
+		{
+			throw new IllegalArgumentException("Null weight generator in NeuralNetwork constructor.");
+		}
+		inputLayer = new InputLayer(layerSizes[0]);
+		outputLayer = new OutputLayer(layerSizes[layerSizes.length - 1], wg);
 	}
 	
-	public void setInputSize(int size)
-	{
-		for(int i = 0; i < size; i++)
-		{
-			inputLayer.add(new HiddenPerceptron(i, null));
-		}
-	}
-	
-	public void setOutputSize(int size)
-	{
-		for(int i = 0; i < size; i++)
-		{
-			outputLayer.add(new HiddenPerceptron(i, hiddenLayers.get(hiddenLayers.size() - 1)));
-		}
-	}
-	
-	/*
-	 * Adds a layer of <size> perceptrons to the neural network.
-	 * Links the outputs of the last layer to the inputs of the new layer.
-	 */
-	public void addLayer(int size)
-	{
-		if(size < 1)
-		{
-			throw new IllegalArgumentException("Cannot add a layer with size smaller than 1.");
-		}
-		ArrayList<HiddenPerceptron> newLayer = new ArrayList<HiddenPerceptron>(size);
-		
-		// Determine the input layer to the new layer
-		ArrayList<HiddenPerceptron> oldOutputLayer = null;
-		if(hiddenLayers.size() > 0)
-		{
-			oldOutputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
-		}
-		
-		// Populate the layer with perceptrons
-		for(int i = 0; i < size; i++)
-		{
-			HiddenPerceptron newPerceptron = new HiddenPerceptron(i, oldOutputLayer);
-			newLayer.add(newPerceptron);
-		}
-		
-		hiddenLayers.add(newLayer);
-		
-		if(hiddenLayers.size() > 1)
-		{
-			setOutputs(oldOutputLayer, newLayer);
-		}
-	}
-	
-	/*
-	 * Sets the outputs of the first layer to the second layer.
-	 */
-	private void setOutputs(ArrayList<HiddenPerceptron> oldOutputLayer, ArrayList<HiddenPerceptron> newOutputLayer)
-	{
-		for(HiddenPerceptron p : oldOutputLayer)
-		{
-			p.outputs = newOutputLayer;
-		}
-	}
 	
 	/*
 	 * Trains the neural network on a single set of inputs and outputs
@@ -90,175 +37,14 @@ public class NeuralNetwork
 	 */
 	public void train(double[] inputs, double[] outputs)
 	{
-		activateInputs(inputs);
-		propagateInputsToAnswers();
-		
-		while(!correctlyIdentifies(outputs))
+		if(inputs == null || inputs.length != inputLayer.size())
 		{
-			calculateOutputDeltas(outputs);
-			propagateDeltasBack();
-			updateWeightsWithDeltas();
-			activateInputs(inputs);
-			propagateInputsToAnswers();
+			throw new IllegalArgumentException("Illegal training inputs: " + inputs);
 		}
-	}
-	
-	/*
-	 * Returns true iff the neural network correctly identifies the
-	 * training sample
-	 */
-	private boolean correctlyIdentifies(double[] expectedOutputs)
-	{
-		double[] actualOutputs = extractOutputs();
-		int expectedIndex = getMaxIndex(expectedOutputs);
-		int actualIndex = getMaxIndex(actualOutputs);
-		
-		return expectedIndex == actualIndex;
-	}
-	
-	/*
-	 * Returns the index of the largest element in an array
-	 */
-	private int getMaxIndex(double[] list)
-	{
-		int max = 0;
-		for(int i = 0; i < list.length; i++)
+		if(outputs == null)
 		{
-			if(list[i] > list[max])
-			{
-				max = i;
-			}
+			throw new IllegalArgumentException("Illegal training outputs: " + outputs);
 		}
-		return max;
-	}
-	
-	/*
-	 * Feeds the given inputs into the first layer of the neural network.
-	 */
-	private void activateInputs(double[] inputs)
-	{
-		if(hiddenLayers.size() == 0)
-		{
-			throw new IllegalStateException("Neural Network has no layers.");
-		}
-		
-		ArrayList<HiddenPerceptron> inputLayer = hiddenLayers.get(0);
-		
-		if(inputs.length != inputLayer.size())
-		{
-			throw new IllegalArgumentException("Input list is of different size than input layer.");
-		}
-		
-		for(HiddenPerceptron p : inputLayer)
-		{
-			p.activate(inputs);
-		}
-		
-	}
-	
-	/*
-	 * Pushes activation values from input layer to output layer of neural network.
-	 * MUST be called after activateInputs.
-	 */
-	private void propagateInputsToAnswers()
-	{
-		if(hiddenLayers.size() == 0)
-		{
-			throw new IllegalStateException("Neural Network has no layers.");
-		}
-		
-		// Activate all layers after input, in order, to push results through the network
-		for(int i = 1; i < hiddenLayers.size(); i++)
-		{
-			for(Perceptron p : hiddenLayers.get(i))
-			{
-				p.activate();
-			}
-		}
-	}
-	
-	/*
-	 * Calculates the difference between actual and expected outputs of the 
-	 * neural network.
-	 */
-	private void calculateOutputDeltas(double[] expectedOutputs)
-	{
-		if(hiddenLayers.size() == 0)
-		{
-			throw new IllegalStateException("Neural Network has no layers.");
-		}
-		
-		ArrayList<HiddenPerceptron> outputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
-		
-		if(outputLayer.size() != expectedOutputs.length)
-		{
-			throw new IllegalArgumentException("Output list has different size than output layer.");
-		}
-		
-		for(HiddenPerceptron p : outputLayer)
-		{
-			p.calculateDeltas(expectedOutputs);
-		}
-		
-	}
-	
-	/*
-	 * Calculates the delta's of each layer based on the output delta's
-	 * of each perceptron.
-	 */
-	private void propagateDeltasBack()
-	{
-		if(hiddenLayers.size() == 0)
-		{
-			throw new IllegalStateException("Neural Network has no layers.");
-		}
-		
-		// Traverse the network backwards after the output layer
-		// to pull delta values through the network.
-		for(int i = hiddenLayers.size() - 2; i >= 0; i--)
-		{
-			ArrayList<HiddenPerceptron> currentLayer = hiddenLayers.get(i);
-			for(Perceptron p : currentLayer)
-			{
-				p.adjustToError();
-			}
-		}
-	}
-	
-	/*
-	 * Recalculates all weights in the neural network based on the 
-	 * delta values of each perceptron
-	 */
-	private void updateWeightsWithDeltas()
-	{
-		for(ArrayList<HiddenPerceptron> layer : hiddenLayers)
-		{
-			for(Perceptron p : layer)
-			{
-				p.adjustToError();
-			}
-		}
-	}
-	
-	/*
-	 * Returns the output values generated by the neural network
-	 */
-	private double[] extractOutputs()
-	{
-		if(hiddenLayers.size() == 0)
-		{
-			throw new IllegalStateException("Neural Network has no layers.");
-		}
-		
-		ArrayList<HiddenPerceptron> outputLayer = hiddenLayers.get(hiddenLayers.size() - 1);
-		double[] outputs = new double[outputLayer.size()];
-		
-		for(int i = 0; i < outputLayer.size(); i++)
-		{
-			outputs[i] = outputLayer.get(i).output;
-		}
-		
-		return outputs;
 	}
 	
 	/*
@@ -267,9 +53,6 @@ public class NeuralNetwork
 	 */
 	public double[] predict(double[] inputs)
 	{
-		activateInputs(inputs);
-		propagateInputsToAnswers();
-		
-		return extractOutputs();
+		return null;
 	}			
 }

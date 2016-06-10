@@ -1,77 +1,80 @@
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
+import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.NeuralNetwork;
-import neuralNetwork.HiddenPerceptron;
+import neuralNetwork.WeightGenerator;
 
 public class NeuralNetworkTests {
 
-	@Test
-	public void constructor() {
-		NeuralNetwork nn = new NeuralNetwork();
-		
-		assertNotNull(nn.hiddenLayers);
-	}
+	private final WeightGenerator wg = new MockWeightGenerator();
+	private final double DELTA = 0.001;
 	
-	@Test
-	public void addhiddenLayerstandard()
+	private NeuralNetwork testN;
+	
+	@Before
+	public void setup()
 	{
-		NeuralNetwork nn = new NeuralNetwork();
-		nn.addLayer(100);
-		
-		assertEquals(1, nn.hiddenLayers.size());
-		assertEquals(100, nn.hiddenLayers.get(0).size());
+		int[] layerSizes = {2, 2, 2};
+		testN = new NeuralNetwork(layerSizes, wg);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void addLayerInvalidSize()
+	public void constructorHandlesNullLayerSizes()
 	{
-		NeuralNetwork nn = new NeuralNetwork();
-		nn.addLayer(-1);
-		assertEquals(0, nn.hiddenLayers.size());
-		System.out.println("Invalid layer added");
+		testN = new NeuralNetwork(null, wg);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesSmallLayerSizes()
+	{
+		final int[] smallSizes = {1};
+		testN = new NeuralNetwork(smallSizes, wg);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void constructorHandlesNullWeightGenerator()
+	{
+		final int[] layerSizes = {1, 1};
+		testN = new NeuralNetwork(layerSizes, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void trainHandlesNullInputs()
+	{
+		final double[] outputs = {1, 1};
+		testN.train(null, outputs);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void trainHandlesSmallInputs()
+	{
+		final double[] inputs = {1};
+		final double[] outputs = {1, 1};
+		testN.train(inputs, outputs);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void trainHandlesNullOutputs()
+	{
+		final double[] inputs = {1, 1};
+		testN.train(inputs, null);
 	}
 	
 	@Test
-	public void addLayerInputOnly()
+	public void trainOnSingleInputGivesCorrectPrediction()
 	{
-		NeuralNetwork nn = new NeuralNetwork();
-		nn.addLayer(2);
-		ArrayList<HiddenPerceptron> inputLayer = nn.hiddenLayers.get(0);
-		for(HiddenPerceptron p : inputLayer)
-		{
-			assertNull(p.inputs);
-			assertNull(p.outputs);
-		}
+		int[] layerSizes = {2, 2, 2};
+		testN = new NeuralNetwork(layerSizes, wg);
+		
+		double[] trainingInputs = {1.0, 0.5};
+		double[] trainingOutputs = {};
+		testN.train(trainingInputs, trainingOutputs);
+
+		double[] predictionInputs = {};
+		double[] expectedPrediction = {};
+//		assertArrayEquals(expectedPrediction, testN.predict(predictionInputs), DELTA);
 	}
-	
-	@Test
-	public void addLayerCorrectlyRewires()
-	{
-		NeuralNetwork nn = new NeuralNetwork();
-		nn.addLayer(2);
-		nn.addLayer(2);
-		
-		ArrayList<HiddenPerceptron> inputs = nn.hiddenLayers.get(0);
-		ArrayList<HiddenPerceptron> outputs = nn.hiddenLayers.get(1);
-		
-		for(HiddenPerceptron p : inputs)
-		{
-			assertNull(p.inputs);
-			assertEquals(outputs, p.outputs);
-		}
-		
-		for(HiddenPerceptron p : outputs)
-		{
-			assertNull(p.outputs);
-			assertEquals(inputs, p.inputs);
-		}
-		
-	}
-	
-	
 
 }
