@@ -1,13 +1,8 @@
 package neuralNetwork;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HiddenLayer implements NetworkLayer {
 
 	private HiddenPerceptron[] perceptrons;
-	private List<NetworkLayer> previousLayers;
-	private List<NetworkLayer> nextLayers;
 	private final WeightGenerator weightGen;
 	
 	public HiddenLayer(int size, WeightGenerator wg)
@@ -26,8 +21,6 @@ public class HiddenLayer implements NetworkLayer {
 		{
 			perceptrons[i] = new HiddenPerceptron(wg);
 		}
-		previousLayers = new ArrayList<NetworkLayer>();
-		nextLayers = new ArrayList<NetworkLayer>();
 		weightGen = wg;
 	}
 	
@@ -67,7 +60,6 @@ public class HiddenLayer implements NetworkLayer {
 		{
 			throw new IllegalArgumentException("Cannot add a null previous network layer to a hidden layer.");
 		}
-		previousLayers.add(prev);
 		for(HiddenPerceptron hiddenP : perceptrons)
 		{
 			for(Perceptron inputP : prev.perceptrons())
@@ -77,11 +69,6 @@ public class HiddenLayer implements NetworkLayer {
 				inputP.addInputLink(appendingLink);
 			}
 		}
-	}
-	
-	public List<NetworkLayer> previousLayers()
-	{
-		return previousLayers;
 	}
 
 }
