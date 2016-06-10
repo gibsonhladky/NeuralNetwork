@@ -1,9 +1,11 @@
 import neuralNetwork.NetworkLayer;
 import neuralNetwork.Perceptron;
+import neuralNetwork.PerceptronLink;
 
 public class MockLayer implements NetworkLayer {
 
 	private MockPerceptron[] perceptrons;
+	private final MockWeightGenerator wg = new MockWeightGenerator();
 	
 	public MockLayer(int size)
 	{
@@ -35,6 +37,19 @@ public class MockLayer implements NetworkLayer {
 	public Perceptron[] perceptrons()
 	{
 		return perceptrons;
+	}
+
+	@Override
+	public void appendTo(NetworkLayer l) {
+		for(MockPerceptron mockP : perceptrons)
+		{
+			for(Perceptron inputP : l.perceptrons())
+			{
+				PerceptronLink appendingLink = new PerceptronLink(inputP, mockP, wg.nextWeight());
+				inputP.addOutputLink(appendingLink);
+				mockP.addInputLink(appendingLink);
+			}
+		}
 	}
 
 }

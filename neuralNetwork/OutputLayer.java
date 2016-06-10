@@ -11,8 +11,8 @@ public class OutputLayer implements NetworkLayer {
 	 * calculations and feeding the output to the neural network.
 	 */
 	private OutputPerceptron[] perceptrons;
-	
 	private List<NetworkLayer> previousLayers;
+	private final WeightGenerator weightGen;
 	
 	public OutputLayer(int size, WeightGenerator wg)
 	{
@@ -31,6 +31,7 @@ public class OutputLayer implements NetworkLayer {
 			perceptrons[i] = new OutputPerceptron(wg);
 		}
 		previousLayers = new ArrayList<NetworkLayer>();
+		weightGen = wg;
 	}
 	
 	@Override
@@ -70,7 +71,9 @@ public class OutputLayer implements NetworkLayer {
 		{
 			for(Perceptron inputP : newInputs)
 			{
-				p.addInputLink(inputP);
+				PerceptronLink appendingLink = new PerceptronLink(inputP, p, weightGen.nextWeight());
+				p.addInputLink(appendingLink);
+				inputP.addOutputLink(appendingLink);
 			}
 		}
 	}

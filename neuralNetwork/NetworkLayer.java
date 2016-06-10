@@ -28,6 +28,15 @@ public interface NetworkLayer {
 	public void adjustToError();
 	
 	/*
+	 * Appends this network layer to another layer.
+	 * The outputs of the other layer are wired to this
+	 * network, and this network's inputs are wired to
+	 * the previous layer. A layer can be appended to
+	 * more than one layer.
+	 */
+	public void appendTo(NetworkLayer l);
+	
+	/*
 	 * 
 	 */
 	public Perceptron[] perceptrons();
