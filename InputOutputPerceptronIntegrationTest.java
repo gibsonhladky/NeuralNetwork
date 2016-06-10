@@ -22,23 +22,29 @@ public class InputOutputPerceptronIntegrationTest {
 	public void setUp() 
 	{
 		input1 = new InputPerceptron();
-		input1.setInput(0.7);
-		
 		input2 = new InputPerceptron();
-		input2.setInput(0.3);
-		
 		output1 = new OutputPerceptron(wg);
-		PerceptronLink inLink1a = new PerceptronLink(input1, output1, -1);
-		PerceptronLink inLink1b = new PerceptronLink(input2, output1, 1);
-		output1.addInputLink(inLink1a);
-		output1.addInputLink(inLink1b);
-		output1.setExpectedOutput(1.0);
-		
 		output2 = new OutputPerceptron(wg);
-		PerceptronLink inLink2a = new PerceptronLink(input1, output2, 1);
-		PerceptronLink inLink2b = new PerceptronLink(input2, output2, -1);
-		output2.addInputLink(inLink2a);
-		output2.addInputLink(inLink2b);
+		
+		PerceptronLink input1ToOutput1 = new PerceptronLink(input1, output1, -1);
+		PerceptronLink input2ToOutput1 = new PerceptronLink(input2, output1, 1);
+		PerceptronLink input1ToOutput2 = new PerceptronLink(input1, output2, 1);
+		PerceptronLink input2ToOutput2 = new PerceptronLink(input2, output2, -1);
+		
+		input1.addOutputLink(input1ToOutput1);
+		input1.addOutputLink(input1ToOutput2);
+		input2.addOutputLink(input1ToOutput2);
+		input2.addOutputLink(input2ToOutput2);
+		
+		output1.addInputLink(input1ToOutput1);
+		output1.addInputLink(input2ToOutput1);
+		output2.addInputLink(input1ToOutput2);
+		output2.addInputLink(input2ToOutput2);
+
+		input1.setInput(0.7);
+		input2.setInput(0.3);
+
+		output1.setExpectedOutput(1.0);
 		output2.setExpectedOutput(0.0);
 		
 		activateAllInOrder();
