@@ -59,7 +59,7 @@ public class HiddenLayerTest {
 	@Test (expected = IllegalArgumentException.class)
 	public void addPreviousLayerHandlesNull()
 	{
-		testLayer.addPreviousLayer(null);
+		testLayer.appendTo(null);
 	}
 	
 	@Test
@@ -71,8 +71,8 @@ public class HiddenLayerTest {
 		expectedLayers.add(ml1);
 		expectedLayers.add(ml2);
 		
-		testLayer.addPreviousLayer(ml1);
-		testLayer.addPreviousLayer(ml2);
+		testLayer.appendTo(ml1);
+		testLayer.appendTo(ml2);
 		
 		assertEquals(expectedLayers, testLayer.previousLayers());
 	}
@@ -101,7 +101,7 @@ public class HiddenLayerTest {
 	@Test
 	public void activateCorrectlyActivatesAllPerceptrons()
 	{
-		testLayer.addPreviousLayer(new MockLayer(2));
+		testLayer.appendTo(new MockLayer(2));
 		testLayer.activate();
 		
 		double[] expectedOutputs = {0.8807970779, 0.8807970779};
@@ -122,7 +122,7 @@ public class HiddenLayerTest {
 	@Test
 	public void adjustErrorCorrectlyChangesInputs()
 	{
-		testLayer.addPreviousLayer(new MockLayer(2));
+		testLayer.appendTo(new MockLayer(2));
 		testLayer.addNextLayer(new MockLayer(2));
 		testLayer.activate();
 		testLayer.calculateError();

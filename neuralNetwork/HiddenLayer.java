@@ -8,6 +8,7 @@ public class HiddenLayer implements NetworkLayer {
 	private HiddenPerceptron[] perceptrons;
 	private List<NetworkLayer> previousLayers;
 	private List<NetworkLayer> nextLayers;
+	private final WeightGenerator weightGen;
 	
 	public HiddenLayer(int size, WeightGenerator wg)
 	{
@@ -27,6 +28,7 @@ public class HiddenLayer implements NetworkLayer {
 		}
 		previousLayers = new ArrayList<NetworkLayer>();
 		nextLayers = new ArrayList<NetworkLayer>();
+		weightGen = wg;
 	}
 	
 	@Override
@@ -58,28 +60,8 @@ public class HiddenLayer implements NetworkLayer {
 		return perceptrons;
 	}
 	
-	public void addNextLayer(NetworkLayer next)
-	{
-		if(next == null)
-		{
-			throw new IllegalArgumentException("Cannot add a null previous network layer to a hidden layer.");
-		}
-		nextLayers.add(next);
-		for(HiddenPerceptron hiddenP : perceptrons)
-		{
-			for(Perceptron outputP : next.perceptrons())
-			{
-				hiddenP.addOutputLink(outputP);
-			}
-		}
-	}
-	
-	public List<NetworkLayer> nextLayers()
-	{
-		return nextLayers;
-	}
-	
-	public void addPreviousLayer(NetworkLayer prev)
+	@Override
+	public void appendTo(NetworkLayer prev)
 	{
 		if(prev == null)
 		{
@@ -90,7 +72,9 @@ public class HiddenLayer implements NetworkLayer {
 		{
 			for(Perceptron inputP : prev.perceptrons())
 			{
-				hiddenP.addInputLink(inputP);
+				PerceptronLink appendingLink = new PerceptronLink(inputP, hiddenP, weightGen.nextWeight());
+				hiddenP.addInputLink(appendingLink);
+				inputP.addInputLink(appendingLink);
 			}
 		}
 	}
