@@ -100,4 +100,9 @@ public class InputLayer implements NetworkLayer{
 	@Override
 	public void appendTo(NetworkLayer l) {}
 	
+	public int size()
+	{
+		return perceptrons.length;
+	}
+	
 }
