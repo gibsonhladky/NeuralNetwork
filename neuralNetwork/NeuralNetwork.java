@@ -1,5 +1,4 @@
 package neuralNetwork;
-import java.util.ArrayList;
 
 public class NeuralNetwork 
 {
@@ -26,8 +25,24 @@ public class NeuralNetwork
 		{
 			throw new IllegalArgumentException("Null weight generator in NeuralNetwork constructor.");
 		}
+		
+		final int numLayers = layerSizes.length;
+		final int outputIndex = numLayers - 1;
+		
 		inputLayer = new InputLayer(layerSizes[0]);
-		outputLayer = new OutputLayer(layerSizes[layerSizes.length - 1], wg);
+		outputLayer = new OutputLayer(layerSizes[outputIndex], wg);
+		networkLayers = new NetworkLayer[numLayers];
+		
+		networkLayers[0] = inputLayer;
+		
+		for(int i = 1; i < networkLayers.length - 1; i++)
+		{
+			networkLayers[i] = new HiddenLayer(layerSizes[i], wg);
+			networkLayers[i].appendTo(networkLayers[i-1]);
+		}
+
+		networkLayers[outputIndex] = outputLayer;
+		networkLayers[outputIndex].appendTo(networkLayers[outputIndex - 1]);
 	}
 	
 	
@@ -35,15 +50,17 @@ public class NeuralNetwork
 	 * Trains the neural network on a single set of inputs and outputs
 	 * with the neural network training algorithm.
 	 */
-	public void train(double[] inputs, double[] outputs)
+	public void train(double[] inputs, double[] expectedOutputs)
 	{
-		if(inputs == null || inputs.length != inputLayer.size())
+		setNetworkInputs(inputs);
+		setExpectedNetworkOutputs(expectedOutputs);
+		activateNetwork();
+		
+		while(! correctlyPredicts(expectedOutputs))
 		{
-			throw new IllegalArgumentException("Illegal training inputs: " + inputs);
-		}
-		if(outputs == null)
-		{
-			throw new IllegalArgumentException("Illegal training outputs: " + outputs);
+			calculateNetworkErrors();
+			adjustNetworkToErrors();
+			activateNetwork();
 		}
 	}
 	
@@ -51,8 +68,87 @@ public class NeuralNetwork
 	 * Returns the values output by the neural network given the
 	 * inputs provided.
 	 */
-	public double[] predict(double[] inputs)
+	public int predict(double[] inputs)
 	{
-		return null;
-	}			
+		setNetworkInputs(inputs);
+		activateNetwork();
+		return indexOfMaxValue(networkOutputs());
+	}
+	
+	public double[] networkOutputsFor(double[] inputs)
+	{
+		setNetworkInputs(inputs);
+		activateNetwork();
+		return networkOutputs();
+	}
+	
+	private void setNetworkInputs(double[] inputs)
+	{
+		if(inputs == null || inputs.length != inputLayer.size())
+		{
+			throw new IllegalArgumentException("Illegal prediction inputs: " + inputs);
+		}
+		inputLayer.setInputs(inputs);
+	}
+	
+	private void activateNetwork()
+	{
+		for(NetworkLayer l : networkLayers)
+		{
+			l.activate();
+		}
+	}
+	
+	private void setExpectedNetworkOutputs(double[] expectedOutputs)
+	{
+		if(expectedOutputs == null || expectedOutputs.length != outputLayer.size())
+		{
+			throw new IllegalArgumentException("Illegal training outputs: " + expectedOutputs);
+		}
+		outputLayer.setExpectedOutputs(expectedOutputs);
+	}
+	
+	/*
+	 * Enforces max value selection prediction
+	 */
+	private boolean correctlyPredicts(double[] expectedOutputs)
+	{
+		double[] actualOutputs = networkOutputs();
+		return indexOfMaxValue(actualOutputs) == indexOfMaxValue(expectedOutputs);
+	}
+	
+	private void calculateNetworkErrors()
+	{
+		for(int i = networkLayers.length - 1; i >= 0; i--)
+		{
+			networkLayers[i].calculateError();
+		}
+	}
+	
+	private void adjustNetworkToErrors()
+	{
+		for(NetworkLayer l : networkLayers)
+		{
+			l.adjustToError();
+		}
+	}
+	
+	private double[] networkOutputs()
+	{
+		return outputLayer.getOutputs();
+	}
+	
+	private int indexOfMaxValue(double[] arr)
+	{
+		double max = arr[0];
+		int index = 0;
+		for(int i = 0; i < arr.length; i++)
+		{
+			if(arr[i] > max)
+			{
+				index = i;
+			}
+		}
+		return index;
+	}
 }
