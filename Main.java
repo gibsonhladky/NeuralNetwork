@@ -28,11 +28,12 @@ public class Main extends PApplet
 		for(int i = 0; i < filenames.length; i++)
 		{
 			int digit = identifyImageDigit(filenames[i]);
-			System.out.println("Digit: " + digit);
 			double[] inputs = extractPixelsFromImage(loadImage("images/" + filenames[i]));
 			double[] outputs = setOutputsAccordingToDigit(digit);
 			nn.train(inputs, outputs);
-			System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			if(i % 500 == 0) {
+				System.out.println("PROGRESS: " + i + "/" + filenames.length);
+			}
 		}
 	}
 	
