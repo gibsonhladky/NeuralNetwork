@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import neuralNetwork.NeuralNetwork;
+import neuralNetwork.RandomWeightGenerator;
 import processing.core.*;
 
 public class Main extends PApplet
@@ -30,10 +31,7 @@ public class Main extends PApplet
 			double[] inputs = extractPixelsFromImage(loadImage("images/" + filenames[i]));
 			double[] outputs = setOutputsAccordingToDigit(digit);
 			nn.train(inputs, outputs);
-			
-			// display progress after training on every 1000 images
-			if(i % 1000 == 0)
-			{
+			if(i % 500 == 0) {
 				System.out.println("PROGRESS: " + i + "/" + filenames.length);
 			}
 		}
@@ -41,10 +39,8 @@ public class Main extends PApplet
 	
 	private NeuralNetwork createNN()
 	{
-		NeuralNetwork nn = new NeuralNetwork();
-		nn.addLayer(400);
-		nn.addLayer(300);
-		nn.addLayer(10);
+		int[] layerSizes = {400, 300, 10};
+		NeuralNetwork nn = new NeuralNetwork(layerSizes, new RandomWeightGenerator());
 		return nn;
 	}
 	
@@ -115,7 +111,7 @@ public class Main extends PApplet
 		double[] inputs = extractPixelsFromImage(image);
 		
 		// get prediction from neural network
-		double[] outputs = nn.predict(inputs);
+		double[] outputs = nn.networkOutputsFor(inputs);
 		
 		// convert prediction into results string
 		convertOutputsToResult(outputs);

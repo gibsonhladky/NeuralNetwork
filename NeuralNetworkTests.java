@@ -1,9 +1,12 @@
 import static org.junit.Assert.*;
 
+import java.util.Random;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import neuralNetwork.NeuralNetwork;
+import neuralNetwork.RandomWeightGenerator;
 import neuralNetwork.WeightGenerator;
 
 public class NeuralNetworkTests {
@@ -128,6 +131,43 @@ public class NeuralNetworkTests {
 		double[] predictionInputs = trainingInputs;
 		int expectedPrediction = 0;
 		assertEquals(expectedPrediction, testN.predict(predictionInputs));
+	}
+	
+	@Test
+	public void trainingOnMultipleRandomInputsCorrectlyPredictsEachImmediatelyAfterTraining()
+	{
+		int[] layerSizes = {2, 2, 2};
+		Random rndm = new Random();
+		testN = new NeuralNetwork(layerSizes, new RandomWeightGenerator());
+		
+		double[] trainingInputs = new double[2];
+		double[] trainingOutputs = new double[2];
+		for(int i = 0; i < 100; i++)
+		{
+			trainingInputs[0] = rndm.nextDouble();
+			trainingInputs[1] = rndm.nextDouble();
+			trainingOutputs[0] = rndm.nextDouble();
+			trainingOutputs[1] = rndm.nextDouble();
+			
+			testN.train(trainingInputs, trainingOutputs);
+			
+			double[] predictionInputs = trainingInputs;
+			int expectedPrediction = indexOfMax(trainingOutputs);
+			assertEquals(expectedPrediction, testN.predict(predictionInputs));
+		}
+	}
+	
+	private int indexOfMax(double[] arr)
+	{
+		int maxIndex = 0;
+		for(int i = 0; i < arr.length; i++)
+		{
+			if(arr[i] > arr[maxIndex])
+			{
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
 	}
 
 }

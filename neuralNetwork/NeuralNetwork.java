@@ -140,15 +140,14 @@ public class NeuralNetwork
 	
 	private int indexOfMaxValue(double[] arr)
 	{
-		double max = arr[0];
-		int index = 0;
+		int maxIndex = 0;
 		for(int i = 0; i < arr.length; i++)
 		{
-			if(arr[i] > max)
+			if(arr[i] > arr[maxIndex])
 			{
-				index = i;
+				maxIndex = i;
 			}
 		}
-		return index;
+		return maxIndex;
 	}
 }
